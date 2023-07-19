@@ -151,18 +151,25 @@ course_options = [
 ##############
 @app.callback(
     Output("module-checkboxes", "options"),
-    [Input("course-dropdown", "value")],
+    Input("course-dropdown", "value"),
 )
 def update_checklist(val):
+    # Edge case, if no value selected in course-dropdown
+    if val is None:
+        module_options = [{"label": "No Course selected", "value": 0}]
+        return module_options
+
     # filter by the course selected
     subset_data = data.copy()
 
-    subset_data = subset_data[subset_data.course_name == val]
+    selected_course = remove_special_characters(course_dict[val])
+
+    subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
     module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
 
-    for _, row in data.iterrows():
+    for _, row in subset_data.iterrows():
         module_dict[str(row["module_id"])] = re.sub(
             r"^Module\s+\d+:\s+", "", row["module_name"]
         )
@@ -177,6 +184,54 @@ def update_checklist(val):
     return module_options
 
 
+@app.callback(
+    Output("student-dropdown", "options"),
+    Input("course-dropdown", "value"),
+)
+def update_student_dropdown(val):
+    # Edge case, if no value selected in course-dropdown
+    if val is None:
+        student_options = [{"label": "No Course selected", "value": 0}]
+        return student_options
+
+    # filter by the course selected
+    subset_data = data.copy()
+
+    selected_course = remove_special_characters(course_dict[val])
+
+    subset_data = subset_data[subset_data.course_name == selected_course]
+
+    # Create dictionaries accordingly to selected_course
+    module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
+
+    for _, row in subset_data.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )
+        item_dict[str(row["items_module_id"])] = row["items_title"]
+        student_dict[str(row["student_id"])] = row["student_name"]
+
+    if val != None:
+        student_options = [
+            {"label": student_name, "value": student_id}
+            for student_id, student_name in student_dict.items()
+        ]
+    return student_options
+
+
+# @app.callback(
+#     Output("output", "children"),
+#     Input("button", "n_clicks"),
+#     State("button", "children"),
+# )
+# def update_buttonclick(n_clicks, button_text):
+#     if n_clicks is None:
+#         return ""
+#     else:
+#         return f"Button clicked {n_clicks} times"
+
+
+# -----------------------------------------------------------------
 # Layout
 app.layout = dbc.Container(
     fluid=True,
@@ -201,29 +256,40 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-                dbc.Col(
-                    dcc.Dropdown(
-                        id="course-dropdown",
-                        options=course_options,
-                        value=course_options[0]["value"],
-                        style={"width": "400px", "fontsize": "1px"},
-                    ),
-                    width=6,
-                    align="center",
+                html.Div(
+                    [
+                        dcc.Dropdown(
+                            id="course-dropdown",
+                            options=course_options,  # list of dropdown, labels are show, value is conveyed
+                            value=course_options[0]["label"],  # default selection
+                            style={"width": "400px", "fontsize": "1px"},
+                        )
+                    ],
+                    style={"width": "35%", "display": "inline-block"},
                 ),
-                dbc.Col(
-                    dcc.Dropdown(
-                        id="student-dropdown",
-                        options={"label": "test", "value": "test"},
-                        value="test",
-                        style={"width": "400px", "fontsize": "1px"},
-                    ),
-                    width=6,
-                    align="center",
+                html.Div(
+                    [
+                        dcc.Dropdown(
+                            id="student-dropdown",
+                            options=[],
+                            value=" ",
+                            style={"width": "400px", "fontsize": "1px"},
+                        ),
+                    ],
+                    style={"width": "35%", "display": "inline-block"},
+                ),
+                html.Div(
+                    [
+                        dbc.Button(
+                            "Export Report",
+                            id="report-button",
+                            color="primary",
+                            className="mr-2",
+                        ),
+                    ],
+                    style={"width": "30%", "display": "inline-block"},
                 ),
             ],
-            justify="center",
-            align="center",
             className="mb-3",  # Add spacing between rows
         ),
         dbc.Row(
@@ -233,25 +299,26 @@ app.layout = dbc.Container(
                     value="Pages",
                     children=[
                         dcc.Tab(
-                            label="Page 1",
+                            label="View Modules",
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[],
                         ),
                         dcc.Tab(
-                            label="Page 2",
+                            label="View Items",
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[],
                         ),
                     ],
                 ),
+                html.Br(),
+                html.Label(
+                    "Select Modules ",
+                    style=text_style,
+                ),
                 dbc.Col(
                     [
-                        html.Label(
-                            "Select Modules ",
-                            style=text_style,
-                        ),
                         dbc.Checklist(
                             id="module-checkboxes",
                             options=[],  # default empty checklist
@@ -353,6 +420,7 @@ app.layout = dbc.Container(
             ]
         ),
     ],
+    className="mt-3",
 )
 
 
