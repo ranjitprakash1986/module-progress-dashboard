@@ -114,118 +114,118 @@ completed_at,course_id,module_id,items_count,module_name,module_position,state,u
 24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644475,Distributions,3,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox
 24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,TRUE,🤖 Learning Services Student API Sandbox
 24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,TRUE,🤖 Learning Services Student API Sandbox
-10-05-2023 21:23,999999,9787819,1,Get Started with the Canvas API,2,completed,,993997, LtsStudentFive,95619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,9787819,,,dummy_course_2
-10-05-2023 21:23,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993997, LtsStudentFive,95618861,Procedures for Running Scripts,1,1,Page,9787806,,,dummy_course_2
-10-05-2023 21:23,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993997, LtsStudentFive,95618862,Canvas Blueprint Script ,2,1,Page,9787806,,,dummy_course_2
-10-05-2023 21:23,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993997, LtsStudentFive,95618863,How to Launch Jupyter Notebooks,3,1,File,9787806,,,dummy_course_2
-10-05-2023 21:23,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993997, LtsStudentFive,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95640326,Practical Example,2,1,Page,9790496,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95640546,Data Science Buzzwords,4,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95640547,Difference between Analysis and Analytics,5,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95640548,"Business Intelligence, ML and AI",6,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993997, LtsStudentFive,95640553,Data Science Introduction Quiz,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640557,Data Science Techniques,1,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640558,Data Science Tools,2,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640559,Ungraded Reading Assignment,3,1,Assignment,9790743,,,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640560,Careers in Data Science,4,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640562,Data Science Trends,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993997, LtsStudentFive,95640563,Data Science Discipline Quiz,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993997, LtsStudentFive,95644472,Basic Probability theory,1,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993997, LtsStudentFive,95644474,Bayesian Inference,2,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993997, LtsStudentFive,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993997, LtsStudentFive,95644480,Probability Graded Assignment,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993997, LtsStudentFive,95644481,Probability Quiz ,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
-24-05-2023 20:44,999999,9787819,1,Get Started with the Canvas API,2,completed,,993995, LtsStudentFour,95619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,9787819,,,dummy_course_2
-24-05-2023 20:44,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993995, LtsStudentFour,95618861,Procedures for Running Scripts,1,1,Page,9787806,,,dummy_course_2
-24-05-2023 20:44,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993995, LtsStudentFour,95618862,Canvas Blueprint Script ,2,1,Page,9787806,,,dummy_course_2
-24-05-2023 20:44,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993995, LtsStudentFour,95618863,How to Launch Jupyter Notebooks,3,1,File,9787806,,,dummy_course_2
-24-05-2023 20:44,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993995, LtsStudentFour,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95640326,Practical Example,2,1,Page,9790496,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95640546,Data Science Buzzwords,4,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95640547,Difference between Analysis and Analytics,5,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95640548,"Business Intelligence, ML and AI",6,1,Page,9790496,must_view,FALSE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,unlocked,,993995, LtsStudentFour,95640553,Data Science Introduction Quiz,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640557,Data Science Techniques,1,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640558,Data Science Tools,2,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640559,Ungraded Reading Assignment,3,1,Assignment,9790743,,,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640560,Careers in Data Science,4,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640562,Data Science Trends,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993995, LtsStudentFour,95640563,Data Science Discipline Quiz,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993995, LtsStudentFour,95644472,Basic Probability theory,1,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993995, LtsStudentFour,95644474,Bayesian Inference,2,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993995, LtsStudentFour,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993995, LtsStudentFour,95644480,Probability Graded Assignment,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993995, LtsStudentFour,95644481,Probability Quiz ,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
-17-05-2023 17:41,999999,9787819,1,Get Started with the Canvas API,2,completed,,993994, LtsStudentThree,95619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,9787819,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993994, LtsStudentThree,95618861,Procedures for Running Scripts,1,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993994, LtsStudentThree,95618862,Canvas Blueprint Script ,2,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993994, LtsStudentThree,95618863,How to Launch Jupyter Notebooks,3,1,File,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993994, LtsStudentThree,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95640326,Practical Example,2,1,Page,9790496,,,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95640546,Data Science Buzzwords,4,1,Page,9790496,must_view,TRUE,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95640547,Difference between Analysis and Analytics,5,1,Page,9790496,must_view,TRUE,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95640548,"Business Intelligence, ML and AI",6,1,Page,9790496,must_view,TRUE,dummy_course_2
-24-05-2023 20:46,999999,9790496,7,Data Science Introduction,4,completed,,993994, LtsStudentThree,95640553,Data Science Introduction Quiz,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640557,Data Science Techniques,1,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640558,Data Science Tools,2,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640559,Ungraded Reading Assignment,3,1,Assignment,9790743,,,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640560,Careers in Data Science,4,1,Page,9790743,must_view,TRUE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640562,Data Science Trends,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,started,,993994, LtsStudentThree,95640563,Data Science Discipline Quiz,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993994, LtsStudentThree,95644472,Basic Probability theory,1,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993994, LtsStudentThree,95644474,Bayesian Inference,2,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993994, LtsStudentThree,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993994, LtsStudentThree,95644480,Probability Graded Assignment,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993994, LtsStudentThree,95644481,Probability Quiz ,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
-17-05-2023 17:41,999999,9787819,1,Get Started with the Canvas API,2,completed,,993991,LTS StudentOne,95619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,9787819,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993991,LTS StudentOne,95618861,Procedures for Running Scripts,1,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993991,LTS StudentOne,95618862,Canvas Blueprint Script ,2,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993991,LTS StudentOne,95618863,How to Launch Jupyter Notebooks,3,1,File,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993991,LTS StudentOne,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95640326,Practical Example,2,1,Page,9790496,,,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95640546,Data Science Buzzwords,4,1,Page,9790496,must_view,TRUE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95640547,Difference between Analysis and Analytics,5,1,Page,9790496,must_view,TRUE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95640548,"Business Intelligence, ML and AI",6,1,Page,9790496,must_view,TRUE,dummy_course_2
-,999999,9790496,7,Data Science Introduction,4,started,,993991,LTS StudentOne,95640553,Data Science Introduction Quiz,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640557,Data Science Techniques,1,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640558,Data Science Tools,2,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640559,Ungraded Reading Assignment,3,1,Assignment,9790743,,,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640560,Careers in Data Science,4,1,Page,9790743,must_view,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640562,Data Science Trends,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
-,999999,9790743,6,Data Science Disciplines,5,locked,,993991,LTS StudentOne,95640563,Data Science Discipline Quiz,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993991,LTS StudentOne,95644472,Basic Probability theory,1,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993991,LTS StudentOne,95644474,Bayesian Inference,2,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993991,LTS StudentOne,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993991,LTS StudentOne,95644480,Probability Graded Assignment,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
-,999999,9790744,5,Probability and Statistics,6,locked,,993991,LTS StudentOne,95644481,Probability Quiz ,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
-17-05-2023 17:41,999999,9787819,1,Get Started with the Canvas API,2,completed,,993992,LTS StudentTwo,95619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,9787819,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993992,LTS StudentTwo,95618861,Procedures for Running Scripts,1,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993992,LTS StudentTwo,95618862,Canvas Blueprint Script ,2,1,Page,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993992,LTS StudentTwo,95618863,How to Launch Jupyter Notebooks,3,1,File,9787806,,,dummy_course_2
-17-05-2023 17:41,999999,9787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,993992,LTS StudentTwo,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95640326,Practical Example,2,1,Page,9790496,,,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95640546,Data Science Buzzwords,4,1,Page,9790496,must_view,TRUE,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95640547,Difference between Analysis and Analytics,5,1,Page,9790496,must_view,TRUE,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95640548,"Business Intelligence, ML and AI",6,1,Page,9790496,must_view,TRUE,dummy_course_2
-23-05-2023 18:57,999999,9790496,7,Data Science Introduction,4,completed,,993992,LTS StudentTwo,95640553,Data Science Introduction Quiz,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640557,Data Science Techniques,1,1,Page,9790743,must_view,TRUE,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640558,Data Science Tools,2,1,Page,9790743,must_view,TRUE,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640559,Ungraded Reading Assignment,3,1,Assignment,9790743,,,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640560,Careers in Data Science,4,1,Page,9790743,must_view,TRUE,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640562,Data Science Trends,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2
-23-05-2023 18:58,999999,9790743,6,Data Science Disciplines,5,completed,,993992,LTS StudentTwo,95640563,Data Science Discipline Quiz,6,1,Quiz,9790743,min_score,TRUE,dummy_course_2
-24-05-2023 20:44,999999,9790744,5,Probability and Statistics,6,completed,,993992,LTS StudentTwo,95644472,Basic Probability theory,1,1,Page,9790744,must_view,TRUE,dummy_course_2
-24-05-2023 20:44,999999,9790744,5,Probability and Statistics,6,completed,,993992,LTS StudentTwo,95644474,Bayesian Inference,2,1,Page,9790744,must_view,TRUE,dummy_course_2
-24-05-2023 20:44,999999,9790744,5,Probability and Statistics,6,completed,,993992,LTS StudentTwo,95644475,Distributions,3,1,Page,9790744,must_view,TRUE,dummy_course_2
-24-05-2023 20:44,999999,9790744,5,Probability and Statistics,6,completed,,993992,LTS StudentTwo,95644480,Probability Graded Assignment,4,1,Assignment,9790744,must_mark_done,TRUE,dummy_course_2
-24-05-2023 20:44,999999,9790744,5,Probability and Statistics,6,completed,,993992,LTS StudentTwo,95644481,Probability Quiz ,5,1,Quiz,9790744,min_score,TRUE,dummy_course_2
+10-05-2023 21:23,999999,9787819,1, the Canvas API,2,completed,,993997,StudentFive,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2
+10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2
+10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2
+10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2
+10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640546,Data Science Bu,4,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640547,Difference betw,5,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640548,Business Intell,6,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
+24-05-2023 20:44,999999,9787819,1, the Canvas API,2,completed,,993995,StudentFour,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2
+24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2
+24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2
+24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2
+24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640546,Data Science Bu,4,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640547,Difference betw,5,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640548,Business Intell,6,1,Page,9790496,must_view,FALSE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
+17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993994,StudentThree,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2
+24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640553,Data Science In,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
+17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993991,StudentOne,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2
+,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2
+,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2
+,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2
+17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993992,StudentTwo,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2
+17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2
+23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640553,Data Science In,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640557,Data Science Te,1,1,Page,9790743,must_view,TRUE,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640558,Data Science To,2,1,Page,9790743,must_view,TRUE,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2
+23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640563,Data Science Di,6,1,Quiz,9790743,min_score,TRUE,dummy_course_2
+24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644472,Basic Probabili,1,1,Page,9790744,must_view,TRUE,dummy_course_2
+24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644474,Bayesian Infere,2,1,Page,9790744,must_view,TRUE,dummy_course_2
+24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644475,Distributions,3,1,Page,9790744,must_view,TRUE,dummy_course_2
+24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,TRUE,dummy_course_2
+24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644481,Probability Qui,5,1,Quiz,9790744,min_score,TRUE,dummy_course_2
