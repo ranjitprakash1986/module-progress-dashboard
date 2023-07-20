@@ -151,13 +151,17 @@ course_options = [
 ##############
 @app.callback(
     Output("module-checkboxes", "options"),
+    Output("module-checkboxes", "value"),
     Input("course-dropdown", "value"),
 )
 def update_checklist(val):
     # Edge case, if no value selected in course-dropdown
     if val is None:
-        module_options = [{"label": "No Course selected", "value": 0}]
-        return module_options
+        module_options = [
+            {"label": "No Course selected", "value": "No Course selected"}
+        ]
+        def_value = module_options
+        return module_options, def_value
 
     # filter by the course selected
     subset_data = data.copy()
@@ -181,7 +185,13 @@ def update_checklist(val):
             {"label": module_name, "value": module_id}
             for module_id, module_name in module_dict.items()
         ]
-    return module_options
+
+    # Add the 'All' option at the beginning (Reconsider later)
+    # module_options.insert(0, {"label": "All", "value": "All"})
+
+    # default value
+    def_value = [module_options[i]["value"] for i in range(len(module_options))]
+    return module_options, def_value
 
 
 @app.callback(
@@ -216,7 +226,32 @@ def update_student_dropdown(val):
             {"label": student_name, "value": student_id}
             for student_id, student_name in student_dict.items()
         ]
+
+    # Add the 'All' option at beginning of the list
+    student_options.insert(0, {"label": "All", "value": "All"})
+
     return student_options
+
+
+# filter the data based on user selections
+@app.callback(
+    Output("filtered-data", "data"),
+    [Input("course-dropdown", "value"), Input("module-checkboxes", "value")],
+)
+def update_filtered_data(selected_course, selected_modules):
+    # Filter the DataFrame based on user selections
+
+    filtered_df = data[
+        (data["course_id"].astype(str) == selected_course)
+        & (data["module_id"].astype(str).isin(selected_modules))
+    ]
+
+    # print(len(filtered_df))
+
+    # Convert the filtered DataFrame to JSON serializable format
+    filtered_data = filtered_df.to_json(date_format="iso", orient="split")
+
+    return filtered_data
 
 
 # @app.callback(
@@ -229,6 +264,30 @@ def update_student_dropdown(val):
 #         return ""
 #     else:
 #         return f"Button clicked {n_clicks} times"
+
+
+# Plot 1
+@app.callback(
+    Output("plot2", "figure"),
+    [Input("filtered-data", "data")],
+)
+def update_bar_plot(filtered_data):
+    """
+    Returns a barplot
+    """
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+
+    fig = px.scatter(
+        filtered_df,
+        x="items_count",
+        y="module_position",
+        title=f"the number of rows are {len(filtered_df)}",
+    )
+    fig_json = fig.to_dict()
+
+    return fig_json
 
 
 # -----------------------------------------------------------------
@@ -261,7 +320,7 @@ app.layout = dbc.Container(
                         dcc.Dropdown(
                             id="course-dropdown",
                             options=course_options,  # list of dropdown, labels are show, value is conveyed
-                            value=course_options[0]["label"],  # default selection
+                            value=course_options[0]["value"],  # default value
                             style={"width": "400px", "fontsize": "1px"},
                         )
                     ],
@@ -272,7 +331,7 @@ app.layout = dbc.Container(
                         dcc.Dropdown(
                             id="student-dropdown",
                             options=[],
-                            value=" ",
+                            value="",
                             style={"width": "400px", "fontsize": "1px"},
                         ),
                     ],
@@ -321,12 +380,13 @@ app.layout = dbc.Container(
                     [
                         dbc.Checklist(
                             id="module-checkboxes",
-                            options=[],  # default empty checklist
-                            value=[],
+                            #    options=[],  # default empty checklist
+                            #    value="", # default selected value
                         ),
                     ],
                     width=3,
                 ),
+                dcc.Store(id="filtered-data"),
                 dbc.Col(
                     [
                         dcc.Graph(
