@@ -40,6 +40,44 @@ def remove_special_characters(string):
     return cleaned_string
 
 
+def get_dicts(df):
+    """
+    Creates and returns the df dictionaries mapping ids to names,
+    module, item and student, in that order specifically
+    """
+    # Initialize dicts
+    module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
+
+    for _, row in df.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )
+        item_dict[str(row["items_module_id"])] = row["items_title"]
+        student_dict[str(row["student_id"])] = row["student_name"]
+
+    return module_dict, item_dict, student_dict
+
+
+def get_completed_percentage(df, module, state="completed"):
+    """
+    Returns the state percentage of module in df
+    """
+    # df is the filtered_data after selections
+    df_module = df[df.module_id.astype(str) == module]
+
+    # df is a subset dataframe that contains a specific module as selected in the dropdown
+    # If other modules are iterated the size of the dataframe will be 0
+    if df_module.shape[0] == 0:
+        return 0
+
+    total_module_students = df_module.student_id.unique().size
+    percentage = (
+        df_module[df_module.state == state].student_id.unique().size
+        / total_module_students
+    )
+    return percentage
+
+
 # ---------------------------------------------------
 # reading the data
 data = pd.read_csv("../data/module_data_augmented.csv")
@@ -171,14 +209,7 @@ def update_checklist(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
-
-    for _, row in subset_data.iterrows():
-        module_dict[str(row["module_id"])] = re.sub(
-            r"^Module\s+\d+:\s+", "", row["module_name"]
-        )
-        item_dict[str(row["items_module_id"])] = row["items_title"]
-        student_dict[str(row["student_id"])] = row["student_name"]
+    module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         module_options = [
@@ -212,14 +243,7 @@ def update_student_dropdown(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
-
-    for _, row in subset_data.iterrows():
-        module_dict[str(row["module_id"])] = re.sub(
-            r"^Module\s+\d+:\s+", "", row["module_name"]
-        )
-        item_dict[str(row["items_module_id"])] = row["items_title"]
-        student_dict[str(row["student_id"])] = row["student_name"]
+    module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         student_options = [
@@ -246,8 +270,6 @@ def update_filtered_data(selected_course, selected_modules):
         & (data["module_id"].astype(str).isin(selected_modules))
     ]
 
-    # print(len(filtered_df))
-
     # Convert the filtered DataFrame to JSON serializable format
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
 
@@ -268,26 +290,136 @@ def update_filtered_data(selected_course, selected_modules):
 
 # Plot 1
 @app.callback(
-    Output("plot2", "figure"),
+    Output("plot1", "figure"),
     [Input("filtered-data", "data")],
 )
-def update_bar_plot(filtered_data):
+def update_timline(filtered_data):
     """
-    Returns a barplot
+    Returns a lineplot of trend of module completion
     """
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    fig = px.scatter(
+    fig_1 = px.scatter(
         filtered_df,
         x="items_count",
         y="module_position",
         title=f"the number of rows are {len(filtered_df)}",
     )
-    fig_json = fig.to_dict()
+    fig_1_json = fig_1.to_dict()
 
-    return fig_json
+    return fig_1_json
+
+
+# Plot 2
+@app.callback(
+    Output("plot2", "figure"),
+    [Input("filtered-data", "data")],
+)
+def update_innovative_plot(filtered_data):
+    """
+    Returns a plot/table of time between state changes
+    """
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+
+    fig_2 = px.scatter(
+        filtered_df,
+        x="items_count",
+        y="module_position",
+        title=f"the number of rows are {len(filtered_df)}",
+    )
+    fig_2_json = fig_2.to_dict()
+
+    return fig_2_json
+
+
+# Plot 3
+@app.callback(
+    Output("plot3", "figure"),
+    [Input("filtered-data", "data")],
+)
+def update_module_completion_barplot(filtered_data):
+    """
+    Plots a horizontal barplot of student percentage module completion per module
+    """
+    # style settings
+    axis_label_font_size = 12
+    colors = ["#823551", "#1E88E5", "#FFC107", "#5C5934", "#DA981D", "#4F6793"]
+
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+
+    result = {}
+    modules = list(filtered_df.module_id.unique().astype(str))
+
+    # Create dictionaries accordingly to selected_course
+    module_dict, item_dict, student_dict = get_dicts(filtered_df)
+
+    for module in modules:
+        result[module_dict.get(module)] = [
+            round(get_completed_percentage(filtered_df, module, "locked") * 100, 1),
+            round(get_completed_percentage(filtered_df, module, "unlocked") * 100, 1),
+            round(get_completed_percentage(filtered_df, module, "started") * 100, 1),
+            round(get_completed_percentage(filtered_df, module, "completed") * 100, 1),
+        ]
+
+    df_mod = (
+        pd.DataFrame(result, index=["locked", "unlocked", "started", "completed"])
+        .T.reset_index()
+        .rename(columns={"index": "Module"})
+    )
+
+    # Melt the DataFrame to convert columns to rows
+    melted_df = pd.melt(
+        df_mod,
+        id_vars="Module",
+        value_vars=["locked", "unlocked", "started", "completed"],
+        var_name="Status",
+        value_name="Percentage Completion",
+    )
+
+    # Define the color mapping
+    color_mapping = {
+        "locked": "#B4BC34",
+        "unlocked": "#cafb9c",
+        "started": "#77bc34",
+        "completed": "#0d203e",
+    }
+
+    # Create a horizontal bar chart using Plotly
+    fig_3 = px.bar(
+        melted_df,
+        y="Module",
+        x="Percentage Completion",
+        color="Status",
+        orientation="h",
+        labels={"Percentage Completion": "Percentage Completion (%)"},
+        title="Percentage Completion by Students for Each Module",
+        category_orders={"Module": sorted(melted_df["Module"].unique())},
+        color_discrete_map=color_mapping,  # Set the color mapping
+    )
+
+    fig_3.update_layout(
+        showlegend=True,  # Show the legend indicating the module status colors
+        legend_title="Status",  # Customize the legend title,
+        # legend_traceorder="reversed",  # Reverse the order of the legend items
+    )
+
+    # Modify the plotly configuration to change the background color
+    fig_3.update_layout(
+        plot_bgcolor="rgb(255, 255, 255)",
+        xaxis=dict(title_font=dict(size=axis_label_font_size)),
+        yaxis=dict(title_font=dict(size=axis_label_font_size)),
+    )
+
+    # Convert the figure to a JSON serializable format
+    fig_3_json = fig_3.to_dict()
+
+    return fig_3_json
 
 
 # -----------------------------------------------------------------
