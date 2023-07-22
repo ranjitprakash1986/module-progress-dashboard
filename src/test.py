@@ -20,7 +20,6 @@ import datetime
 
 pio.renderers.default = "iframe"
 # -----------------------------------------------------------
-
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -75,6 +74,47 @@ def get_completed_percentage(df, module, state="completed"):
         df_module[df_module.state == state].student_id.unique().size
         / total_module_students
     )
+    return percentage
+
+
+def get_completed_percentage_date(df, module, date):
+    """
+    Returns the completed percentage of a module in df until a specified date
+
+    Inputs
+    ------
+    df: dataframe
+    module: str, name of the module
+    date: datetime.date, date till which the completion percentage of each module is desired
+
+    Returns
+    -------
+    percentage: float, percentage value
+
+    """
+
+    # Convert the date to datetime with time component set to midnight
+    datetime_date = datetime.datetime.combine(date, datetime.datetime.min.time())
+
+    # CHANGE TO MODULE ID INSTEAD OF NAME
+    df_module = df[df.module_id.astype(str) == module]
+    total_module_students = df_module.student_id.unique().size
+
+    # If there is not a single row with completion date then we get a datetime error since blanks are not compared to date
+    # In order to get around this edge case, return 0
+    if df_module[df_module.state == "completed"].size == 0:
+        return 0.0
+
+    percentage = (
+        df_module[
+            (df_module.state == "completed")
+            & (df_module["completed_at"].dt.date <= date)
+        ]
+        .student_id.unique()
+        .size
+        / total_module_students
+    )
+
     return percentage
 
 
@@ -147,10 +187,18 @@ heading_style = {
     "text-align": "center",
 }
 
-# Define Tab text style
+# Define text style
 text_style = {
     "font-size": "16px",
     "font-weight": "bold",
+    "color": "#13233e",
+    "padding": "5px",
+}
+
+sidebar_text_style = {
+    "font-size": "10px",
+    "display": "inline-block",
+    # "font-weight": "bold",
     "color": "#13233e",
     "padding": "5px",
 }
@@ -182,6 +230,18 @@ course_options = [
 #     {"label": module_name, "value": module_id}
 #     for module_id, module_name in module_dict.items()
 # ]
+
+# Parameters
+colors = [
+    "#823551",
+    "#1E88E5",
+    "#FFC107",
+    "#5C5934",
+    "#DA981D",
+    "#4F6793",
+]  # Define custom colors for the bars
+date_spacing = "D7"  # Weekly spacing, adjust as per your requirement
+axis_label_font_size = 12
 
 
 ##############
@@ -291,9 +351,13 @@ def update_filtered_data(selected_course, selected_modules):
 # Plot 1
 @app.callback(
     Output("plot1", "figure"),
-    [Input("filtered-data", "data")],
+    [
+        Input("filtered-data", "data"),
+        Input("date-slider", "start_date"),
+        Input("date-slider", "end_date"),
+    ],
 )
-def update_timline(filtered_data):
+def update_timeline(filtered_data, start_date, end_date):
     """
     Returns a lineplot of trend of module completion
     """
@@ -301,12 +365,91 @@ def update_timline(filtered_data):
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    fig_1 = px.scatter(
-        filtered_df,
-        x="items_count",
-        y="module_position",
-        title=f"the number of rows are {len(filtered_df)}",
+    if isinstance(start_date, str):
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+    if isinstance(end_date, str):
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    assert isinstance(start_date, datetime.date)
+    assert isinstance(end_date, datetime.date)
+
+    # Create dictionaries accordingly to selected_course
+    module_dict, item_dict, student_dict = get_dicts(filtered_df)
+
+    # For each module, create a lineplot with date on the x axis, percentage completion on y axis
+    result_time = pd.DataFrame(columns=["Date", "Module", "Percentage Completion"])
+
+    for module in module_dict.keys():
+        timestamps = filtered_df[filtered_df.module_id.astype(str) == module][
+            "completed_at"
+        ].dt.date.unique()
+        timestamps = [
+            x for x in timestamps if type(x) != pd._libs.tslibs.nattype.NaTType
+        ]
+
+        filtered_timestamps = [
+            timestamp for timestamp in timestamps if start_date <= timestamp <= end_date
+        ]
+
+        for date in filtered_timestamps:
+            value = round(
+                get_completed_percentage_date(filtered_df, module, date) * 100, 1
+            )
+
+            new_df = pd.DataFrame(
+                [[date, module_dict.get(module), value]],
+                columns=["Date", "Module", "Percentage Completion"],
+            )
+
+            result_time = pd.concat([result_time, new_df], ignore_index=True)
+
+    # Plotting
+    fig_1 = go.Figure()
+    for i, (module, group) in enumerate(result_time.groupby("Module")):
+        sorted_group = group.sort_values("Date")
+
+        if len(sorted_group) == 1:
+            fig_1.add_trace(
+                go.Scatter(
+                    x=sorted_group["Date"],
+                    y=sorted_group["Percentage Completion"],
+                    mode="markers",
+                    name=module,
+                    marker=dict(color=colors[i % len(colors)]),
+                )
+            )
+
+        else:
+            fig_1.add_trace(
+                go.Scatter(
+                    x=sorted_group["Date"],
+                    y=sorted_group["Percentage Completion"],
+                    mode="lines",
+                    name=module,
+                    line=dict(color=colors[i % len(colors)]),
+                )
+            )
+
+    fig_1.update_layout(
+        title="Percentage Completion by Module",
+        xaxis=dict(
+            title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
+        ),
+        yaxis=dict(title="Percentage", title_font=dict(size=axis_label_font_size)),
+        plot_bgcolor="rgba(240, 240, 240, 0.8)",  # Light gray background color
+        xaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+        yaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+        margin=dict(l=50, r=50, t=50, b=50),  # Add margin for a border line
+        paper_bgcolor="white",  # Set the background color of the entire plot
     )
+
+    # Set custom start and end dates for the x-axis
+    fig_1.update_xaxes(range=[start_date, end_date])
+
+    # Specify custom spacing between dates on the x-axis
+    fig_1.update_xaxes(dtick=date_spacing)
+
+    # Convert the figure to a JSON serializable format
     fig_1_json = fig_1.to_dict()
 
     return fig_1_json
@@ -345,10 +488,6 @@ def update_module_completion_barplot(filtered_data):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
-    # style settings
-    axis_label_font_size = 12
-    colors = ["#823551", "#1E88E5", "#FFC107", "#5C5934", "#DA981D", "#4F6793"]
-
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
@@ -372,6 +511,8 @@ def update_module_completion_barplot(filtered_data):
         .T.reset_index()
         .rename(columns={"index": "Module"})
     )
+
+    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -515,6 +656,24 @@ app.layout = dbc.Container(
                             #    options=[],  # default empty checklist
                             #    value="", # default selected value
                         ),
+                        html.Br(),
+                        html.Label(
+                            "Select Lineplot dates",
+                            style=text_style,
+                        ),
+                        dcc.DatePickerRange(
+                            id="date-slider",
+                            min_date_allowed=min(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            max_date_allowed=max(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            start_date=min(pd.to_datetime(data["completed_at"])).date(),
+                            end_date=max(pd.to_datetime(data["completed_at"])).date(),
+                            clearable=True,
+                            style=text_style,
+                        ),
                     ],
                     width=3,
                 ),
@@ -551,7 +710,26 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-                dbc.Col(width=3),
+                html.Br(),
+                html.Label(
+                    "Select Module State",
+                    style=text_style,
+                ),
+                dbc.Col(
+                    [
+                        dcc.RadioItems(
+                            options=[
+                                {"label": "locked", "value": "locked"},
+                                {"label": "unlocked", "value": "unlocked"},
+                                {"label": "started", "value": "started"},
+                                {"label": "completed", "value": "completed"},
+                                {"label": "All", "value": "All"},
+                            ],
+                            value="All",
+                        ),
+                    ],
+                    width=3,
+                ),
                 dbc.Col(
                     [
                         dcc.Graph(
