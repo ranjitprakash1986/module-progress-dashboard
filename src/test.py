@@ -42,9 +42,36 @@ def remove_special_characters(string):
 def get_dicts(df):
     """
     Creates and returns the df dictionaries mapping ids to names,
-    module, item and student, in that order specifically
+    module number, module name, item name and student name, in that order specifically
     """
     # Initialize dicts
+    global module_num
+    module_num, module_dict, item_dict, student_dict = (
+        defaultdict(str) for _ in range(4)
+    )
+
+    for _, row in df.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )
+        item_dict[str(row["items_module_id"])] = row["items_title"]
+        student_dict[str(row["student_id"])] = row["student_name"]
+
+    # map the module id to a module number for labeling
+    for i, k in enumerate(module_dict.keys()):
+        module_num[k] = f"Module:{i+1}"
+
+    return module_num, module_dict, item_dict, student_dict
+
+
+def get_sub_dicts(df):
+    """
+    df is data after being by course and selected modules.
+    Creates and returns the dictionaries mapping ids to names,
+    module name, item name and student name, in that order specifically
+    """
+    # Initialize dicts
+
     module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
 
     for _, row in df.iterrows():
@@ -231,15 +258,49 @@ course_options = [
 #     for module_id, module_name in module_dict.items()
 # ]
 
-# Parameters
-colors = [
-    "#823551",
-    "#1E88E5",
-    "#FFC107",
-    "#5C5934",
-    "#DA981D",
-    "#4F6793",
-]  # Define custom colors for the bars
+# Colorblind friendly colors Ref: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
+color_palette_1 = [
+    "#000000",
+    "#004949",
+    "#009292",
+    "#ff6db6",
+    "#ffb6db",
+    "#490092",
+    "#006ddb",
+    "#b66dff",
+    "#6db6ff",
+    "#b6dbff",
+    "#920000",
+    "#924900",
+    "#db6d00",
+    "#24ff24",
+    "#ffff6d",
+]
+
+# Ref: https://stackoverflow.com/questions/65013406/how-to-generate-30-distinct-colors-that-are-color-blind-friendly
+color_palette_2 = [
+    "#999999",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#F0E442",
+    "#0072B2",
+    "#D55E00",
+    "#CC79A7",
+]
+
+# Ref: https://stackoverflow.com/questions/65013406/how-to-generate-30-distinct-colors-that-are-color-blind-friendly
+color_palette_3 = [
+    "#000000",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#F0E442",
+    "#0072B2",
+    "#D55E00",
+    "#CC79A7",
+]
+
 date_spacing = "D7"  # Weekly spacing, adjust as per your requirement
 axis_label_font_size = 12
 
@@ -269,18 +330,31 @@ def update_checklist(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         module_options = [
-            {"label": module_name, "value": module_id}
+            {
+                "label": f"{module_num[module_id]}" + " " + f"{module_name}",
+                "value": module_id,
+            }
             for module_id, module_name in module_dict.items()
         ]
+
+    # define a global color map for the modules
+    global module_colors
+    module_colors = {
+        module_num[module_id]: color_palette_3[i]
+        for module_id, i in zip(module_num.keys(), np.arange(len(module_num.keys())))
+    }
+
+    # Checking
+    # print(module_colors)
 
     # Add the 'All' option at the beginning (Reconsider later)
     # module_options.insert(0, {"label": "All", "value": "All"})
 
-    # default value
+    # default value, selects all the items in the checklist
     def_value = [module_options[i]["value"] for i in range(len(module_options))]
     return module_options, def_value
 
@@ -303,7 +377,7 @@ def update_student_dropdown(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         student_options = [
@@ -350,7 +424,7 @@ def update_filtered_data(selected_course, selected_modules):
 
 # Plot 1
 @app.callback(
-    Output("plot1", "figure"),
+    Output("plot3", "figure"),
     [
         Input("filtered-data", "data"),
         Input("date-slider", "start_date"),
@@ -374,7 +448,7 @@ def update_timeline(filtered_data, start_date, end_date):
     assert isinstance(end_date, datetime.date)
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(filtered_df)
+    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     # For each module, create a lineplot with date on the x axis, percentage completion on y axis
     result_time = pd.DataFrame(columns=["Date", "Module", "Percentage Completion"])
@@ -397,11 +471,14 @@ def update_timeline(filtered_data, start_date, end_date):
             )
 
             new_df = pd.DataFrame(
-                [[date, module_dict.get(module), value]],
+                [[date, module_num.get(module), value]],
                 columns=["Date", "Module", "Percentage Completion"],
             )
 
             result_time = pd.concat([result_time, new_df], ignore_index=True)
+
+    # Checking
+    # print(f"Checking \n {result_time}")
 
     # Plotting
     fig_1 = go.Figure()
@@ -415,7 +492,9 @@ def update_timeline(filtered_data, start_date, end_date):
                     y=sorted_group["Percentage Completion"],
                     mode="markers",
                     name=module,
-                    marker=dict(color=colors[i % len(colors)]),
+                    marker=dict(
+                        color=module_colors[module]
+                    ),  # alt method: color_palette_1[i % len(color_palette_1)]
                 )
             )
 
@@ -426,7 +505,7 @@ def update_timeline(filtered_data, start_date, end_date):
                     y=sorted_group["Percentage Completion"],
                     mode="lines",
                     name=module,
-                    line=dict(color=colors[i % len(colors)]),
+                    line=dict(color=module_colors[module]),
                 )
             )
 
@@ -443,8 +522,13 @@ def update_timeline(filtered_data, start_date, end_date):
         paper_bgcolor="white",  # Set the background color of the entire plot
     )
 
-    # Set custom start and end dates for the x-axis
-    fig_1.update_xaxes(range=[start_date, end_date])
+    # Set start and end dates with an offset of 5 days on either sides of the range for the x-axis
+    fig_1.update_xaxes(
+        range=[
+            (start_date - datetime.timedelta(days=5)),
+            (end_date + datetime.timedelta(days=5)),
+        ]
+    )
 
     # Specify custom spacing between dates on the x-axis
     fig_1.update_xaxes(dtick=date_spacing)
@@ -481,7 +565,7 @@ def update_innovative_plot(filtered_data):
 
 # Plot 3
 @app.callback(
-    Output("plot3", "figure"),
+    Output("plot1", "figure"),
     [Input("filtered-data", "data")],
 )
 def update_module_completion_barplot(filtered_data):
@@ -496,14 +580,16 @@ def update_module_completion_barplot(filtered_data):
     modules = list(filtered_df.module_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(filtered_df)
+    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
+
+    module_status = ["locked", "unlocked", "started", "completed"]
 
     for module in modules:
-        result[module_dict.get(module)] = [
-            round(get_completed_percentage(filtered_df, module, "locked") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "unlocked") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "started") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "completed") * 100, 1),
+        result[module_num.get(module)] = [
+            round(
+                get_completed_percentage(filtered_df, module, module_status[i]) * 100, 1
+            )
+            for i in range(len(module_status))
         ]
 
     df_mod = (
@@ -512,7 +598,8 @@ def update_module_completion_barplot(filtered_data):
         .rename(columns={"index": "Module"})
     )
 
-    print(df_mod)
+    # Checking
+    # print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -525,10 +612,7 @@ def update_module_completion_barplot(filtered_data):
 
     # Define the color mapping
     color_mapping = {
-        "locked": "#B4BC34",
-        "unlocked": "#cafb9c",
-        "started": "#77bc34",
-        "completed": "#0d203e",
+        module_status[i]: color_palette_2[i] for i in range(len(module_status))
     }
 
     # Create a horizontal bar chart using Plotly
