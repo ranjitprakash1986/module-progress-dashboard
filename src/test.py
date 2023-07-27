@@ -721,6 +721,7 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
+                dcc.Store(id="filtered-data"),
                 dcc.Tabs(
                     id="tabs",
                     value="Pages",
@@ -777,26 +778,26 @@ app.layout = dbc.Container(
                         ),
                         html.Br(),
                         html.Label(
-                            "Select Lineplot dates",
+                            "Select Module State",
                             style=text_style,
                         ),
-                        dcc.DatePickerRange(
-                            id="date-slider",
-                            min_date_allowed=min(
-                                pd.to_datetime(data["completed_at"])
-                            ).date(),
-                            max_date_allowed=max(
-                                pd.to_datetime(data["completed_at"])
-                            ).date(),
-                            start_date=min(pd.to_datetime(data["completed_at"])).date(),
-                            end_date=max(pd.to_datetime(data["completed_at"])).date(),
-                            clearable=True,
-                            style=text_style,
+                        dcc.RadioItems(
+                            id="status-radio",
+                            options=[
+                                {"label": " " + "All", "value": "All"},
+                                *(
+                                    {
+                                        "label": " " + f"{module_status[i]}",
+                                        "value": f"{module_status[i]}",
+                                    }
+                                    for i in range(len(module_status))
+                                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
+                            ],
+                            value="All",
                         ),
                     ],
                     width=3,
                 ),
-                dcc.Store(id="filtered-data"),
                 dbc.Col(
                     [
                         dcc.Graph(
@@ -829,26 +830,25 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-                html.Br(),
-                html.Label(
-                    "Select Module State",
-                    style=text_style,
-                ),
                 dbc.Col(
                     [
-                        dcc.RadioItems(
-                            id="status-radio",
-                            options=[
-                                {"label": " " + "All", "value": "All"},
-                                *(
-                                    {
-                                        "label": " " + f"{module_status[i]}",
-                                        "value": f"{module_status[i]}",
-                                    }
-                                    for i in range(len(module_status))
-                                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
-                            ],
-                            value="All",
+                        html.Br(),
+                        html.Label(
+                            "Select Lineplot dates",
+                            style=text_style,
+                        ),
+                        dcc.DatePickerRange(
+                            id="date-slider",
+                            min_date_allowed=min(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            max_date_allowed=max(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            start_date=min(pd.to_datetime(data["completed_at"])).date(),
+                            end_date=max(pd.to_datetime(data["completed_at"])).date(),
+                            clearable=True,
+                            style=text_style,
                         ),
                     ],
                     width=3,
