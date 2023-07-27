@@ -181,6 +181,9 @@ course_dict = defaultdict(str)
 for _, row in data.iterrows():
     course_dict[str(row["course_id"])] = row["course_name"]
 
+# All accessible vairables
+
+module_status = ["locked", "unlocked", "started", "completed"]
 
 ####################
 #     Layout       #
@@ -522,11 +525,11 @@ def update_timeline(filtered_data, start_date, end_date):
         paper_bgcolor="white",  # Set the background color of the entire plot
     )
 
-    # Set start and end dates with an offset of 5 days on either sides of the range for the x-axis
+    # Set start and end dates with an offset of 1 days on either sides of the range for the display x-axis
     fig_1.update_xaxes(
         range=[
-            (start_date - datetime.timedelta(days=5)),
-            (end_date + datetime.timedelta(days=5)),
+            (start_date - datetime.timedelta(days=1)),
+            (end_date + datetime.timedelta(days=1)),
         ]
     )
 
@@ -566,9 +569,9 @@ def update_innovative_plot(filtered_data):
 # Plot 3
 @app.callback(
     Output("plot1", "figure"),
-    [Input("filtered-data", "data")],
+    [Input("filtered-data", "data"), Input("status-radio", "value")],
 )
-def update_module_completion_barplot(filtered_data):
+def update_module_completion_barplot(filtered_data, value):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
@@ -576,13 +579,20 @@ def update_module_completion_barplot(filtered_data):
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
+    if value not in module_status and value != "All":
+        print("Check radio button value for module status, it is invalid")
+
+    if value == "All":
+        radio_selection = module_status
+
+    if value in module_status:
+        radio_selection = value
+
     result = {}
     modules = list(filtered_df.module_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course
     module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
-
-    module_status = ["locked", "unlocked", "started", "completed"]
 
     for module in modules:
         result[module_num.get(module)] = [
@@ -593,19 +603,19 @@ def update_module_completion_barplot(filtered_data):
         ]
 
     df_mod = (
-        pd.DataFrame(result, index=["locked", "unlocked", "started", "completed"])
+        pd.DataFrame(result, index=module_status)
         .T.reset_index()
         .rename(columns={"index": "Module"})
     )
 
     # Checking
-    # print(df_mod)
+    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
         df_mod,
         id_vars="Module",
-        value_vars=["locked", "unlocked", "started", "completed"],
+        value_vars=radio_selection,
         var_name="Status",
         value_name="Percentage Completion",
     )
@@ -623,7 +633,7 @@ def update_module_completion_barplot(filtered_data):
         color="Status",
         orientation="h",
         labels={"Percentage Completion": "Percentage Completion (%)"},
-        title="Percentage Completion by Students for Each Module",
+        title="Percentage of Students for Each Module",
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -639,6 +649,7 @@ def update_module_completion_barplot(filtered_data):
         plot_bgcolor="rgb(255, 255, 255)",
         xaxis=dict(title_font=dict(size=axis_label_font_size)),
         yaxis=dict(title_font=dict(size=axis_label_font_size)),
+        xaxis_range=[0, 100],
     )
 
     # Convert the figure to a JSON serializable format
@@ -715,16 +726,40 @@ app.layout = dbc.Container(
                     value="Pages",
                     children=[
                         dcc.Tab(
+                            label="About Me",
+                            style=tab_style,
+                            selected_style=selected_tab_style,
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "This is an About me",
+                                    style=text_style,
+                                ),
+                            ],
+                        ),
+                        dcc.Tab(
                             label="View Modules",
                             style=tab_style,
                             selected_style=selected_tab_style,
-                            children=[],
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "Test 1",
+                                    style=text_style,
+                                ),
+                            ],
                         ),
                         dcc.Tab(
                             label="View Items",
                             style=tab_style,
                             selected_style=selected_tab_style,
-                            children=[],
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "Test 2",
+                                    style=text_style,
+                                ),
+                            ],
                         ),
                     ],
                 ),
@@ -802,12 +837,16 @@ app.layout = dbc.Container(
                 dbc.Col(
                     [
                         dcc.RadioItems(
+                            id="status-radio",
                             options=[
-                                {"label": "locked", "value": "locked"},
-                                {"label": "unlocked", "value": "unlocked"},
-                                {"label": "started", "value": "started"},
-                                {"label": "completed", "value": "completed"},
-                                {"label": "All", "value": "All"},
+                                {"label": " " + "All", "value": "All"},
+                                *(
+                                    {
+                                        "label": " " + f"{module_status[i]}",
+                                        "value": f"{module_status[i]}",
+                                    }
+                                    for i in range(len(module_status))
+                                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
                             ],
                             value="All",
                         ),
