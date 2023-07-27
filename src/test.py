@@ -20,7 +20,6 @@ import datetime
 
 pio.renderers.default = "iframe"
 # -----------------------------------------------------------
-
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -43,9 +42,36 @@ def remove_special_characters(string):
 def get_dicts(df):
     """
     Creates and returns the df dictionaries mapping ids to names,
-    module, item and student, in that order specifically
+    module number, module name, item name and student name, in that order specifically
     """
     # Initialize dicts
+    global module_num
+    module_num, module_dict, item_dict, student_dict = (
+        defaultdict(str) for _ in range(4)
+    )
+
+    for _, row in df.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )
+        item_dict[str(row["items_module_id"])] = row["items_title"]
+        student_dict[str(row["student_id"])] = row["student_name"]
+
+    # map the module id to a module number for labeling
+    for i, k in enumerate(module_dict.keys()):
+        module_num[k] = f"Module:{i+1}"
+
+    return module_num, module_dict, item_dict, student_dict
+
+
+def get_sub_dicts(df):
+    """
+    df is data after being by course and selected modules.
+    Creates and returns the dictionaries mapping ids to names,
+    module name, item name and student name, in that order specifically
+    """
+    # Initialize dicts
+
     module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
 
     for _, row in df.iterrows():
@@ -75,6 +101,47 @@ def get_completed_percentage(df, module, state="completed"):
         df_module[df_module.state == state].student_id.unique().size
         / total_module_students
     )
+    return percentage
+
+
+def get_completed_percentage_date(df, module, date):
+    """
+    Returns the completed percentage of a module in df until a specified date
+
+    Inputs
+    ------
+    df: dataframe
+    module: str, name of the module
+    date: datetime.date, date till which the completion percentage of each module is desired
+
+    Returns
+    -------
+    percentage: float, percentage value
+
+    """
+
+    # Convert the date to datetime with time component set to midnight
+    datetime_date = datetime.datetime.combine(date, datetime.datetime.min.time())
+
+    # CHANGE TO MODULE ID INSTEAD OF NAME
+    df_module = df[df.module_id.astype(str) == module]
+    total_module_students = df_module.student_id.unique().size
+
+    # If there is not a single row with completion date then we get a datetime error since blanks are not compared to date
+    # In order to get around this edge case, return 0
+    if df_module[df_module.state == "completed"].size == 0:
+        return 0.0
+
+    percentage = (
+        df_module[
+            (df_module.state == "completed")
+            & (df_module["completed_at"].dt.date <= date)
+        ]
+        .student_id.unique()
+        .size
+        / total_module_students
+    )
+
     return percentage
 
 
@@ -114,6 +181,9 @@ course_dict = defaultdict(str)
 for _, row in data.iterrows():
     course_dict[str(row["course_id"])] = row["course_name"]
 
+# All accessible vairables
+
+module_status = ["locked", "unlocked", "started", "completed"]
 
 ####################
 #     Layout       #
@@ -147,10 +217,18 @@ heading_style = {
     "text-align": "center",
 }
 
-# Define Tab text style
+# Define text style
 text_style = {
     "font-size": "16px",
     "font-weight": "bold",
+    "color": "#13233e",
+    "padding": "5px",
+}
+
+sidebar_text_style = {
+    "font-size": "10px",
+    "display": "inline-block",
+    # "font-weight": "bold",
     "color": "#13233e",
     "padding": "5px",
 }
@@ -183,6 +261,52 @@ course_options = [
 #     for module_id, module_name in module_dict.items()
 # ]
 
+# Colorblind friendly colors Ref: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
+color_palette_1 = [
+    "#000000",
+    "#004949",
+    "#009292",
+    "#ff6db6",
+    "#ffb6db",
+    "#490092",
+    "#006ddb",
+    "#b66dff",
+    "#6db6ff",
+    "#b6dbff",
+    "#920000",
+    "#924900",
+    "#db6d00",
+    "#24ff24",
+    "#ffff6d",
+]
+
+# Ref: https://stackoverflow.com/questions/65013406/how-to-generate-30-distinct-colors-that-are-color-blind-friendly
+color_palette_2 = [
+    "#999999",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#F0E442",
+    "#0072B2",
+    "#D55E00",
+    "#CC79A7",
+]
+
+# Ref: https://stackoverflow.com/questions/65013406/how-to-generate-30-distinct-colors-that-are-color-blind-friendly
+color_palette_3 = [
+    "#000000",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#F0E442",
+    "#0072B2",
+    "#D55E00",
+    "#CC79A7",
+]
+
+date_spacing = "D7"  # Weekly spacing, adjust as per your requirement
+axis_label_font_size = 12
+
 
 ##############
 # Callbacks  #
@@ -209,18 +333,31 @@ def update_checklist(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         module_options = [
-            {"label": module_name, "value": module_id}
+            {
+                "label": f"{module_num[module_id]}" + " " + f"{module_name}",
+                "value": module_id,
+            }
             for module_id, module_name in module_dict.items()
         ]
+
+    # define a global color map for the modules
+    global module_colors
+    module_colors = {
+        module_num[module_id]: color_palette_3[i]
+        for module_id, i in zip(module_num.keys(), np.arange(len(module_num.keys())))
+    }
+
+    # Checking
+    # print(module_colors)
 
     # Add the 'All' option at the beginning (Reconsider later)
     # module_options.insert(0, {"label": "All", "value": "All"})
 
-    # default value
+    # default value, selects all the items in the checklist
     def_value = [module_options[i]["value"] for i in range(len(module_options))]
     return module_options, def_value
 
@@ -243,7 +380,7 @@ def update_student_dropdown(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         student_options = [
@@ -290,10 +427,14 @@ def update_filtered_data(selected_course, selected_modules):
 
 # Plot 1
 @app.callback(
-    Output("plot1", "figure"),
-    [Input("filtered-data", "data")],
+    Output("plot3", "figure"),
+    [
+        Input("filtered-data", "data"),
+        Input("date-slider", "start_date"),
+        Input("date-slider", "end_date"),
+    ],
 )
-def update_timline(filtered_data):
+def update_timeline(filtered_data, start_date, end_date):
     """
     Returns a lineplot of trend of module completion
     """
@@ -301,12 +442,101 @@ def update_timline(filtered_data):
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    fig_1 = px.scatter(
-        filtered_df,
-        x="items_count",
-        y="module_position",
-        title=f"the number of rows are {len(filtered_df)}",
+    if isinstance(start_date, str):
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+    if isinstance(end_date, str):
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    assert isinstance(start_date, datetime.date)
+    assert isinstance(end_date, datetime.date)
+
+    # Create dictionaries accordingly to selected_course
+    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
+
+    # For each module, create a lineplot with date on the x axis, percentage completion on y axis
+    result_time = pd.DataFrame(columns=["Date", "Module", "Percentage Completion"])
+
+    for module in module_dict.keys():
+        timestamps = filtered_df[filtered_df.module_id.astype(str) == module][
+            "completed_at"
+        ].dt.date.unique()
+        timestamps = [
+            x for x in timestamps if type(x) != pd._libs.tslibs.nattype.NaTType
+        ]
+
+        filtered_timestamps = [
+            timestamp for timestamp in timestamps if start_date <= timestamp <= end_date
+        ]
+
+        for date in filtered_timestamps:
+            value = round(
+                get_completed_percentage_date(filtered_df, module, date) * 100, 1
+            )
+
+            new_df = pd.DataFrame(
+                [[date, module_num.get(module), value]],
+                columns=["Date", "Module", "Percentage Completion"],
+            )
+
+            result_time = pd.concat([result_time, new_df], ignore_index=True)
+
+    # Checking
+    # print(f"Checking \n {result_time}")
+
+    # Plotting
+    fig_1 = go.Figure()
+    for i, (module, group) in enumerate(result_time.groupby("Module")):
+        sorted_group = group.sort_values("Date")
+
+        if len(sorted_group) == 1:
+            fig_1.add_trace(
+                go.Scatter(
+                    x=sorted_group["Date"],
+                    y=sorted_group["Percentage Completion"],
+                    mode="markers",
+                    name=module,
+                    marker=dict(
+                        color=module_colors[module]
+                    ),  # alt method: color_palette_1[i % len(color_palette_1)]
+                )
+            )
+
+        else:
+            fig_1.add_trace(
+                go.Scatter(
+                    x=sorted_group["Date"],
+                    y=sorted_group["Percentage Completion"],
+                    mode="lines",
+                    name=module,
+                    line=dict(color=module_colors[module]),
+                )
+            )
+
+    fig_1.update_layout(
+        title="Percentage Completion by Module",
+        xaxis=dict(
+            title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
+        ),
+        yaxis=dict(title="Percentage", title_font=dict(size=axis_label_font_size)),
+        plot_bgcolor="rgba(240, 240, 240, 0.8)",  # Light gray background color
+        xaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+        yaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+        margin=dict(l=50, r=50, t=50, b=50),  # Add margin for a border line
+        paper_bgcolor="white",  # Set the background color of the entire plot
     )
+
+    # Set start and end dates with an offset of 1 days on either sides of the range for the display x-axis
+    fig_1.update_xaxes(
+        range=[
+            (start_date - datetime.timedelta(days=1)),
+            (end_date + datetime.timedelta(days=1)),
+        ]
+    )
+
+    # Specify custom spacing between dates on the x-axis
+    fig_1.update_xaxes(dtick=date_spacing)
+
+    # Convert the figure to a JSON serializable format
     fig_1_json = fig_1.to_dict()
 
     return fig_1_json
@@ -338,56 +568,61 @@ def update_innovative_plot(filtered_data):
 
 # Plot 3
 @app.callback(
-    Output("plot3", "figure"),
-    [Input("filtered-data", "data")],
+    Output("plot1", "figure"),
+    [Input("filtered-data", "data"), Input("status-radio", "value")],
 )
-def update_module_completion_barplot(filtered_data):
+def update_module_completion_barplot(filtered_data, value):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
-    # style settings
-    axis_label_font_size = 12
-    colors = ["#823551", "#1E88E5", "#FFC107", "#5C5934", "#DA981D", "#4F6793"]
-
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
+
+    if value not in module_status and value != "All":
+        print("Check radio button value for module status, it is invalid")
+
+    if value == "All":
+        radio_selection = module_status
+
+    if value in module_status:
+        radio_selection = value
 
     result = {}
     modules = list(filtered_df.module_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_dicts(filtered_df)
+    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     for module in modules:
-        result[module_dict.get(module)] = [
-            round(get_completed_percentage(filtered_df, module, "locked") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "unlocked") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "started") * 100, 1),
-            round(get_completed_percentage(filtered_df, module, "completed") * 100, 1),
+        result[module_num.get(module)] = [
+            round(
+                get_completed_percentage(filtered_df, module, module_status[i]) * 100, 1
+            )
+            for i in range(len(module_status))
         ]
 
     df_mod = (
-        pd.DataFrame(result, index=["locked", "unlocked", "started", "completed"])
+        pd.DataFrame(result, index=module_status)
         .T.reset_index()
         .rename(columns={"index": "Module"})
     )
+
+    # Checking
+    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
         df_mod,
         id_vars="Module",
-        value_vars=["locked", "unlocked", "started", "completed"],
+        value_vars=radio_selection,
         var_name="Status",
         value_name="Percentage Completion",
     )
 
     # Define the color mapping
     color_mapping = {
-        "locked": "#B4BC34",
-        "unlocked": "#cafb9c",
-        "started": "#77bc34",
-        "completed": "#0d203e",
+        module_status[i]: color_palette_2[i] for i in range(len(module_status))
     }
 
     # Create a horizontal bar chart using Plotly
@@ -398,7 +633,7 @@ def update_module_completion_barplot(filtered_data):
         color="Status",
         orientation="h",
         labels={"Percentage Completion": "Percentage Completion (%)"},
-        title="Percentage Completion by Students for Each Module",
+        title="Percentage of Students for Each Module",
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -414,6 +649,7 @@ def update_module_completion_barplot(filtered_data):
         plot_bgcolor="rgb(255, 255, 255)",
         xaxis=dict(title_font=dict(size=axis_label_font_size)),
         yaxis=dict(title_font=dict(size=axis_label_font_size)),
+        xaxis_range=[0, 100],
     )
 
     # Convert the figure to a JSON serializable format
@@ -490,16 +726,40 @@ app.layout = dbc.Container(
                     value="Pages",
                     children=[
                         dcc.Tab(
+                            label="About Me",
+                            style=tab_style,
+                            selected_style=selected_tab_style,
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "This is an About me",
+                                    style=text_style,
+                                ),
+                            ],
+                        ),
+                        dcc.Tab(
                             label="View Modules",
                             style=tab_style,
                             selected_style=selected_tab_style,
-                            children=[],
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "Test 1",
+                                    style=text_style,
+                                ),
+                            ],
                         ),
                         dcc.Tab(
                             label="View Items",
                             style=tab_style,
                             selected_style=selected_tab_style,
-                            children=[],
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "Test 2",
+                                    style=text_style,
+                                ),
+                            ],
                         ),
                     ],
                 ),
@@ -514,6 +774,24 @@ app.layout = dbc.Container(
                             id="module-checkboxes",
                             #    options=[],  # default empty checklist
                             #    value="", # default selected value
+                        ),
+                        html.Br(),
+                        html.Label(
+                            "Select Lineplot dates",
+                            style=text_style,
+                        ),
+                        dcc.DatePickerRange(
+                            id="date-slider",
+                            min_date_allowed=min(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            max_date_allowed=max(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            start_date=min(pd.to_datetime(data["completed_at"])).date(),
+                            end_date=max(pd.to_datetime(data["completed_at"])).date(),
+                            clearable=True,
+                            style=text_style,
                         ),
                     ],
                     width=3,
@@ -551,7 +829,30 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-                dbc.Col(width=3),
+                html.Br(),
+                html.Label(
+                    "Select Module State",
+                    style=text_style,
+                ),
+                dbc.Col(
+                    [
+                        dcc.RadioItems(
+                            id="status-radio",
+                            options=[
+                                {"label": " " + "All", "value": "All"},
+                                *(
+                                    {
+                                        "label": " " + f"{module_status[i]}",
+                                        "value": f"{module_status[i]}",
+                                    }
+                                    for i in range(len(module_status))
+                                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
+                            ],
+                            value="All",
+                        ),
+                    ],
+                    width=3,
+                ),
                 dbc.Col(
                     [
                         dcc.Graph(
