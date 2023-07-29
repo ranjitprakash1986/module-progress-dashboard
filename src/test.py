@@ -396,7 +396,7 @@ def update_student_dropdown(val):
 
 # filter the data based on user selections
 @app.callback(
-    Output("filtered-data", "data"),
+    Output("course-specific-data", "data"),
     [Input("course-dropdown", "value"), Input("module-checkboxes", "value")],
 )
 def update_filtered_data(selected_course, selected_modules):
@@ -411,6 +411,30 @@ def update_filtered_data(selected_course, selected_modules):
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
 
     return filtered_data
+
+
+# filter the data based on user selections
+# @app.callback(
+#     Output("student-specific-data", "data"),
+#     [
+#         Input("course-dropdown", "value"),
+#         Input("module-dropdown", "value"),
+#         Input("student-dropdown", "value"),
+#     ],
+# )
+# def update_student_filtered_data(selected_course, selected_module, selected_student):
+#     # Filter the DataFrame based on user selections
+
+#     filtered_df = data[
+#         (data["course_id"].astype(str) == selected_course)
+#         & (data["module_id"].astype(str) == selected_module)
+#         & (data["student_id"].astype(str) == selected_student)
+#     ]
+
+#     # Convert the filtered DataFrame to JSON serializable format
+#     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
+
+#     return filtered_data
 
 
 # @app.callback(
@@ -429,7 +453,7 @@ def update_filtered_data(selected_course, selected_modules):
 @app.callback(
     Output("plot3", "figure"),
     [
-        Input("filtered-data", "data"),
+        Input("course-specific-data", "data"),
         Input("date-slider", "start_date"),
         Input("date-slider", "end_date"),
     ],
@@ -545,22 +569,74 @@ def update_timeline(filtered_data, start_date, end_date):
 # Plot 2
 @app.callback(
     Output("plot2", "figure"),
-    [Input("filtered-data", "data")],
+    [Input("course-specific-data", "data"), Input("date-picker", "date")],
 )
-def update_innovative_plot(filtered_data):
+def update_box_plot(filtered_data, date_selected):
     """
-    Returns a plot/table of time between state changes
+    Returns a box plot of the completion duration of selected modules in the selected course
     """
+    if isinstance(date_selected, str):
+        date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
+
+    assert isinstance(date_selected, datetime.datetime)
+
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    fig_2 = px.scatter(
-        filtered_df,
-        x="items_count",
-        y="module_position",
-        title=f"the number of rows are {len(filtered_df)}",
+    # Create dictionaries accordingly to selected_course
+    module_num, module_dict, item_dict, student_dict = get_dicts(filtered_df)
+
+    # filter the data by state = "completed"
+    subset_data = filtered_df[filtered_df.state == "completed"]
+
+    # Improvement: accept course start data as input
+    course_start_date = date_selected
+    course_start_time = datetime.time(0, 30)
+    course_combined_datetime = course_start_date.combine(
+        course_start_date, course_start_time
     )
+
+    # compute the duration
+    subset_data["duration"] = round(
+        (subset_data["completed_at"] - course_combined_datetime)
+        / np.timedelta64(1, "D"),
+        0,
+    )
+
+    # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
+    subset_data = subset_data[
+        ["module_id", "module_name", "state", "duration", "student_id"]
+    ].drop_duplicates()
+    subset_data["module"] = subset_data["module_id"].apply(
+        lambda x: module_num.get(str(x))
+    )
+
+    # Checking
+    # print(subset_data.head())
+
+    # Plot
+    # Create the box plot using Plotly Express
+    fig_2 = px.box(
+        subset_data,
+        y="module",
+        x="duration",
+        points="all",
+        title="Boxplot of module completion duration (days)",
+        hover_data=["duration"],
+    )
+    fig_2.update_traces(boxpoints="outliers", boxmean=True)
+
+    # Sort the y-axis in descending order
+    fig_2.update_yaxes(categoryorder="category descending")
+
+    # Customize the hover template
+    hover_template = (
+        "<b>%{y}</b><br>" + "Duration: %{x} days<br>" + "<extra></extra>"
+    )  # The <extra></extra> tag removes the "trace 0" label
+
+    fig_2.update_traces(hovertemplate=hover_template)
+
     fig_2_json = fig_2.to_dict()
 
     return fig_2_json
@@ -569,7 +645,7 @@ def update_innovative_plot(filtered_data):
 # Plot 3
 @app.callback(
     Output("plot1", "figure"),
-    [Input("filtered-data", "data"), Input("status-radio", "value")],
+    [Input("course-specific-data", "data"), Input("status-radio", "value")],
 )
 def update_module_completion_barplot(filtered_data, value):
     """
@@ -609,7 +685,7 @@ def update_module_completion_barplot(filtered_data, value):
     )
 
     # Checking
-    print(df_mod)
+    # print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -619,6 +695,9 @@ def update_module_completion_barplot(filtered_data, value):
         var_name="Status",
         value_name="Percentage Completion",
     )
+
+    # Checking
+    # print(melted_df)
 
     # Define the color mapping
     color_mapping = {
@@ -689,7 +768,7 @@ app.layout = dbc.Container(
                             id="course-dropdown",
                             options=course_options,  # list of dropdown, labels are show, value is conveyed
                             value=course_options[0]["value"],  # default value
-                            style={"width": "400px", "fontsize": "1px"},
+                            style={"width": "350px", "fontsize": "1px"},
                         )
                     ],
                     style={"width": "35%", "display": "inline-block"},
@@ -700,7 +779,7 @@ app.layout = dbc.Container(
                             id="student-dropdown",
                             options=[],
                             value="",
-                            style={"width": "400px", "fontsize": "1px"},
+                            style={"width": "350px", "fontsize": "1px"},
                         ),
                     ],
                     style={"width": "35%", "display": "inline-block"},
@@ -721,7 +800,8 @@ app.layout = dbc.Container(
         ),
         dbc.Row(
             [
-                dcc.Store(id="filtered-data"),
+                dcc.Store(id="course-specific-data"),
+                dcc.Store(id="student-specific-data"),
                 dcc.Tabs(
                     id="tabs",
                     value="Pages",
@@ -764,13 +844,29 @@ app.layout = dbc.Container(
                         ),
                     ],
                 ),
-                html.Br(),
-                html.Label(
-                    "Select Modules ",
-                    style=text_style,
-                ),
                 dbc.Col(
                     [
+                        html.Br(),
+                        html.Label(
+                            "Select Course Start Date",
+                            style=text_style,
+                        ),
+                        dcc.DatePickerSingle(
+                            id="date-picker",
+                            date="2023-01-01",  # Set the initial date to today's date
+                            max_date_allowed=max(
+                                pd.to_datetime(data["completed_at"])
+                            ).date(),
+                            display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
+                            style={
+                                "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
+                            },
+                        ),
+                        html.Br(),
+                        html.Label(
+                            "Select Modules ",
+                            style=text_style,
+                        ),
                         dbc.Checklist(
                             id="module-checkboxes",
                             #    options=[],  # default empty checklist
