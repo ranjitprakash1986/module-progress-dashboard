@@ -46,22 +46,25 @@ def get_dicts(df):
     """
     # Initialize dicts
     global module_num
-    module_num, module_dict, item_dict, student_dict = (
-        defaultdict(str) for _ in range(4)
+    module_num, module_dict, item_num, item_dict, student_dict = (
+        defaultdict(str) for _ in range(5)
     )
 
     for _, row in df.iterrows():
         module_dict[str(row["module_id"])] = re.sub(
             r"^Module\s+\d+:\s+", "", row["module_name"]
         )
-        item_dict[str(row["items_module_id"])] = row["items_title"]
+        item_dict[str(row["items_id"])] = row["items_title"]
         student_dict[str(row["student_id"])] = row["student_name"]
 
     # map the module id to a module number for labeling
     for i, k in enumerate(module_dict.keys()):
         module_num[k] = f"Module:{i+1}"
 
-    return module_num, module_dict, item_dict, student_dict
+    for i, k in enumerate(item_dict.keys()):
+        item_num[k] = f"Item:{i+1}"
+
+    return module_num, module_dict, item_num, item_dict, student_dict
 
 
 def get_sub_dicts(df):
@@ -72,16 +75,45 @@ def get_sub_dicts(df):
     """
     # Initialize dicts
 
-    module_dict, item_dict, student_dict = (defaultdict(str) for _ in range(3))
+    module_dict, item_num, item_dict, student_dict = (
+        defaultdict(str) for _ in range(4)
+    )
 
     for _, row in df.iterrows():
         module_dict[str(row["module_id"])] = re.sub(
             r"^Module\s+\d+:\s+", "", row["module_name"]
         )
-        item_dict[str(row["items_module_id"])] = row["items_title"]
+        item_dict[str(row["items_id"])] = row["items_title"]
         student_dict[str(row["student_id"])] = row["student_name"]
 
-    return module_dict, item_dict, student_dict
+    for i, k in enumerate(item_dict.keys()):
+        item_num[k] = f"Item:{i+1}"
+
+    return module_dict, item_num, item_dict, student_dict
+
+
+def get_item_completion_percentage(df, item):
+    """
+    Returns the marked complete percentage of item in df
+    df is dataframe after removal of items that do not have a specific completion requirement
+    """
+    # df is the filtered_data after selections
+    df_item = df[df.items_id.astype(str) == item]
+
+    # Ensure that df_item is not null
+    if df_item.shape[0] == 0:
+        return 0
+
+    total_item_students = df_item.student_id.unique().size
+
+    # Checking, why is the state showing up as float value??
+    # print(len(df_item[df_item["item_cp_req_completed"].astype(bool) == True]))
+
+    percentage = (
+        df_item[df_item.item_cp_req_completed == 1.0].student_id.unique().size
+        / total_item_students
+    )
+    return percentage
 
 
 def get_completed_percentage(df, module, state="completed"):
@@ -311,12 +343,13 @@ axis_label_font_size = 12
 ##############
 # Callbacks  #
 ##############
+# Update module checklist
 @app.callback(
     Output("module-checkboxes", "options"),
     Output("module-checkboxes", "value"),
     Input("course-dropdown", "value"),
 )
-def update_checklist(val):
+def update_module_checklist(val):
     # Edge case, if no value selected in course-dropdown
     if val is None:
         module_options = [
@@ -333,7 +366,7 @@ def update_checklist(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         module_options = [
@@ -362,11 +395,107 @@ def update_checklist(val):
     return module_options, def_value
 
 
+# # Update items checklist
+@app.callback(
+    Output("item-checkboxes", "options"),
+    Output("item-checkboxes", "value"),
+    [Input("course-dropdown", "value"), Input("module-dropdown", "value")],
+)
+def update_item_checklist(selected_course, selected_module):
+    # Edge case, if no value selected in course-dropdown
+    if selected_course is None or selected_module is None:
+        item_options = [
+            {
+                "label": "Either Course or Module not selected",
+                "value": "No Course selected",
+            }
+        ]
+        def_value = item_options
+        return item_options, def_value
+
+    # filter by the course selected
+    subset_data = data.copy()
+
+    selected_course = remove_special_characters(course_dict[selected_course])
+
+    subset_data = subset_data[
+        (subset_data.course_name == selected_course)
+        & (subset_data.module_id.astype(str) == selected_module)
+    ]
+
+    # Create dictionaries accordingly to selected_course
+    module_dict, item_num, item_dict, student_dict = get_sub_dicts(subset_data)
+
+    # Checking
+    # print(item_dict.items())
+
+    if selected_course != None and selected_module != None:
+        item_options = [
+            {
+                "label": f"{item_num[item_id]}" + " " + f"{item_name}",
+                "value": item_id,
+            }
+            for item_id, item_name in item_dict.items()
+        ]
+
+    # define a global color map for the modules
+    global item_colors
+    item_colors = {
+        item_num[item_id]: color_palette_3[i]
+        for item_id, i in zip(item_num.keys(), np.arange(len(item_num.keys())))
+    }
+
+    # Checking
+    # print(item_colors)
+
+    # Add the 'All' option at the beginning (Reconsider later)
+    # item_options.insert(0, {"label": "All", "value": "All"})
+
+    # default value, selects all the items in the checklist
+    def_value = [item_options[i]["value"] for i in range(len(item_options))]
+    return item_options, def_value
+
+
+# Update module-dropdown options
+@app.callback(
+    Output("module-dropdown", "options"),
+    Output("module-dropdown", "value"),
+    Input("course-dropdown", "value"),
+)
+def update_module_dropdown(val):
+    # Edge case, if no value selected in course-dropdown
+    if val is None:
+        module_options = [{"label": "No Course selected", "value": 0}]
+        return module_options
+
+    # filter by the course selected
+    subset_data = data.copy()
+
+    selected_course = remove_special_characters(course_dict[val])
+
+    subset_data = subset_data[subset_data.course_name == selected_course]
+
+    # Create dictionaries accordingly to selected_course
+    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
+
+    if val != None:
+        module_options = [
+            {"label": module_name, "value": module_id}
+            for module_id, module_name in module_dict.items()
+        ]
+
+    # Commented out since All is not need for a single module dropdown selection
+    # module_options.insert(0, {"label": "All", "value": "All"})
+
+    return module_options, module_options[0]["value"]
+
+
+# Update student-dropdown options
 @app.callback(
     Output("student-dropdown", "options"),
     Input("course-dropdown", "value"),
 )
-def update_student_dropdown(val):
+def update_student_dropdown1(val):
     # Edge case, if no value selected in course-dropdown
     if val is None:
         student_options = [{"label": "No Course selected", "value": 0}]
@@ -380,7 +509,7 @@ def update_student_dropdown(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_dict, student_dict = get_dicts(subset_data)
+    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
         student_options = [
@@ -397,15 +526,27 @@ def update_student_dropdown(val):
 # filter the data based on user selections
 @app.callback(
     Output("course-specific-data", "data"),
-    [Input("course-dropdown", "value"), Input("module-checkboxes", "value")],
+    [
+        Input("course-dropdown", "value"),
+        Input("student-dropdown", "value"),
+        Input("module-checkboxes", "value"),
+    ],
 )
-def update_filtered_data(selected_course, selected_modules):
+def update_course_filtered_data(selected_course, selected_students, selected_modules):
     # Filter the DataFrame based on user selections
-
-    filtered_df = data[
-        (data["course_id"].astype(str) == selected_course)
-        & (data["module_id"].astype(str).isin(selected_modules))
-    ]
+    if (
+        selected_students == "All"
+    ):  # don't need to filter by students, all are considered
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+            & (data["module_id"].astype(str).isin(selected_modules))
+        ]
+    else:
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+            & (data["student_id"].astype(str) == selected_students)
+            & (data["module_id"].astype(str).isin(selected_modules))
+        ]
 
     # Convert the filtered DataFrame to JSON serializable format
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
@@ -414,27 +555,42 @@ def update_filtered_data(selected_course, selected_modules):
 
 
 # filter the data based on user selections
-# @app.callback(
-#     Output("student-specific-data", "data"),
-#     [
-#         Input("course-dropdown", "value"),
-#         Input("module-dropdown", "value"),
-#         Input("student-dropdown", "value"),
-#     ],
-# )
-# def update_student_filtered_data(selected_course, selected_module, selected_student):
-#     # Filter the DataFrame based on user selections
+@app.callback(
+    Output("module-specific-data", "data"),
+    [
+        Input("course-dropdown", "value"),
+        Input("module-dropdown", "value"),
+        Input("student-dropdown", "value"),
+        Input("item-checkboxes", "value"),
+    ],
+)
+def update_module_filtered_data(
+    selected_course, selected_module, selected_students, selected_items
+):
+    # Filter the DataFrame based on user selections
+    if (
+        selected_students == "All"
+    ):  # don't need to filter by students, all are considered
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+            & (data["module_id"].astype(str) == selected_module)
+            & (data["items_id"].astype(str).isin(selected_items))
+        ]
+    else:
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+            & (data["module_id"].astype(str) == selected_module)
+            & (data["student_id"].astype(str) == (selected_students))
+            & (data["items_id"].astype(str).isin(selected_items))
+        ]
 
-#     filtered_df = data[
-#         (data["course_id"].astype(str) == selected_course)
-#         & (data["module_id"].astype(str) == selected_module)
-#         & (data["student_id"].astype(str) == selected_student)
-#     ]
+    # Checking
+    # print(len(filtered_df))
 
-#     # Convert the filtered DataFrame to JSON serializable format
-#     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
+    # Convert the filtered DataFrame to JSON serializable format
+    filtered_data = filtered_df.to_json(date_format="iso", orient="split")
 
-#     return filtered_data
+    return filtered_data
 
 
 # @app.callback(
@@ -449,7 +605,7 @@ def update_filtered_data(selected_course, selected_modules):
 #         return f"Button clicked {n_clicks} times"
 
 
-# Plot 1
+# Plot 3
 @app.callback(
     Output("plot3", "figure"),
     [
@@ -475,7 +631,7 @@ def update_timeline(filtered_data, start_date, end_date):
     assert isinstance(end_date, datetime.date)
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
+    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     # For each module, create a lineplot with date on the x axis, percentage completion on y axis
     result_time = pd.DataFrame(columns=["Date", "Module", "Percentage Completion"])
@@ -585,7 +741,7 @@ def update_box_plot(filtered_data, date_selected):
         filtered_df = pd.read_json(filtered_data, orient="split")
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_dict, student_dict = get_dicts(filtered_df)
+    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
 
     # filter the data by state = "completed"
     subset_data = filtered_df[filtered_df.state == "completed"]
@@ -642,7 +798,7 @@ def update_box_plot(filtered_data, date_selected):
     return fig_2_json
 
 
-# Plot 3
+# Plot 1
 @app.callback(
     Output("plot1", "figure"),
     [Input("course-specific-data", "data"), Input("status-radio", "value")],
@@ -668,7 +824,7 @@ def update_module_completion_barplot(filtered_data, value):
     modules = list(filtered_df.module_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_dict, student_dict = get_sub_dicts(filtered_df)
+    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     for module in modules:
         result[module_num.get(module)] = [
@@ -695,6 +851,9 @@ def update_module_completion_barplot(filtered_data, value):
         var_name="Status",
         value_name="Percentage Completion",
     )
+
+    # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
+    melted_df = melted_df.dropna(subset=["Module"])
 
     # Checking
     # print(melted_df)
@@ -735,6 +894,147 @@ def update_module_completion_barplot(filtered_data, value):
     fig_3_json = fig_3.to_dict()
 
     return fig_3_json
+
+
+# Plot 4
+@app.callback(
+    Output("plot4", "figure"),
+    [Input("module-specific-data", "data")],
+)
+def update_item_completion_barplot(filtered_data):
+    """
+    Plots a barplot of items and the percentage of students the completed them
+    """
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+
+    result = {}
+    items = list(filtered_df.items_id.unique().astype(str))
+
+    # Create dictionaries accordingly to selected_course and selected module
+    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+
+    # drop the items where there is no item completion requirement
+    items_todrop = []
+    for item in items:
+        temp_df = filtered_df[filtered_df.items_id.astype(str) == item]
+        if all(temp_df.item_cp_req_type.isna()):
+            items_todrop.append(item)
+        else:
+            continue
+
+    filtered_df = filtered_df[~filtered_df.items_id.astype(str).isin(items_todrop)]
+
+    for item in items:
+        result[item_num.get(item)] = round(
+            get_item_completion_percentage(filtered_df, item) * 100, 2
+        )
+
+    df_mod = pd.DataFrame(list(result.items()), columns=["Items", "Percentage"])
+
+    # Checking
+    print(df_mod)
+
+    # Each row in the filtered_df for a given student is a unique item for that student
+    # In the case that all the students are selected in the dropdown,
+    # we have to provide the percentage completion of items for all students together
+    # there will be duplicate items id, since each item will appear under multiple students
+    # thus I am not doing filtering the dataframe with unique item ids.
+
+    # Create the bar plot using Plotly
+    fig_4 = go.Figure()
+
+    fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
+
+    fig_4.update_layout(
+        title="Item Completion percentage",
+        xaxis_title="Percentage Completion",
+        yaxis_title="Item",
+        xaxis_range=[0, 100],
+        showlegend=False,
+        yaxis=dict(categoryorder="category descending"),
+    )
+
+    # Convert the figure to a JSON serializable format
+    fig_4_json = fig_4.to_dict()
+
+    return fig_4_json
+
+    # To compute the percentage of
+
+
+#     # Create dictionaries accordingly to selected_course
+#     module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+
+#     for module in modules:
+#         result[module_num.get(module)] = [
+#             round(
+#                 get_completed_percentage(filtered_df, module, module_status[i]) * 100, 1
+#             )
+#             for i in range(len(module_status))
+#         ]
+
+#     df_mod = (
+#         pd.DataFrame(result, index=module_status)
+#         .T.reset_index()
+#         .rename(columns={"index": "Module"})
+#     )
+
+#     # Checking
+#     # print(df_mod)
+
+#     # Melt the DataFrame to convert columns to rows
+#     melted_df = pd.melt(
+#         df_mod,
+#         id_vars="Module",
+#         value_vars=radio_selection,
+#         var_name="Status",
+#         value_name="Percentage Completion",
+#     )
+
+#     # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
+#     melted_df = melted_df.dropna(subset=["Module"])
+
+#     # Checking
+#     # print(melted_df)
+
+#     # Define the color mapping
+#     color_mapping = {
+#         module_status[i]: color_palette_2[i] for i in range(len(module_status))
+#     }
+
+#     # Create a horizontal bar chart using Plotly
+#     fig_3 = px.bar(
+#         melted_df,
+#         y="Module",
+#         x="Percentage Completion",
+#         color="Status",
+#         orientation="h",
+#         labels={"Percentage Completion": "Percentage Completion (%)"},
+#         title="Percentage of Students for Each Module",
+#         category_orders={"Module": sorted(melted_df["Module"].unique())},
+#         color_discrete_map=color_mapping,  # Set the color mapping
+#     )
+
+#     fig_3.update_layout(
+#         showlegend=True,  # Show the legend indicating the module status colors
+#         legend_title="Status",  # Customize the legend title,
+#         # legend_traceorder="reversed",  # Reverse the order of the legend items
+#     )
+
+#     # Modify the plotly configuration to change the background color
+#     fig_3.update_layout(
+#         plot_bgcolor="rgb(255, 255, 255)",
+#         xaxis=dict(title_font=dict(size=axis_label_font_size)),
+#         yaxis=dict(title_font=dict(size=axis_label_font_size)),
+#         xaxis_range=[0, 100],
+#     )
+
+#     # Convert the figure to a JSON serializable format
+#     fig_3_json = fig_3.to_dict()
+
+#     return fig_3_json
 
 
 # -----------------------------------------------------------------
@@ -778,11 +1078,17 @@ app.layout = dbc.Container(
                         dcc.Dropdown(
                             id="student-dropdown",
                             options=[],
-                            value="",
-                            style={"width": "350px", "fontsize": "1px"},
+                            value="All",
+                            style={
+                                "width": "250px",
+                                "fontsize": "1px",
+                            },
                         ),
                     ],
-                    style={"width": "35%", "display": "inline-block"},
+                    style={
+                        "width": "35%",
+                        "display": "inline-block",
+                    },
                 ),
                 html.Div(
                     [
@@ -801,7 +1107,7 @@ app.layout = dbc.Container(
         dbc.Row(
             [
                 dcc.Store(id="course-specific-data"),
-                dcc.Store(id="student-specific-data"),
+                dcc.Store(id="module-specific-data"),
                 dcc.Tabs(
                     id="tabs",
                     value="Pages",
@@ -823,10 +1129,149 @@ app.layout = dbc.Container(
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
-                                html.Br(),
-                                html.Label(
-                                    "Test 1",
-                                    style=text_style,
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select Course Start Date",
+                                                    style=text_style,
+                                                ),
+                                                dcc.DatePickerSingle(
+                                                    id="date-picker",
+                                                    date="2023-01-01",  # Set the initial date to today's date
+                                                    max_date_allowed=max(
+                                                        pd.to_datetime(
+                                                            data["completed_at"]
+                                                        )
+                                                    ).date(),
+                                                    display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
+                                                    style={
+                                                        "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
+                                                    },
+                                                ),
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select Modules ",
+                                                    style=text_style,
+                                                ),
+                                                dbc.Checklist(
+                                                    id="module-checkboxes",
+                                                    #    options=[],  # default empty checklist
+                                                    #    value="", # default selected value
+                                                ),
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select Module State",
+                                                    style=text_style,
+                                                ),
+                                                dcc.RadioItems(
+                                                    id="status-radio",
+                                                    options=[
+                                                        {
+                                                            "label": " " + "All",
+                                                            "value": "All",
+                                                        },
+                                                        *(
+                                                            {
+                                                                "label": " "
+                                                                + f"{module_status[i]}",
+                                                                "value": f"{module_status[i]}",
+                                                            }
+                                                            for i in range(
+                                                                len(module_status)
+                                                            )
+                                                        ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
+                                                    ],
+                                                    value="All",
+                                                ),
+                                            ],
+                                            width=3,
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dcc.Graph(
+                                                    id="plot1",
+                                                    style={
+                                                        "width": "50%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                ),
+                                                dcc.Graph(
+                                                    id="plot2",
+                                                    style={
+                                                        "width": "50%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                ),
+                                            ],
+                                            width=9,
+                                        ),
+                                    ],
+                                ),
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select Lineplot dates",
+                                                    style=text_style,
+                                                ),
+                                                dcc.DatePickerRange(
+                                                    id="date-slider",
+                                                    min_date_allowed=min(
+                                                        pd.to_datetime(
+                                                            data["completed_at"]
+                                                        )
+                                                    ).date(),
+                                                    max_date_allowed=max(
+                                                        pd.to_datetime(
+                                                            data["completed_at"]
+                                                        )
+                                                    ).date(),
+                                                    start_date=min(
+                                                        pd.to_datetime(
+                                                            data["completed_at"]
+                                                        )
+                                                    ).date(),
+                                                    end_date=max(
+                                                        pd.to_datetime(
+                                                            data["completed_at"]
+                                                        )
+                                                    ).date(),
+                                                    clearable=True,
+                                                    style=text_style,
+                                                ),
+                                            ],
+                                            width=3,
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dcc.Graph(
+                                                    id="plot3",
+                                                    style={
+                                                        "width": "100%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                )
+                                            ],
+                                            width=9,
+                                        ),
+                                    ]
                                 ),
                             ],
                         ),
@@ -835,137 +1280,105 @@ app.layout = dbc.Container(
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
-                                html.Br(),
-                                html.Label(
-                                    "Test 2",
-                                    style=text_style,
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select One Module",
+                                                    style=text_style,
+                                                ),
+                                                html.Br(),
+                                                html.Div(
+                                                    [
+                                                        dcc.Dropdown(
+                                                            id="module-dropdown",
+                                                            options=[],
+                                                            value="",
+                                                            style={
+                                                                "width": "250px",
+                                                                "fontsize": "1px",
+                                                            },
+                                                        ),
+                                                    ],
+                                                    style={
+                                                        "width": "35%",
+                                                        "display": "inline-block",
+                                                    },
+                                                ),
+                                                html.Br(),
+                                                html.Label(
+                                                    "Select Items ",
+                                                    style=text_style,
+                                                ),
+                                                dbc.Checklist(
+                                                    id="item-checkboxes",
+                                                    #    options=[],  # default empty checklist
+                                                    #    value="", # default selected value
+                                                ),
+                                            ],
+                                            width=3,
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dcc.Graph(
+                                                    id="plot4",
+                                                    style={
+                                                        "width": "50%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                ),
+                                                dcc.Graph(
+                                                    id="plot5",
+                                                    style={
+                                                        "width": "50%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                ),
+                                            ],
+                                            width=9,
+                                        ),
+                                    ],
+                                ),
+                                dbc.Row(
+                                    [
+                                        dbc.Col(
+                                            [],
+                                            width=3,
+                                        ),
+                                        dbc.Col(
+                                            [
+                                                dcc.Graph(
+                                                    id="plot6",
+                                                    style={
+                                                        "width": "100%",
+                                                        "height": "300px",
+                                                        "display": "inline-block",
+                                                        "border": "2px solid #ccc",
+                                                        "border-radius": "5px",
+                                                        "padding": "10px",
+                                                    },
+                                                )
+                                            ],
+                                            width=9,
+                                        ),
+                                    ]
                                 ),
                             ],
                         ),
                     ],
                 ),
-                dbc.Col(
-                    [
-                        html.Br(),
-                        html.Label(
-                            "Select Course Start Date",
-                            style=text_style,
-                        ),
-                        dcc.DatePickerSingle(
-                            id="date-picker",
-                            date="2023-01-01",  # Set the initial date to today's date
-                            max_date_allowed=max(
-                                pd.to_datetime(data["completed_at"])
-                            ).date(),
-                            display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
-                            style={
-                                "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
-                            },
-                        ),
-                        html.Br(),
-                        html.Label(
-                            "Select Modules ",
-                            style=text_style,
-                        ),
-                        dbc.Checklist(
-                            id="module-checkboxes",
-                            #    options=[],  # default empty checklist
-                            #    value="", # default selected value
-                        ),
-                        html.Br(),
-                        html.Label(
-                            "Select Module State",
-                            style=text_style,
-                        ),
-                        dcc.RadioItems(
-                            id="status-radio",
-                            options=[
-                                {"label": " " + "All", "value": "All"},
-                                *(
-                                    {
-                                        "label": " " + f"{module_status[i]}",
-                                        "value": f"{module_status[i]}",
-                                    }
-                                    for i in range(len(module_status))
-                                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
-                            ],
-                            value="All",
-                        ),
-                    ],
-                    width=3,
-                ),
-                dbc.Col(
-                    [
-                        dcc.Graph(
-                            id="plot1",
-                            style={
-                                "width": "50%",
-                                "height": "300px",
-                                "display": "inline-block",
-                                "border": "2px solid #ccc",
-                                "border-radius": "5px",
-                                "padding": "10px",
-                            },
-                        ),
-                        dcc.Graph(
-                            id="plot2",
-                            style={
-                                "width": "50%",
-                                "height": "300px",
-                                "display": "inline-block",
-                                "border": "2px solid #ccc",
-                                "border-radius": "5px",
-                                "padding": "10px",
-                            },
-                        ),
-                    ],
-                    width=9,
-                ),
             ],
             className="mb-3",  # Add spacing between rows
-        ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Br(),
-                        html.Label(
-                            "Select Lineplot dates",
-                            style=text_style,
-                        ),
-                        dcc.DatePickerRange(
-                            id="date-slider",
-                            min_date_allowed=min(
-                                pd.to_datetime(data["completed_at"])
-                            ).date(),
-                            max_date_allowed=max(
-                                pd.to_datetime(data["completed_at"])
-                            ).date(),
-                            start_date=min(pd.to_datetime(data["completed_at"])).date(),
-                            end_date=max(pd.to_datetime(data["completed_at"])).date(),
-                            clearable=True,
-                            style=text_style,
-                        ),
-                    ],
-                    width=3,
-                ),
-                dbc.Col(
-                    [
-                        dcc.Graph(
-                            id="plot3",
-                            style={
-                                "width": "100%",
-                                "height": "300px",
-                                "display": "inline-block",
-                                "border": "2px solid #ccc",
-                                "border-radius": "5px",
-                                "padding": "10px",
-                            },
-                        )
-                    ],
-                    width=9,
-                ),
-            ]
         ),
         dbc.Row(
             [
@@ -1006,7 +1419,8 @@ app.layout = dbc.Container(
                     ],
                     width=9,
                 ),
-            ]
+            ],
+            className="mb-3",  # Add spacing between rows
         ),
     ],
     className="mt-3",
