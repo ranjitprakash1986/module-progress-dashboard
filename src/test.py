@@ -45,7 +45,6 @@ def get_dicts(df):
     module number, module name, item name and student name, in that order specifically
     """
     # Initialize dicts
-    global module_num
     module_num, module_dict, item_num, item_dict, student_dict = (
         defaultdict(str) for _ in range(5)
     )
@@ -59,10 +58,10 @@ def get_dicts(df):
 
     # map the module id to a module number for labeling
     for i, k in enumerate(module_dict.keys()):
-        module_num[k] = f"Module:{i+1}"
+        module_num[k] = f"Module {i+1}:"
 
     for i, k in enumerate(item_dict.keys()):
-        item_num[k] = f"Item:{i+1}"
+        item_num[k] = f"Item {i+1}:"
 
     return module_num, module_dict, item_num, item_dict, student_dict
 
@@ -208,14 +207,53 @@ for col in categorical_cols:
 # remove special characters from course_name
 data["course_name"] = data["course_name"].apply(remove_special_characters)
 
-# Make the mapping of any id to the corresponding names
-course_dict = defaultdict(str)
-for _, row in data.iterrows():
-    course_dict[str(row["course_id"])] = row["course_name"]
+# # Make the mapping of any id to the corresponding names
+# course_dict = defaultdict(str)
+# for _, row in data.iterrows():
+#     course_dict[str(row["course_id"])] = row["course_name"]
 
-# All accessible vairables
+
+############################
+# All accessible vairables #
+############################
 
 module_status = ["locked", "unlocked", "started", "completed"]
+
+# Make the mapping of any id to the corresponding names
+global course_dict
+global module_dict
+global item_dict
+
+course_dict, module_dict, item_dict = (defaultdict(str) for _ in range(3))
+
+for _, row in data.iterrows():
+    course_dict[str(row["course_id"])] = row["course_name"]
+    module_dict[str(row["module_id"])] = row["module_name"]
+    item_dict[str(row["items_id"])] = row["items_title"]
+
+
+# Create nested defaultdicts with sets
+nested_dict = defaultdict(lambda: defaultdict(dict))
+
+# Create a dictionary to store the order of modules for each course
+course_module_order = defaultdict(list)
+
+# Iterate through the DataFrame to populate the nested dictionary and module order
+for _, row in data.iterrows():
+    course_id = str(row["course_id"])
+    module_id = str(row["module_id"])
+    items_id = str(row["items_id"])
+    items_position = row["items_position"]
+
+    nested_dict[course_id][module_id][items_id] = items_position
+
+    # Store the order of modules for each course
+    if module_id not in course_module_order[course_id]:
+        course_module_order[course_id].append(module_id)
+
+# Convert the nested defaultdict to a regular dictionary (if needed)
+nested_dict = dict(nested_dict)
+
 
 ####################
 #     Layout       #
@@ -366,6 +404,7 @@ def update_module_checklist(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
+    global module_num
     module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
 
     if val != None:
@@ -424,26 +463,32 @@ def update_item_checklist(selected_course, selected_module):
     ]
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_num, item_dict, student_dict = get_sub_dicts(subset_data)
+    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(subset_data) # Imoprovement: get_sub_dicts can be only for gettin the item_num and item_dict
 
-    # Checking
-    # print(item_dict.items())
+    # Initialize dicts
+    items_pos = (defaultdict(str))
+    items_id_name = (defaultdict(str))
+
+    for _, row in subset_data.iterrows():
+        items_pos[str(row["items_id"])] = f"Item {row['items_position']}:"    
+        items_id_name[str(row["items_id"])] = row["items_title"]
 
     if selected_course != None and selected_module != None:
         item_options = [
             {
-                "label": f"{item_num[item_id]}" + " " + f"{item_name}",
+                "label": f"{items_pos[item_id]}" + " " + f"{item_name}",
                 "value": item_id,
             }
-            for item_id, item_name in item_dict.items()
+            for item_id, item_name in items_id_name.items()
         ]
+    
+    # Checking
+    print(items_pos)
 
     # define a global color map for the modules
     global item_colors
-    item_colors = {
-        item_num[item_id]: color_palette_3[i]
-        for item_id, i in zip(item_num.keys(), np.arange(len(item_num.keys())))
-    }
+    item_colors = {items_pos[item_id]: color_palette_3[i]
+        for item_id, i in zip(items_pos.keys(), np.arange(len(items_pos.keys())))}
 
     # Checking
     # print(item_colors)
@@ -476,8 +521,16 @@ def update_module_dropdown(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
+    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
+    
+    # Initialize dicts
+    module_dict= (defaultdict(str))
 
+    for _, row in subset_data.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )
+        
     if val != None:
         module_options = [
             {"label": module_name, "value": module_id}
@@ -509,7 +562,13 @@ def update_student_dropdown1(val):
     subset_data = subset_data[subset_data.course_name == selected_course]
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
+    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
+    
+    # Initialize dicts
+    student_dict= (defaultdict(str))
+
+    for _, row in subset_data.iterrows():
+        student_dict[str(row["student_id"])] = row["student_name"]   
 
     if val != None:
         student_options = [
@@ -521,6 +580,35 @@ def update_student_dropdown1(val):
     student_options.insert(0, {"label": "All", "value": "All"})
 
     return student_options
+
+
+# filter the data based on user selections
+@app.callback(
+    Output("student-specific-data", "data"),
+    [
+        Input("course-dropdown", "value"),
+        Input("student-dropdown", "value"),
+    ],
+)
+def update_student_filtered_data(selected_course, selected_students):
+    # Filter the DataFrame based on user selections
+    if (
+        selected_students == "All"
+    ):  # don't need to filter by students, all are considered
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+        ]
+    else:
+        filtered_df = data[
+            (data["course_id"].astype(str) == selected_course)
+            & (data["student_id"].astype(str) == selected_students)
+        ]
+
+    # Convert the filtered DataFrame to JSON serializable format
+    filtered_data = filtered_df.to_json(date_format="iso", orient="split")
+
+    return filtered_data
+
 
 
 # filter the data based on user selections
@@ -552,6 +640,9 @@ def update_course_filtered_data(selected_course, selected_students, selected_mod
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
 
     return filtered_data
+
+
+
 
 
 # filter the data based on user selections
@@ -631,8 +722,16 @@ def update_timeline(filtered_data, start_date, end_date):
     assert isinstance(end_date, datetime.date)
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
+    # Initialize dicts
+    module_dict= (defaultdict(str))
+
+    for _, row in filtered_df.iterrows():
+        module_dict[str(row["module_id"])] = re.sub(
+            r"^Module\s+\d+:\s+", "", row["module_name"]
+        )    
+    
     # For each module, create a lineplot with date on the x axis, percentage completion on y axis
     result_time = pd.DataFrame(columns=["Date", "Module", "Percentage Completion"])
 
@@ -741,7 +840,7 @@ def update_box_plot(filtered_data, date_selected):
         filtered_df = pd.read_json(filtered_data, orient="split")
 
     # Create dictionaries accordingly to selected_course
-    module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
+    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
 
     # filter the data by state = "completed"
     subset_data = filtered_df[filtered_df.state == "completed"]
@@ -781,18 +880,26 @@ def update_box_plot(filtered_data, date_selected):
         title="Boxplot of module completion duration (days)",
         hover_data=["duration"],
     )
-    fig_2.update_traces(boxpoints="outliers", boxmean=True)
+    fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
 
     # Sort the y-axis in descending order
     fig_2.update_yaxes(categoryorder="category descending")
 
     # Customize the hover template
-    hover_template = (
-        "<b>%{y}</b><br>" + "Duration: %{x} days<br>" + "<extra></extra>"
-    )  # The <extra></extra> tag removes the "trace 0" label
+    hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
 
-    fig_2.update_traces(hovertemplate=hover_template)
-
+    # fig_2.update_traces(hovertemplate=hover_template)
+    # Customize the hover template to show only the mean value
+    # hover_template = (
+    #     "<b>%{y}</b><br>Mean: %{mean:.2f} days<br><extra></extra>"
+    #     + "Q1: %{q1:.2f} days<br>Q3: %{q3:.2f} days"
+    # )
+    fig_2.update_traces(
+        hovertemplate=hover_template,
+        boxpoints="all",  # Show all points when hovering
+        #jitter=0.0,  # Adjust the jitter for better point visibility
+    )
+    
     fig_2_json = fig_2.to_dict()
 
     return fig_2_json
@@ -824,7 +931,7 @@ def update_module_completion_barplot(filtered_data, value):
     modules = list(filtered_df.module_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course
-    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     for module in modules:
         result[module_num.get(module)] = [
@@ -841,7 +948,7 @@ def update_module_completion_barplot(filtered_data, value):
     )
 
     # Checking
-    # print(df_mod)
+    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -913,8 +1020,16 @@ def update_item_completion_barplot(filtered_data):
     items = list(filtered_df.items_id.unique().astype(str))
 
     # Create dictionaries accordingly to selected_course and selected module
-    module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
+    # Initialize dicts
+    items_pos = (defaultdict(str))
+
+    for _, row in filtered_df.iterrows():
+        items_pos[str(row["items_id"])] = f"Item {row['items_position']}:"   
+
+
+    
     # drop the items where there is no item completion requirement
     items_todrop = []
     for item in items:
@@ -927,7 +1042,7 @@ def update_item_completion_barplot(filtered_data):
     filtered_df = filtered_df[~filtered_df.items_id.astype(str).isin(items_todrop)]
 
     for item in items:
-        result[item_num.get(item)] = round(
+        result[items_pos.get(item)] = round(
             get_item_completion_percentage(filtered_df, item) * 100, 2
         )
 
@@ -961,81 +1076,27 @@ def update_item_completion_barplot(filtered_data):
 
     return fig_4_json
 
-    # To compute the percentage of
 
 
-#     # Create dictionaries accordingly to selected_course
-#     module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
+# table callback
+# Plot 4
+@app.callback(
+    Output("table-1", "data"),
+    Output("table-1", "columns"),
+    [Input("student-specific-data", "data"),],
+)
+def update_student_table(filtered_data):
 
-#     for module in modules:
-#         result[module_num.get(module)] = [
-#             round(
-#                 get_completed_percentage(filtered_df, module, module_status[i]) * 100, 1
-#             )
-#             for i in range(len(module_status))
-#         ]
-
-#     df_mod = (
-#         pd.DataFrame(result, index=module_status)
-#         .T.reset_index()
-#         .rename(columns={"index": "Module"})
-#     )
-
-#     # Checking
-#     # print(df_mod)
-
-#     # Melt the DataFrame to convert columns to rows
-#     melted_df = pd.melt(
-#         df_mod,
-#         id_vars="Module",
-#         value_vars=radio_selection,
-#         var_name="Status",
-#         value_name="Percentage Completion",
-#     )
-
-#     # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
-#     melted_df = melted_df.dropna(subset=["Module"])
-
-#     # Checking
-#     # print(melted_df)
-
-#     # Define the color mapping
-#     color_mapping = {
-#         module_status[i]: color_palette_2[i] for i in range(len(module_status))
-#     }
-
-#     # Create a horizontal bar chart using Plotly
-#     fig_3 = px.bar(
-#         melted_df,
-#         y="Module",
-#         x="Percentage Completion",
-#         color="Status",
-#         orientation="h",
-#         labels={"Percentage Completion": "Percentage Completion (%)"},
-#         title="Percentage of Students for Each Module",
-#         category_orders={"Module": sorted(melted_df["Module"].unique())},
-#         color_discrete_map=color_mapping,  # Set the color mapping
-#     )
-
-#     fig_3.update_layout(
-#         showlegend=True,  # Show the legend indicating the module status colors
-#         legend_title="Status",  # Customize the legend title,
-#         # legend_traceorder="reversed",  # Reverse the order of the legend items
-#     )
-
-#     # Modify the plotly configuration to change the background color
-#     fig_3.update_layout(
-#         plot_bgcolor="rgb(255, 255, 255)",
-#         xaxis=dict(title_font=dict(size=axis_label_font_size)),
-#         yaxis=dict(title_font=dict(size=axis_label_font_size)),
-#         xaxis_range=[0, 100],
-#     )
-
-#     # Convert the figure to a JSON serializable format
-#     fig_3_json = fig_3.to_dict()
-
-#     return fig_3_json
-
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+    
+    filtered_df = filtered_df[['module_name', 'items_title', 'items_type', 'item_cp_req_completed']]
+    
+    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: 'Completed', 0: 'Pending', '': 'Not Required'}).astype('str')
+    column_name = [{'name': col, 'id': col} for col in filtered_df.columns]
+    
+    return filtered_df.to_dict('records'), column_name
 
 # -----------------------------------------------------------------
 # Layout
@@ -1108,22 +1169,11 @@ app.layout = dbc.Container(
             [
                 dcc.Store(id="course-specific-data"),
                 dcc.Store(id="module-specific-data"),
+                dcc.Store(id="student-specific-data"),
                 dcc.Tabs(
                     id="tabs",
                     value="Pages",
                     children=[
-                        dcc.Tab(
-                            label="About Me",
-                            style=tab_style,
-                            selected_style=selected_tab_style,
-                            children=[
-                                html.Br(),
-                                html.Label(
-                                    "This is an About me",
-                                    style=text_style,
-                                ),
-                            ],
-                        ),
                         dcc.Tab(
                             label="View Modules",
                             style=tab_style,
@@ -1325,19 +1375,8 @@ app.layout = dbc.Container(
                                                 dcc.Graph(
                                                     id="plot4",
                                                     style={
-                                                        "width": "50%",
-                                                        "height": "300px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
-                                                ),
-                                                dcc.Graph(
-                                                    id="plot5",
-                                                    style={
-                                                        "width": "50%",
-                                                        "height": "300px",
+                                                        "width": "80%",
+                                                        "height": "600px",
                                                         "display": "inline-block",
                                                         "border": "2px solid #ccc",
                                                         "border-radius": "5px",
@@ -1349,30 +1388,52 @@ app.layout = dbc.Container(
                                         ),
                                     ],
                                 ),
-                                dbc.Row(
-                                    [
-                                        dbc.Col(
-                                            [],
-                                            width=3,
-                                        ),
-                                        dbc.Col(
-                                            [
-                                                dcc.Graph(
-                                                    id="plot6",
-                                                    style={
-                                                        "width": "100%",
-                                                        "height": "300px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
-                                                )
-                                            ],
-                                            width=9,
-                                        ),
-                                    ]
+                                # dbc.Row(
+                                #     [
+                                #         dbc.Col(
+                                #             [],
+                                #             width=3,
+                                #         ),
+                                #         dbc.Col(
+                                #             [
+                                #                 dcc.Graph(
+                                #                     id="plot6",
+                                #                     style={
+                                #                         "width": "100%",
+                                #                         "height": "300px",
+                                #                         "display": "inline-block",
+                                #                         "border": "2px solid #ccc",
+                                #                         "border-radius": "5px",
+                                #                         "padding": "10px",
+                                #                     },
+                                #                 )
+                                #             ],
+                                #             width=9,
+                                #         ),
+                                #     ]
+                                # ),
+                            ],
+                        ),
+                        dcc.Tab(
+                            label="View Student Table",
+                            style=tab_style,
+                            selected_style=selected_tab_style,
+                            children=[
+                                html.Br(),
+                                html.Label(
+                                    "Student-wise Table",
+                                    style=text_style,
                                 ),
+                                dash_table.DataTable(
+                                    id='table-1',
+                                    style_table={'height': '600px', 'overflowY': 'auto'},
+                                    style_cell={'textAlign': 'center'},
+                                    style_header={'backgroundColor': 'lightgrey', 'fontWeight': 'bold'},
+                                    style_data_conditional=[{
+                                        'if': {'row_index': 'odd'},
+                                        'backgroundColor': 'rgb(248, 248, 248)'
+                                    }],
+                                )
                             ],
                         ),
                     ],
