@@ -12,6 +12,8 @@ import plotly.express as px
 import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 from collections import defaultdict
 
@@ -105,8 +107,6 @@ def get_item_completion_percentage(df, item):
 
     total_item_students = df_item.student_id.unique().size
 
-    # Checking, why is the state showing up as float value??
-    # print(len(df_item[df_item["item_cp_req_completed"].astype(bool) == True]))
 
     percentage = (
         df_item[df_item.item_cp_req_completed == 1.0].student_id.unique().size
@@ -217,7 +217,7 @@ data["course_name"] = data["course_name"].apply(remove_special_characters)
 # All accessible vairables #
 ############################
 
-module_status = ["locked", "unlocked", "started", "completed"]
+module_status = ["completed", "started", "unlocked", "locked"]
 
 # Make the mapping of any id to the corresponding names
 global course_dict
@@ -423,8 +423,7 @@ def update_module_checklist(val):
         for module_id, i in zip(module_num.keys(), np.arange(len(module_num.keys())))
     }
 
-    # Checking
-    # print(module_colors)
+
 
     # Add the 'All' option at the beginning (Reconsider later)
     # module_options.insert(0, {"label": "All", "value": "All"})
@@ -481,17 +480,13 @@ def update_item_checklist(selected_course, selected_module):
             }
             for item_id, item_name in items_id_name.items()
         ]
-    
-    # Checking
-    print(items_pos)
+
 
     # define a global color map for the modules
     global item_colors
     item_colors = {items_pos[item_id]: color_palette_3[i]
         for item_id, i in zip(items_pos.keys(), np.arange(len(items_pos.keys())))}
 
-    # Checking
-    # print(item_colors)
 
     # Add the 'All' option at the beginning (Reconsider later)
     # item_options.insert(0, {"label": "All", "value": "All"})
@@ -675,8 +670,6 @@ def update_module_filtered_data(
             & (data["items_id"].astype(str).isin(selected_items))
         ]
 
-    # Checking
-    # print(len(filtered_df))
 
     # Convert the filtered DataFrame to JSON serializable format
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
@@ -759,8 +752,6 @@ def update_timeline(filtered_data, start_date, end_date):
 
             result_time = pd.concat([result_time, new_df], ignore_index=True)
 
-    # Checking
-    # print(f"Checking \n {result_time}")
 
     # Plotting
     fig_1 = go.Figure()
@@ -821,11 +812,11 @@ def update_timeline(filtered_data, start_date, end_date):
     return fig_1_json
 
 
-# Plot 2
-@app.callback(
-    Output("plot2", "figure"),
-    [Input("course-specific-data", "data"), Input("date-picker", "date")],
-)
+# Plot 2 Box plot - inactivated
+# @app.callback(
+#     Output("plot2", "figure"),
+#     [Input("course-specific-data", "data"), Input("date-picker", "date")],
+# )
 def update_box_plot(filtered_data, date_selected):
     """
     Returns a box plot of the completion duration of selected modules in the selected course
@@ -843,7 +834,7 @@ def update_box_plot(filtered_data, date_selected):
     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
 
     # filter the data by state = "completed"
-    subset_data = filtered_df[filtered_df.state == "completed"]
+    filtered_df = filtered_df[filtered_df.state == "completed"]
 
     # Improvement: accept course start data as input
     course_start_date = date_selected
@@ -853,27 +844,27 @@ def update_box_plot(filtered_data, date_selected):
     )
 
     # compute the duration
-    subset_data["duration"] = round(
-        (subset_data["completed_at"] - course_combined_datetime)
-        / np.timedelta64(1, "D"),
-        0,
-    )
-
+    # subset_data["duration"] = round(
+    #     (subset_data["completed_at"] - course_combined_datetime)
+    #     / np.timedelta64(1, "D"),
+    #     0,
+    # )
+    
+    filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
+    
     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
-    subset_data = subset_data[
+    filtered_df = filtered_df[
         ["module_id", "module_name", "state", "duration", "student_id"]
     ].drop_duplicates()
-    subset_data["module"] = subset_data["module_id"].apply(
+    filtered_df["module"] = filtered_df["module_id"].apply(
         lambda x: module_num.get(str(x))
     )
-
-    # Checking
-    # print(subset_data.head())
+    
 
     # Plot
     # Create the box plot using Plotly Express
     fig_2 = px.box(
-        subset_data,
+        filtered_df,
         y="module",
         x="duration",
         points="all",
@@ -888,12 +879,6 @@ def update_box_plot(filtered_data, date_selected):
     # Customize the hover template
     hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
 
-    # fig_2.update_traces(hovertemplate=hover_template)
-    # Customize the hover template to show only the mean value
-    # hover_template = (
-    #     "<b>%{y}</b><br>Mean: %{mean:.2f} days<br><extra></extra>"
-    #     + "Q1: %{q1:.2f} days<br>Q3: %{q3:.2f} days"
-    # )
     fig_2.update_traces(
         hovertemplate=hover_template,
         boxpoints="all",  # Show all points when hovering
@@ -903,6 +888,69 @@ def update_box_plot(filtered_data, date_selected):
     fig_2_json = fig_2.to_dict()
 
     return fig_2_json
+
+# Plot 2 Bar Chart
+@app.callback(
+    Output("plot2", "figure"),
+    [Input("course-specific-data", "data"), Input("date-picker", "date")],
+)
+def update_barchart_duration(filtered_data, date_selected):
+    """
+    Returns a barchar of the mean completion duration of selected modules in the selected course
+    """
+    if isinstance(date_selected, str):
+        date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
+
+    assert isinstance(date_selected, datetime.datetime)
+
+    if filtered_data is not None:
+        # Convert the filtered data back to DataFrame
+        filtered_df = pd.read_json(filtered_data, orient="split")
+
+
+    # filter the data by state = "completed"
+    filtered_df = filtered_df[filtered_df.state == "completed"]
+
+    # Improvement: accept course start data as input
+    course_start_date = date_selected
+    course_start_time = datetime.time(0, 30)
+    course_combined_datetime = course_start_date.combine(
+        course_start_date, course_start_time
+    )
+    
+    filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
+    
+    # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
+    filtered_df = filtered_df[
+        ["module_id", "module_name", "state", "duration", "student_id"]
+    ].drop_duplicates()
+    filtered_df["module"] = filtered_df["module_id"].apply(
+        lambda x: module_num.get(str(x))
+    )
+    
+    # Plot
+    # Calculate the mean duration for each module
+    mean_duration_df = filtered_df.groupby('module')['duration'].mean().reset_index()
+    
+    # Create the bar chart using Plotly Express
+    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title='Mean Module Completion Duration',
+                 labels={'duration': 'Mean Duration (Days)', 'module': 'Module'})
+
+    # Sort the y-axis in descending order
+    fig_2.update_yaxes(categoryorder='total descending')
+
+    # Customize the hover template
+    hover_template = "<b>%{y}</b><br>" + \
+                     "Mean Duration: %{x:.2f} days<br>" + \
+                     "<extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
+
+    fig_2.update_traces(hovertemplate=hover_template)
+    
+    fig_2_json = fig_2.to_dict()
+
+    return fig_2_json
+
+
 
 
 # Plot 1
@@ -947,8 +995,6 @@ def update_module_completion_barplot(filtered_data, value):
         .rename(columns={"index": "Module"})
     )
 
-    # Checking
-    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -960,14 +1006,11 @@ def update_module_completion_barplot(filtered_data, value):
     )
 
     # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
-    melted_df = melted_df.dropna(subset=["Module"])
-
-    # Checking
-    # print(melted_df)
+    # melted_df = melted_df.dropna(subset=["Module"])
 
     # Define the color mapping
     color_mapping = {
-        module_status[i]: color_palette_2[i] for i in range(len(module_status))
+        module_status[len(module_status)-(i+1)]: color_palette_2[i] for i in range(len(module_status))
     }
 
     # Create a horizontal bar chart using Plotly
@@ -986,7 +1029,7 @@ def update_module_completion_barplot(filtered_data, value):
     fig_3.update_layout(
         showlegend=True,  # Show the legend indicating the module status colors
         legend_title="Status",  # Customize the legend title,
-        # legend_traceorder="reversed",  # Reverse the order of the legend items
+        legend_traceorder="reversed",  # Reverse the order of the legend items
     )
 
     # Modify the plotly configuration to change the background color
@@ -1048,8 +1091,6 @@ def update_item_completion_barplot(filtered_data):
 
     df_mod = pd.DataFrame(list(result.items()), columns=["Items", "Percentage"])
 
-    # Checking
-    print(df_mod)
 
     # Each row in the filtered_df for a given student is a unique item for that student
     # In the case that all the students are selected in the dropdown,
@@ -1098,6 +1139,64 @@ def update_student_table(filtered_data):
     
     return filtered_df.to_dict('records'), column_name
 
+
+###############################
+# Exporting images and report #
+###############################
+
+# def save_plot_as_png(fig, filename):
+#     pio.write_image(fig, filename, format="png")
+    
+# def create_pdf_report():
+#     pdfkit.from_file("report.html", "report.pdf")
+
+
+# @app.callback(
+#     Output("download-pdf", "data"),
+#     Input("export-button", "n_clicks"),
+#     Input("module-specific-data", "data"), # dummy input to enable using the state argument
+#     State("plot4", "figure"),
+#     prevent_initial_call=True,
+# )
+# def export_plots(n_clicks, filtered_data, fig_4_json):
+#     # Create a PDF
+#     c = canvas.Canvas("report.pdf", pagesize=letter)
+#     c.drawString(72, 800, "My Dashboard Report")    
+    
+
+#     # Save the plot as a PNG image
+#     img_data = fig_4_json["data"][1]["y"]
+#     img_data = [int(val.replace("Item ", "").replace(":", "")) for val in img_data]
+
+#     # Sort the y-axis in descending order (if it's not already sorted in the callback function)
+#     img_data.sort(reverse=True)
+
+#     # Draw the image on the PDF
+#     img_file = "plot.png"
+#     fig = go.Figure()
+#     fig.add_trace(go.Bar(y=img_data, x=df_mod["Percentage"], orientation="h"))
+#     fig.update_layout(
+#         title="Item Completion percentage",
+#         xaxis_title="Percentage Completion",
+#         yaxis_title="Item",
+#         xaxis_range=[0, 100],
+#         showlegend=False,
+#         yaxis=dict(categoryorder="category descending"),
+#     )
+#     fig.write_image(img_file)
+
+#     c.drawImage(img_file, 72, 500, 400, 300)
+
+#     # Save the PDF
+#     c.save()
+
+#     # Convert the PDF to bytes and return for download
+#     with open("report.pdf", "rb") as f:
+#         pdf_data = f.read()
+
+#     return dcc.send_data_frame(pdf_data, "report.pdf")
+
+    
 # -----------------------------------------------------------------
 # Layout
 app.layout = dbc.Container(
@@ -1155,10 +1254,11 @@ app.layout = dbc.Container(
                     [
                         dbc.Button(
                             "Export Report",
-                            id="report-button",
+                            id="export-button",
                             color="primary",
                             className="mr-2",
                         ),
+                        dcc.Download(id="download-pdf"),
                     ],
                     style={"width": "30%", "display": "inline-block"},
                 ),
