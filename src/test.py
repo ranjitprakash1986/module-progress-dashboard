@@ -892,17 +892,12 @@ def update_box_plot(filtered_data, date_selected):
 # Plot 2 Bar Chart
 @app.callback(
     Output("plot2", "figure"),
-    [Input("course-specific-data", "data"), Input("date-picker", "date")],
+    Input("course-specific-data", "data") # Input("date-picker", "date")], disabled the start date selector
 )
-def update_barchart_duration(filtered_data, date_selected):
+def update_barchart_duration(filtered_data): #, date_selected):
     """
-    Returns a barchar of the mean completion duration of selected modules in the selected course
+    Returns a barchart of the mean completion duration of selected modules in the selected course
     """
-    if isinstance(date_selected, str):
-        date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
-
-    assert isinstance(date_selected, datetime.datetime)
-
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
@@ -911,14 +906,20 @@ def update_barchart_duration(filtered_data, date_selected):
     # filter the data by state = "completed"
     filtered_df = filtered_df[filtered_df.state == "completed"]
 
-    # Improvement: accept course start data as input
-    course_start_date = date_selected
-    course_start_time = datetime.time(0, 30)
-    course_combined_datetime = course_start_date.combine(
-        course_start_date, course_start_time
-    )
+    # Ensure that the course has a unique start date
+    assert filtered_df['course_start_date'].unique().size == 1, 'More than one course start date found for this course'
     
-    filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
+    course_start_date = filtered_df['course_start_date'].unique()[0]
+    
+    if isinstance(course_start_date, str):
+        course_start_date = datetime.datetime.strptime(course_start_date, "%d-%m-%Y %H:%M")
+
+    assert isinstance(course_start_date, datetime.datetime)
+    
+    # Convert 'completed_at' column to datetime
+    filtered_df['completed_at'] = pd.to_datetime(filtered_df['completed_at'], format = 'mixed')
+    
+    filtered_df = filtered_df.assign(duration = (filtered_df["completed_at"] - course_start_date).map(lambda x: x.days))
     
     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
     filtered_df = filtered_df[
@@ -932,12 +933,12 @@ def update_barchart_duration(filtered_data, date_selected):
     # Calculate the mean duration for each module
     mean_duration_df = filtered_df.groupby('module')['duration'].mean().reset_index()
     
+    # sort the modules by the label
+    sorted_modules = sorted(mean_duration_df['module'])
+        
     # Create the bar chart using Plotly Express
     fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title='Mean Module Completion Duration',
-                 labels={'duration': 'Mean Duration (Days)', 'module': 'Module'})
-
-    # Sort the y-axis in descending order
-    fig_2.update_yaxes(categoryorder='total descending')
+                 labels={'duration': 'Mean Duration (Days)', 'module': 'Module'}, category_orders={"module": sorted_modules})
 
     # Customize the hover template
     hover_template = "<b>%{y}</b><br>" + \
@@ -1215,7 +1216,7 @@ app.layout = dbc.Container(
             className="dashboard-filters-container",
             children=[
                 html.Label(
-                    "Overall filters ",
+                    "Dashboard filters ",
                     style=text_style,
                 )
             ],
