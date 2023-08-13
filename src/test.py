@@ -223,6 +223,7 @@ module_status = ["completed", "started", "unlocked", "locked"]
 global course_dict
 global module_dict
 global item_dict
+# global student_dict
 
 course_dict, module_dict, item_dict = (defaultdict(str) for _ in range(3))
 
@@ -230,7 +231,7 @@ for _, row in data.iterrows():
     course_dict[str(row["course_id"])] = row["course_name"]
     module_dict[str(row["module_id"])] = row["module_name"]
     item_dict[str(row["items_id"])] = row["items_title"]
-
+#    student_dict[str(row["student_id"])] = row["student_name"]
 
 # Create nested defaultdicts with sets
 nested_dict = defaultdict(lambda: defaultdict(dict))
@@ -406,7 +407,7 @@ def update_module_checklist(val):
     # Create dictionaries accordingly to selected_course
     global module_num
     module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
-
+    
     if val != None:
         module_options = [
             {
@@ -560,17 +561,21 @@ def update_student_dropdown1(val):
     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
     
     # Initialize dicts
+    global student_dict
     student_dict= (defaultdict(str))
 
     for _, row in subset_data.iterrows():
         student_dict[str(row["student_id"])] = row["student_name"]   
-
+    
     if val != None:
         student_options = [
             {"label": student_name, "value": student_id}
             for student_id, student_name in student_dict.items()
         ]
 
+    # Add 'All' in student_dict
+    student_dict['All'] = 'All'
+        
     # Add the 'All' option at beginning of the list
     student_options.insert(0, {"label": "All", "value": "All"})
 
@@ -696,9 +701,11 @@ def update_module_filtered_data(
         Input("course-specific-data", "data"),
         Input("date-slider", "start_date"),
         Input("date-slider", "end_date"),
+        Input('course-dropdown', 'value'), 
+        Input('student-dropdown', 'value')
     ],
 )
-def update_timeline(filtered_data, start_date, end_date):
+def update_timeline(filtered_data, start_date, end_date, course_selected, student_selected):
     """
     Returns a lineplot of trend of module completion
     """
@@ -783,7 +790,7 @@ def update_timeline(filtered_data, start_date, end_date):
             )
 
     fig_1.update_layout(
-        title="Percentage Completion by Module",
+        title=f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
         xaxis=dict(
             title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
         ),
@@ -892,9 +899,9 @@ def update_box_plot(filtered_data, date_selected):
 # Plot 2 Bar Chart
 @app.callback(
     Output("plot2", "figure"),
-    Input("course-specific-data", "data") # Input("date-picker", "date")], disabled the start date selector
+    [Input("course-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value')] # Input("date-picker", "date")], disabled the start date selector
 )
-def update_barchart_duration(filtered_data): #, date_selected):
+def update_barchart_duration(filtered_data, course_selected, student_selected): #, date_selected):
     """
     Returns a barchart of the mean completion duration of selected modules in the selected course
     """
@@ -937,7 +944,7 @@ def update_barchart_duration(filtered_data): #, date_selected):
     sorted_modules = sorted(mean_duration_df['module'])
         
     # Create the bar chart using Plotly Express
-    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title='Mean Module Completion Duration',
+    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title=f'Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}',
                  labels={'duration': 'Mean Duration (Days)', 'module': 'Module'}, category_orders={"module": sorted_modules})
 
     # Customize the hover template
@@ -954,12 +961,12 @@ def update_barchart_duration(filtered_data): #, date_selected):
 
 
 
-# Plot 1
+# Plot 1 and Caption
 @app.callback(
     Output("plot1", "figure"),
-    [Input("course-specific-data", "data"), Input("status-radio", "value")],
+    [Input("course-specific-data", "data"), Input("status-radio", "value"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value')],
 )
-def update_module_completion_barplot(filtered_data, value):
+def update_module_completion_barplot(filtered_data, value, course_selected, student_selected):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
@@ -1022,7 +1029,7 @@ def update_module_completion_barplot(filtered_data, value):
         color="Status",
         orientation="h",
         labels={"Percentage Completion": "Percentage Completion (%)"},
-        title="Percentage of Students for Each Module",
+        title=f"Percentage of completeion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -1045,6 +1052,7 @@ def update_module_completion_barplot(filtered_data, value):
     fig_3_json = fig_3.to_dict()
 
     return fig_3_json
+
 
 
 # Plot 4
@@ -1225,6 +1233,10 @@ app.layout = dbc.Container(
             [
                 html.Div(
                     [
+                        html.Label(
+                            "Select Course",
+                            style=text_style,
+                        ),
                         dcc.Dropdown(
                             id="course-dropdown",
                             options=course_options,  # list of dropdown, labels are show, value is conveyed
@@ -1236,6 +1248,10 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     [
+                        html.Label(
+                            "Select Students",
+                            style=text_style,
+                        ),
                         dcc.Dropdown(
                             id="student-dropdown",
                             options=[],
@@ -1253,8 +1269,13 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     [
+                        html.Label(
+                            "Export current plots",
+                            style=text_style,
+                        ),
+                        html.Br(),
                         dbc.Button(
-                            "Export Report",
+                            "Click me",
                             id="export-button",
                             color="primary",
                             className="mr-2",
@@ -1284,24 +1305,24 @@ app.layout = dbc.Container(
                                     [
                                         dbc.Col(
                                             [
-                                                html.Br(),
-                                                html.Label(
-                                                    "Select Course Start Date",
-                                                    style=text_style,
-                                                ),
-                                                dcc.DatePickerSingle(
-                                                    id="date-picker",
-                                                    date="2023-01-01",  # Set the initial date to today's date
-                                                    max_date_allowed=max(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
-                                                    style={
-                                                        "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
-                                                    },
-                                                ),
+                                                # html.Br(),
+                                                # html.Label(
+                                                #     "Select Course Start Date",
+                                                #     style=text_style,
+                                                # ),
+                                                # dcc.DatePickerSingle(
+                                                #     id="date-picker",
+                                                #     date="2023-01-01",  # Set the initial date to today's date
+                                                #     max_date_allowed=max(
+                                                #         pd.to_datetime(
+                                                #             data["completed_at"]
+                                                #         )
+                                                #     ).date(),
+                                                #     display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
+                                                #     style={
+                                                #         "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
+                                                #     },
+                                                # ),
                                                 html.Br(),
                                                 html.Label(
                                                     "Select Modules ",
