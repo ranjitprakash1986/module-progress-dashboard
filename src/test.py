@@ -1193,9 +1193,17 @@ def update_student_table(filtered_data):
         filtered_df = pd.read_json(filtered_data, orient="split")
     
     filtered_df = filtered_df[['module_name', 'items_title', 'items_type', 'item_cp_req_completed']]
+    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: '✅', 0: '❌', np.nan: '🔘'})
     
-    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: 'Completed', 0: 'Incomplete', '': 'Not Required'}).astype('str')
-    column_name = [{'name': col, 'id': col} for col in filtered_df.columns]
+    # Define custom column headings
+    custom_column_names = {
+        'module_name': 'Module Name',
+        'items_title': 'Item Title',
+        'items_type': 'Item Type',
+        'item_cp_req_completed': 'Item Status'
+    }    
+    
+    column_name = [{'name': custom_column_names[col], 'id': col, 'selectable': True, 'deletable':False} for col in filtered_df.columns]
     
     return filtered_df.to_dict('records'), column_name
 
@@ -1507,30 +1515,6 @@ app.layout = dbc.Container(
                                         ),
                                     ],
                                 ),
-                                # dbc.Row(
-                                #     [
-                                #         dbc.Col(
-                                #             [],
-                                #             width=3,
-                                #         ),
-                                #         dbc.Col(
-                                #             [
-                                #                 dcc.Graph(
-                                #                     id="plot6",
-                                #                     style={
-                                #                         "width": "100%",
-                                #                         "height": "300px",
-                                #                         "display": "inline-block",
-                                #                         "border": "2px solid #ccc",
-                                #                         "border-radius": "5px",
-                                #                         "padding": "10px",
-                                #                     },
-                                #                 )
-                                #             ],
-                                #             width=9,
-                                #         ),
-                                #     ]
-                                # ),
                             ],
                         ),
                         dcc.Tab(
@@ -1542,11 +1526,27 @@ app.layout = dbc.Container(
                             children=[
                                 html.Br(),
                                 html.Label(
-                                    "Student-wise Table",
+                                    "Student Details",
+                                    style=text_style,
+                                ),
+                                html.Label(
+                                    "✅: Completed, ❌: Incomplete, 🔘: Not Started",
                                     style=text_style,
                                 ),
                                 dash_table.DataTable(
                                     id='table-1',
+                                    editable=False,
+                                    filter_action="native",
+                                    sort_action="native",
+                                    sort_mode="multi",
+                                    #column_selectable="single",
+                                    #row_selectable="singe",
+                                    row_deletable=False,
+                                    selected_columns=[],
+                                    selected_rows=[],
+                                    page_action="native",
+                                    page_current=0,
+                                    page_size= 15,
                                     style_table={'height': '600px', 'overflowY': 'auto'},
                                     style_cell={'textAlign': 'center'},
                                     style_header={'backgroundColor': 'lightgrey', 'fontWeight': 'bold'},
