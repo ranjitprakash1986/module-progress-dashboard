@@ -5,6 +5,7 @@ import dash
 from dash import dash_table
 from dash.dependencies import Input, Output, State
 import re
+import os
 
 import pandas as pd
 import numpy as np
@@ -15,6 +16,7 @@ from plotly.subplots import make_subplots
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
+import kaleido
 from collections import defaultdict
 
 from datetime import *
@@ -702,10 +704,12 @@ def update_module_filtered_data(
         Input("date-slider", "start_date"),
         Input("date-slider", "end_date"),
         Input('course-dropdown', 'value'), 
-        Input('student-dropdown', 'value')
-    ],
+        Input('student-dropdown', 'value'),
+        Input("export-button", "n_clicks"),
+        State('tabs', 'value')],
+    prevent_initial_call=True,
 )
-def update_timeline(filtered_data, start_date, end_date, course_selected, student_selected):
+def update_timeline(filtered_data, start_date, end_date, course_selected, student_selected, n_clicks, active_tab):
     """
     Returns a lineplot of trend of module completion
     """
@@ -816,6 +820,16 @@ def update_timeline(filtered_data, start_date, end_date, course_selected, studen
     # Convert the figure to a JSON serializable format
     fig_1_json = fig_1.to_dict()
 
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_1, "".join([download_path, image_name]))
+
+
     return fig_1_json
 
 
@@ -824,84 +838,88 @@ def update_timeline(filtered_data, start_date, end_date, course_selected, studen
 #     Output("plot2", "figure"),
 #     [Input("course-specific-data", "data"), Input("date-picker", "date")],
 # )
-def update_box_plot(filtered_data, date_selected):
-    """
-    Returns a box plot of the completion duration of selected modules in the selected course
-    """
-    if isinstance(date_selected, str):
-        date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
+# def update_box_plot(filtered_data, date_selected):
+#     """
+#     Returns a box plot of the completion duration of selected modules in the selected course
+#     """
+#     if isinstance(date_selected, str):
+#         date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
 
-    assert isinstance(date_selected, datetime.datetime)
+#     assert isinstance(date_selected, datetime.datetime)
 
-    if filtered_data is not None:
-        # Convert the filtered data back to DataFrame
-        filtered_df = pd.read_json(filtered_data, orient="split")
+#     if filtered_data is not None:
+#         # Convert the filtered data back to DataFrame
+#         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    # Create dictionaries accordingly to selected_course
-    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
+#     # Create dictionaries accordingly to selected_course
+#     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
 
-    # filter the data by state = "completed"
-    filtered_df = filtered_df[filtered_df.state == "completed"]
+#     # filter the data by state = "completed"
+#     filtered_df = filtered_df[filtered_df.state == "completed"]
 
-    # Improvement: accept course start data as input
-    course_start_date = date_selected
-    course_start_time = datetime.time(0, 30)
-    course_combined_datetime = course_start_date.combine(
-        course_start_date, course_start_time
-    )
+#     # Improvement: accept course start data as input
+#     course_start_date = date_selected
+#     course_start_time = datetime.time(0, 30)
+#     course_combined_datetime = course_start_date.combine(
+#         course_start_date, course_start_time
+#     )
 
-    # compute the duration
-    # subset_data["duration"] = round(
-    #     (subset_data["completed_at"] - course_combined_datetime)
-    #     / np.timedelta64(1, "D"),
-    #     0,
-    # )
+#     # compute the duration
+#     # subset_data["duration"] = round(
+#     #     (subset_data["completed_at"] - course_combined_datetime)
+#     #     / np.timedelta64(1, "D"),
+#     #     0,
+#     # )
     
-    filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
+#     filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
     
-    # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
-    filtered_df = filtered_df[
-        ["module_id", "module_name", "state", "duration", "student_id"]
-    ].drop_duplicates()
-    filtered_df["module"] = filtered_df["module_id"].apply(
-        lambda x: module_num.get(str(x))
-    )
+#     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
+#     filtered_df = filtered_df[
+#         ["module_id", "module_name", "state", "duration", "student_id"]
+#     ].drop_duplicates()
+#     filtered_df["module"] = filtered_df["module_id"].apply(
+#         lambda x: module_num.get(str(x))
+#     )
     
 
-    # Plot
-    # Create the box plot using Plotly Express
-    fig_2 = px.box(
-        filtered_df,
-        y="module",
-        x="duration",
-        points="all",
-        title="Boxplot of module completion duration (days)",
-        hover_data=["duration"],
-    )
-    fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
+#     # Plot
+#     # Create the box plot using Plotly Express
+#     fig_2 = px.box(
+#         filtered_df,
+#         y="module",
+#         x="duration",
+#         points="all",
+#         title="Boxplot of module completion duration (days)",
+#         hover_data=["duration"],
+#     )
+#     fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
 
-    # Sort the y-axis in descending order
-    fig_2.update_yaxes(categoryorder="category descending")
+#     # Sort the y-axis in descending order
+#     fig_2.update_yaxes(categoryorder="category descending")
 
-    # Customize the hover template
-    hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
+#     # Customize the hover template
+#     hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
 
-    fig_2.update_traces(
-        hovertemplate=hover_template,
-        boxpoints="all",  # Show all points when hovering
-        #jitter=0.0,  # Adjust the jitter for better point visibility
-    )
+#     fig_2.update_traces(
+#         hovertemplate=hover_template,
+#         boxpoints="all",  # Show all points when hovering
+#         #jitter=0.0,  # Adjust the jitter for better point visibility
+#     )
     
-    fig_2_json = fig_2.to_dict()
+#     fig_2_json = fig_2.to_dict()
 
-    return fig_2_json
+#     return fig_2_json
+
+
 
 # Plot 2 Bar Chart
 @app.callback(
     Output("plot2", "figure"),
-    [Input("course-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value')] # Input("date-picker", "date")], disabled the start date selector
+    [Input("course-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_barchart_duration(filtered_data, course_selected, student_selected): #, date_selected):
+def update_barchart_duration(filtered_data, course_selected, student_selected, n_clicks, active_tab): #, date_selected):
     """
     Returns a barchart of the mean completion duration of selected modules in the selected course
     """
@@ -956,6 +974,16 @@ def update_barchart_duration(filtered_data, course_selected, student_selected): 
     
     fig_2_json = fig_2.to_dict()
 
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f'Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png'
+        pio.write_image(fig_2, "".join([download_path, image_name]))
+
+
     return fig_2_json
 
 
@@ -964,9 +992,11 @@ def update_barchart_duration(filtered_data, course_selected, student_selected): 
 # Plot 1 and Caption
 @app.callback(
     Output("plot1", "figure"),
-    [Input("course-specific-data", "data"), Input("status-radio", "value"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value')],
+    [Input("course-specific-data", "data"), Input("status-radio", "value"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_module_completion_barplot(filtered_data, value, course_selected, student_selected):
+def update_module_completion_barplot(filtered_data, value, course_selected, student_selected, n_clicks, active_tab):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
@@ -1029,7 +1059,7 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
         color="Status",
         orientation="h",
         labels={"Percentage Completion": "Percentage Completion (%)"},
-        title=f"Percentage of completeion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
+        title=f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -1047,20 +1077,32 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
         yaxis=dict(title_font=dict(size=axis_label_font_size)),
         xaxis_range=[0, 100],
     )
+    
 
     # Convert the figure to a JSON serializable format
     fig_3_json = fig_3.to_dict()
 
-    return fig_3_json
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_3, "".join([download_path, image_name]))
 
+
+    return fig_3_json
 
 
 # Plot 4
 @app.callback(
     Output("plot4", "figure"),
-    [Input("module-specific-data", "data")],
+    [Input("module-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input('module-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_item_completion_barplot(filtered_data):
+def update_item_completion_barplot(filtered_data, course_selected, student_selected, module_selected, n_clicks, active_tab):
     """
     Plots a barplot of items and the percentage of students the completed them
     """
@@ -1113,7 +1155,7 @@ def update_item_completion_barplot(filtered_data):
     fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
 
     fig_4.update_layout(
-        title="Item Completion percentage",
+        title=f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         xaxis_title="Percentage Completion",
         yaxis_title="Item",
         xaxis_range=[0, 100],
@@ -1123,6 +1165,15 @@ def update_item_completion_barplot(filtered_data):
 
     # Convert the figure to a JSON serializable format
     fig_4_json = fig_4.to_dict()
+    
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)
+    
+    if n_clicks and active_tab == 'view-items':
+        image_name = f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)} for {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_4, "".join([download_path, image_name]))
 
     return fig_4_json
 
@@ -1143,67 +1194,10 @@ def update_student_table(filtered_data):
     
     filtered_df = filtered_df[['module_name', 'items_title', 'items_type', 'item_cp_req_completed']]
     
-    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: 'Completed', 0: 'Pending', '': 'Not Required'}).astype('str')
+    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: 'Completed', 0: 'Incomplete', '': 'Not Required'}).astype('str')
     column_name = [{'name': col, 'id': col} for col in filtered_df.columns]
     
     return filtered_df.to_dict('records'), column_name
-
-
-###############################
-# Exporting images and report #
-###############################
-
-# def save_plot_as_png(fig, filename):
-#     pio.write_image(fig, filename, format="png")
-    
-# def create_pdf_report():
-#     pdfkit.from_file("report.html", "report.pdf")
-
-
-# @app.callback(
-#     Output("download-pdf", "data"),
-#     Input("export-button", "n_clicks"),
-#     Input("module-specific-data", "data"), # dummy input to enable using the state argument
-#     State("plot4", "figure"),
-#     prevent_initial_call=True,
-# )
-# def export_plots(n_clicks, filtered_data, fig_4_json):
-#     # Create a PDF
-#     c = canvas.Canvas("report.pdf", pagesize=letter)
-#     c.drawString(72, 800, "My Dashboard Report")    
-    
-
-#     # Save the plot as a PNG image
-#     img_data = fig_4_json["data"][1]["y"]
-#     img_data = [int(val.replace("Item ", "").replace(":", "")) for val in img_data]
-
-#     # Sort the y-axis in descending order (if it's not already sorted in the callback function)
-#     img_data.sort(reverse=True)
-
-#     # Draw the image on the PDF
-#     img_file = "plot.png"
-#     fig = go.Figure()
-#     fig.add_trace(go.Bar(y=img_data, x=df_mod["Percentage"], orientation="h"))
-#     fig.update_layout(
-#         title="Item Completion percentage",
-#         xaxis_title="Percentage Completion",
-#         yaxis_title="Item",
-#         xaxis_range=[0, 100],
-#         showlegend=False,
-#         yaxis=dict(categoryorder="category descending"),
-#     )
-#     fig.write_image(img_file)
-
-#     c.drawImage(img_file, 72, 500, 400, 300)
-
-#     # Save the PDF
-#     c.save()
-
-#     # Convert the PDF to bytes and return for download
-#     with open("report.pdf", "rb") as f:
-#         pdf_data = f.read()
-
-#     return dcc.send_data_frame(pdf_data, "report.pdf")
 
     
 # -----------------------------------------------------------------
@@ -1270,20 +1264,19 @@ app.layout = dbc.Container(
                 html.Div(
                     [
                         html.Label(
-                            "Export current plots",
+                            "Save current plots",
                             style=text_style,
                         ),
                         html.Br(),
                         dbc.Button(
-                            "Click me",
+                            "Download",
                             id="export-button",
                             color="primary",
                             className="mr-2",
                         ),
-                        dcc.Download(id="download-pdf"),
                     ],
                     style={"width": "30%", "display": "inline-block"},
-                ),
+                ), html.Div(id='save-message')
             ],
             className="mb-3",  # Add spacing between rows
         ),
@@ -1294,10 +1287,12 @@ app.layout = dbc.Container(
                 dcc.Store(id="student-specific-data"),
                 dcc.Tabs(
                     id="tabs",
-                    value="Pages",
+                    value="view-modules",
                     children=[
                         dcc.Tab(
+                            id="tab-1",
                             label="View Modules",
+                            value='view-modules',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
@@ -1448,7 +1443,9 @@ app.layout = dbc.Container(
                             ],
                         ),
                         dcc.Tab(
+                            id="tab-2",
                             label="View Items",
+                            value='view-items',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
@@ -1537,7 +1534,9 @@ app.layout = dbc.Container(
                             ],
                         ),
                         dcc.Tab(
-                            label="View Student Table",
+                            id="tab-3",
+                            label="View Students",
+                            value='view-students',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
