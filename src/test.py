@@ -303,6 +303,10 @@ nested_dict = dict(nested_dict)
 tab_style = {
     "height": "30px",
     "padding": "8px",
+    'textAlign': 'center',
+    'display': 'flex',
+    'alignItems': 'center',
+    'justifyContent': 'center',
 }
 
 # Define the style for the selected tab
@@ -313,6 +317,10 @@ selected_tab_style = {
     "borderBottom": "2px solid #13233e",
     "backgroundColor": "#13233e",
     "color": "white",
+    'textAlign': 'center',
+    'display': 'flex',
+    'alignItems': 'center',
+    'justifyContent': 'center',    
 }
 
 # Define header style
@@ -321,6 +329,14 @@ heading_style = {
     "borderBottom": "2px solid #aab4c2",
     "backgroundColor": "#aab4c2",
     "color": "white",
+    "padding": "5px",
+    "text-align": "center",
+}
+
+sub_heading_style = {
+    "font-size": "20px",
+    "font-weight": "bold",
+    "color": "#13233e",
     "padding": "5px",
     "text-align": "center",
 }
@@ -402,7 +418,8 @@ color_palette_3 = [
 
 # Weekly spacing, adjust as per your requirement
 date_spacing = "D7"  
-axis_label_font_size = 12
+axis_label_font_size = 14
+title_font_size = 16
 
 
 ##############
@@ -871,11 +888,14 @@ def update_timeline(filtered_data, start_date, end_date, course_selected, studen
             )
 
     fig_1.update_layout(
-        title=f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
+        title={
+            'text': f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
+            'font': {'size': title_font_size}
+        },
         xaxis=dict(
             title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
         ),
-        yaxis=dict(title="Percentage", title_font=dict(size=axis_label_font_size)),
+        yaxis=dict(title="Percentage Completion", title_font=dict(size=axis_label_font_size)),
         plot_bgcolor="rgba(240, 240, 240, 0.8)",  # Light gray background color
         xaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
         yaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
@@ -1051,8 +1071,22 @@ def update_barchart_duration(filtered_data, course_selected, student_selected, n
     sorted_modules = sorted(mean_duration_df['module'])
         
     # Create the bar chart using Plotly Express
-    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title=f'Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}',
-                 labels={'duration': 'Mean Duration (Days)', 'module': 'Module'}, category_orders={"module": sorted_modules})
+    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h',
+                 labels={'duration': 'Average Duration (Days)', 'module': 'Module'}, category_orders={"module": sorted_modules})
+    
+    fig_2.update_layout(
+    title={
+        'text': f"Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
+        'font': {'size': title_font_size}
+    },
+    xaxis_title_font=dict(size=axis_label_font_size),  # Adjust the x-axis title font size
+    yaxis_title_font=dict(size=axis_label_font_size),  # Adjust the y-axis title font size
+    plot_bgcolor="rgba(240, 240, 240, 0.8)",  # Light gray background color
+    xaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+    yaxis_gridcolor="rgba(200, 200, 200, 0.2)",  # Faint gridlines
+    margin=dict(l=50, r=50, t=50, b=50),  # Add margin for a border line
+    paper_bgcolor="white",  # Set the background color of the entire plot
+)
 
     # Customize the hover template
     hover_template = "<b>%{y}</b><br>" + \
@@ -1153,8 +1187,7 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
         x="Percentage Completion",
         color="Status",
         orientation="h",
-        labels={"Percentage Completion": "Percentage Completion (%)"},
-        title=f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
+        labels={"Percentage Completion": "Percentage Completion"},
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -1167,10 +1200,18 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
 
     # Modify the plotly configuration to change the background color
     fig_3.update_layout(
-        plot_bgcolor="rgb(255, 255, 255)",
+        title={
+        'text': f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
+        'font': {'size': title_font_size},
+        },
         xaxis=dict(title_font=dict(size=axis_label_font_size)),
         yaxis=dict(title_font=dict(size=axis_label_font_size)),
         xaxis_range=[0, 100],
+        plot_bgcolor="rgba(240, 240, 240, 0.8)",
+        xaxis_gridcolor="rgba(200, 200, 200, 0.2)",
+        yaxis_gridcolor="rgba(200, 200, 200, 0.2)",
+        margin=dict(l=50, r=50, t=50, b=50),
+        paper_bgcolor="white",
     )
     
 
@@ -1254,7 +1295,7 @@ def update_item_completion_barplot(filtered_data, course_selected, student_selec
     fig_4.update_layout(
         title=f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         xaxis_title="Percentage Completion",
-        yaxis_title="Item",
+        yaxis_title="Items",
         xaxis_range=[0, 100],
         showlegend=False,
         yaxis=dict(categoryorder="category descending"),
@@ -1318,18 +1359,18 @@ app.layout = dbc.Container(
         html.Div(
             children=[
                 html.H2(
-                    "Module Progress Demo Dashboard",
-                    style=heading_style,
+                    "Module Progress Dashboard",
+                    style=heading_style, className="bg-primary bg-opacity-75 text-white"
                 ),
             ],
-            style={"padding": "0.05px"},
+            style={"padding": "5px"},
         ),
         html.Div(
-            className="dashboard-filters-container",
+            className="border rounded-pill text-center",
             children=[
                 html.Label(
-                    "Dashboard filters ",
-                    style=text_style,
+                    "Dashboard Filters ",
+                    style=sub_heading_style,
                 )
             ],
         ),
@@ -1388,7 +1429,7 @@ app.layout = dbc.Container(
                     style={"width": "30%", "display": "inline-block"},
                 ), html.Div(id='save-message')
             ],
-            className="mb-3",  # Add spacing between rows
+            className="m-3 border border-dark",  # Add spacing between rows
         ),
         dbc.Row(
             [
@@ -1428,7 +1469,6 @@ app.layout = dbc.Container(
                                                 #         "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
                                                 #     },
                                                 # ),
-                                                html.Br(),
                                                 html.Label(
                                                     "Select Modules ",
                                                     style=text_style,
@@ -1464,34 +1504,23 @@ app.layout = dbc.Container(
                                                     value="All",
                                                 ),
                                             ],
-                                            width=3,
+                                            width=3, className="m-3 border rounded border-dark"
                                         ),
                                         dbc.Col(
                                             [
                                                 dcc.Graph(
                                                     id="plot1",
                                                     style={
-                                                        "width": "50%",
+                                                        "width": "100%",
                                                         "height": "300px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
-                                                ),
-                                                dcc.Graph(
-                                                    id="plot2",
-                                                    style={
-                                                        "width": "50%",
-                                                        "height": "300px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
+                                                        #"display": "inline-block",
+                                                        #"border": "2px solid #ccc",
+                                                        #"border-radius": "5px",
+                                                        #"padding": "10px",
+                                                    }, className = "shadow-lg"
                                                 ),
                                             ],
-                                            width=9,
+                                            width=7, className="m-3 border rounded border-light"
                                         ),
                                     ],
                                 ),
@@ -1499,11 +1528,11 @@ app.layout = dbc.Container(
                                     [
                                         dbc.Col(
                                             [
-                                                html.Br(),
                                                 html.Label(
-                                                    "Select Lineplot dates",
+                                                    "Select Timeline",
                                                     style=text_style,
                                                 ),
+                                                html.Br(),
                                                 dcc.DatePickerRange(
                                                     id="date-slider",
                                                     min_date_allowed=min(
@@ -1530,23 +1559,42 @@ app.layout = dbc.Container(
                                                     style=text_style,
                                                 ),
                                             ],
-                                            width=3,
+                                            width=3, className="m-3 border rounded border-dark"
                                         ),
                                         dbc.Col(
                                             [
-                                                dcc.Graph(
+                                                dbc.Row(
+                                                    [
+                                                         dcc.Graph(
                                                     id="plot3",
                                                     style={
                                                         "width": "100%",
                                                         "height": "300px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
-                                                )
+                                                        #"display": "inline-block",
+                                                        #"border": "2px solid #ccc",
+                                                        #"border-radius": "5px",
+                                                        #"padding": "10px",
+                                                    }, className = "shadow-lg"
+                                                ),
+                                                    ], className="m-3 border rounded border-light"
+                                                ),
+                                                dbc.Row(
+                                                    [
+                                                        dcc.Graph(
+                                                    id="plot2",
+                                                    style={
+                                                        "width": "100%",
+                                                        "height": "300px",
+                                                        #"display": "inline-block",
+                                                        #"border": "2px solid #ccc",
+                                                        #"border-radius": "5px",
+                                                        #"padding": "10px",
+                                                    }, className = "shadow-lg"
+                                                ),
+                                                    ], className="m-3 border rounded border-light"
+                                                ),
                                             ],
-                                            width=9,
+                                            width=7, className="m-3 border rounded border-light"
                                         ),
                                     ]
                                 ),
@@ -1597,7 +1645,7 @@ app.layout = dbc.Container(
                                                     #    value="", # default selected value
                                                 ),
                                             ],
-                                            width=3,
+                                            width=3, className="m-3 border rounded border-dark"
                                         ),
                                         dbc.Col(
                                             [
@@ -1606,14 +1654,14 @@ app.layout = dbc.Container(
                                                     style={
                                                         "width": "80%",
                                                         "height": "600px",
-                                                        "display": "inline-block",
-                                                        "border": "2px solid #ccc",
-                                                        "border-radius": "5px",
-                                                        "padding": "10px",
-                                                    },
+                                                        # "display": "inline-block",
+                                                        # "border": "2px solid #ccc",
+                                                        # "border-radius": "5px",
+                                                        # "padding": "10px",
+                                                    }, className = "shadow-lg"
                                                 ),
                                             ],
-                                            width=9,
+                                            width=7, className="m-3 border rounded border-light"
                                         ),
                                     ],
                                 ),
@@ -1628,7 +1676,7 @@ app.layout = dbc.Container(
                             children=[
                                 html.Br(),
                                 html.Label(
-                                    "Student Details",
+                                    "ITEM STATUS - ",
                                     style=text_style,
                                 ),
                                 html.Label(
@@ -1659,10 +1707,10 @@ app.layout = dbc.Container(
                                 )
                             ],
                         ),
-                    ],
+                    ],className="m-3 bg-light border rounded border-light",
                 ),
             ],
-            className="mb-3",  # Add spacing between rows
+            #className="mb-3",  # Add spacing between rows
         ),
         dbc.Row(
             [
@@ -1692,7 +1740,7 @@ app.layout = dbc.Container(
                 dbc.Col(
                     [
                         html.Label(
-                            "Other Content here",
+                            "Placeholder",
                             style={
                                 "font-size": "12px",
                                 "font-weight": "normal",
