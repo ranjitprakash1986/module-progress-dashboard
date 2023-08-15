@@ -34,6 +34,15 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
 def remove_special_characters(string):
+    """
+    Removes sepcial characters from the provided string
+    
+    Parameters:
+        string (str): string from which special characters are to be removed
+    
+    Returns:
+        cleaned_string (str): string without special characters
+    """
     # Define the pattern for special characters
     pattern = r"[^a-zA-Z0-9]"
 
@@ -45,14 +54,21 @@ def remove_special_characters(string):
 
 def get_dicts(df):
     """
-    Creates and returns the df dictionaries mapping ids to names,
-    module number, module name, item name and student name, in that order specifically
+    Creates and returns dictionaries,
+   
+    Parameters:
+        df (dataframe): passed pandas dataframe
+    
+    Returns:
+        module_num, module_dict, item_num, item_dict, student_dict (dict): Created dictionaries
     """
+
     # Initialize dicts
     module_num, module_dict, item_num, item_dict, student_dict = (
         defaultdict(str) for _ in range(5)
     )
-
+    
+    # Dictionary to map id to names
     for _, row in df.iterrows():
         module_dict[str(row["module_id"])] = re.sub(
             r"^Module\s+\d+:\s+", "", row["module_name"]
@@ -60,10 +76,11 @@ def get_dicts(df):
         item_dict[str(row["items_id"])] = row["items_title"]
         student_dict[str(row["student_id"])] = row["student_name"]
 
-    # map the module id to a module number for labeling
+    # Dictionary to map the module id to a module number used for labeling
     for i, k in enumerate(module_dict.keys()):
         module_num[k] = f"Module {i+1}:"
 
+    # Dictionary to map the item id to a item number used for labeling    
     for i, k in enumerate(item_dict.keys()):
         item_num[k] = f"Item {i+1}:"
 
@@ -72,9 +89,13 @@ def get_dicts(df):
 
 def get_sub_dicts(df):
     """
-    df is data after being by course and selected modules.
     Creates and returns the dictionaries mapping ids to names,
-    module name, item name and student name, in that order specifically
+    
+    Parameters:
+        df (dataframe): passed pandas dataframe
+    
+    Returns:
+        module_dict, item_num, item_dict, student_dict (dict): Created dictionaries
     """
     # Initialize dicts
 
@@ -82,6 +103,7 @@ def get_sub_dicts(df):
         defaultdict(str) for _ in range(4)
     )
 
+    # Dictionary to map id to names
     for _, row in df.iterrows():
         module_dict[str(row["module_id"])] = re.sub(
             r"^Module\s+\d+:\s+", "", row["module_name"]
@@ -89,6 +111,7 @@ def get_sub_dicts(df):
         item_dict[str(row["items_id"])] = row["items_title"]
         student_dict[str(row["student_id"])] = row["student_name"]
 
+    # Dictionary to map the item id to a item number used for labeling  
     for i, k in enumerate(item_dict.keys()):
         item_num[k] = f"Item:{i+1}"
 
@@ -97,19 +120,27 @@ def get_sub_dicts(df):
 
 def get_item_completion_percentage(df, item):
     """
-    Returns the marked complete percentage of item in df
-    df is dataframe after removal of items that do not have a specific completion requirement
+    Returns the percentage of students who completed 'item'
+    
+    Parameters:
+        df (dataframe): passed pandas dataframe
+        item (str): name of item
+    
+    Returns:
+        percentage (float): computed percentage
     """
-    # df is the filtered_data after selections
+    
+    # filter df by the provided item
     df_item = df[df.items_id.astype(str) == item]
 
-    # Ensure that df_item is not null
+    # Handling edge case
     if df_item.shape[0] == 0:
         return 0
 
+    # total students who are/will work on item
     total_item_students = df_item.student_id.unique().size
 
-
+    # compute percentage
     percentage = (
         df_item[df_item.item_cp_req_completed == 1.0].student_id.unique().size
         / total_item_students
@@ -119,13 +150,20 @@ def get_item_completion_percentage(df, item):
 
 def get_completed_percentage(df, module, state="completed"):
     """
-    Returns the state percentage of module in df
+    Returns the percentage of students with module in given state
+    
+    Parameters:
+        df (dataframe): passed pandas dataframe
+        module (str): module_id
+        state (str): module state
+    
+    Returns:
+        percentage (float): computed percentage
     """
-    # df is the filtered_data after selections
+    # filter the dataframe with the passed module
     df_module = df[df.module_id.astype(str) == module]
 
-    # df is a subset dataframe that contains a specific module as selected in the dropdown
-    # If other modules are iterated the size of the dataframe will be 0
+    # Handling edge case
     if df_module.shape[0] == 0:
         return 0
 
@@ -141,27 +179,24 @@ def get_completed_percentage_date(df, module, date):
     """
     Returns the completed percentage of a module in df until a specified date
 
-    Inputs
-    ------
-    df: dataframe
-    module: str, name of the module
-    date: datetime.date, date till which the completion percentage of each module is desired
+    Parameters:
+        df (dataframe): passed pandas dataframe 
+        module (str): module_id
+        date (datetime.date): date till which the completion percentage is to be computed
 
-    Returns
-    -------
-    percentage: float, percentage value
-
+    Returns:
+        percentage (float): computed percentage
     """
 
     # Convert the date to datetime with time component set to midnight
     datetime_date = datetime.datetime.combine(date, datetime.datetime.min.time())
 
-    # CHANGE TO MODULE ID INSTEAD OF NAME
+    # filter df
     df_module = df[df.module_id.astype(str) == module]
+    
     total_module_students = df_module.student_id.unique().size
 
-    # If there is not a single row with completion date then we get a datetime error since blanks are not compared to date
-    # In order to get around this edge case, return 0
+    # Handling edge case, when no module is computed.
     if df_module[df_module.state == "completed"].size == 0:
         return 0.0
 
@@ -216,7 +251,7 @@ data["course_name"] = data["course_name"].apply(remove_special_characters)
 
 
 ############################
-# All accessible vairables #
+# Defining vairables       #
 ############################
 
 module_status = ["completed", "started", "unlocked", "locked"]
@@ -320,19 +355,7 @@ course_options = [
     {"label": course_name, "value": course_id}
     for course_id, course_name in course_dict.items()
 ]
-# course_options.extend([{"label": "All", "value": "All"}])
 
-# student_options = [
-#     {"label": student_name, "value": student_id}
-#     for student_id, student_name in student_dict.items()
-# ]
-# student_options.extend([{"label": "All", "value": "All"}])
-
-# # module checkbox options
-# module_options = [
-#     {"label": module_name, "value": module_id}
-#     for module_id, module_name in module_dict.items()
-# ]
 
 # Colorblind friendly colors Ref: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
 color_palette_1 = [
@@ -377,21 +400,33 @@ color_palette_3 = [
     "#CC79A7",
 ]
 
-date_spacing = "D7"  # Weekly spacing, adjust as per your requirement
+# Weekly spacing, adjust as per your requirement
+date_spacing = "D7"  
 axis_label_font_size = 12
 
 
 ##############
 # Callbacks  #
 ##############
-# Update module checklist
+
 @app.callback(
     Output("module-checkboxes", "options"),
     Output("module-checkboxes", "value"),
     Input("course-dropdown", "value"),
 )
 def update_module_checklist(val):
-    # Edge case, if no value selected in course-dropdown
+    """
+    Updates the module checklist in the 'View Modules' 
+    
+    Parameters: 
+        val (str): Selected Course 
+    
+    Returns:
+        module_options (list): Module Checkboxes options 
+        def_value (list): Module checkbox default selections  
+    """
+    
+    # Handling edge case
     if val is None:
         module_options = [
             {"label": "No Course selected", "value": "No Course selected"}
@@ -399,14 +434,12 @@ def update_module_checklist(val):
         def_value = module_options
         return module_options, def_value
 
-    # filter by the course selected
+    # filter the data by selected course
     subset_data = data.copy()
-
     selected_course = remove_special_characters(course_dict[val])
-
     subset_data = subset_data[subset_data.course_name == selected_course]
 
-    # Create dictionaries accordingly to selected_course
+    # Create dictionaries
     global module_num
     module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
     
@@ -427,10 +460,6 @@ def update_module_checklist(val):
     }
 
 
-
-    # Add the 'All' option at the beginning (Reconsider later)
-    # module_options.insert(0, {"label": "All", "value": "All"})
-
     # default value, selects all the items in the checklist
     def_value = [module_options[i]["value"] for i in range(len(module_options))]
     return module_options, def_value
@@ -443,7 +472,19 @@ def update_module_checklist(val):
     [Input("course-dropdown", "value"), Input("module-dropdown", "value")],
 )
 def update_item_checklist(selected_course, selected_module):
-    # Edge case, if no value selected in course-dropdown
+    """
+    Updates the module checklist in the 'View Items' tab
+    
+    Parameters: 
+        selected_course (str): Selected Course
+        selected_module (str): Selected Module 
+    
+    Returns:
+        item_options (list): Item Checkboxes options 
+        def_value (list): Item checkbox default selections  
+    """    
+    
+    # Handling edge case
     if selected_course is None or selected_module is None:
         item_options = [
             {
@@ -454,9 +495,8 @@ def update_item_checklist(selected_course, selected_module):
         def_value = item_options
         return item_options, def_value
 
-    # filter by the course selected
+    # filter by the course selected and selected module
     subset_data = data.copy()
-
     selected_course = remove_special_characters(course_dict[selected_course])
 
     subset_data = subset_data[
@@ -464,10 +504,7 @@ def update_item_checklist(selected_course, selected_module):
         & (subset_data.module_id.astype(str) == selected_module)
     ]
 
-    # Create dictionaries accordingly to selected_course
-    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(subset_data) # Imoprovement: get_sub_dicts can be only for gettin the item_num and item_dict
-
-    # Initialize dicts
+    # Define dictionaries for items under the selcted course and selected module
     items_pos = (defaultdict(str))
     items_id_name = (defaultdict(str))
 
@@ -484,17 +521,12 @@ def update_item_checklist(selected_course, selected_module):
             for item_id, item_name in items_id_name.items()
         ]
 
-
-    # define a global color map for the modules
+    # define a global color map for the items
     global item_colors
     item_colors = {items_pos[item_id]: color_palette_3[i]
         for item_id, i in zip(items_pos.keys(), np.arange(len(items_pos.keys())))}
 
-
-    # Add the 'All' option at the beginning (Reconsider later)
-    # item_options.insert(0, {"label": "All", "value": "All"})
-
-    # default value, selects all the items in the checklist
+    # default selection
     def_value = [item_options[i]["value"] for i in range(len(item_options))]
     return item_options, def_value
 
@@ -506,21 +538,27 @@ def update_item_checklist(selected_course, selected_module):
     Input("course-dropdown", "value"),
 )
 def update_module_dropdown(val):
-    # Edge case, if no value selected in course-dropdown
+    """
+    Updates the module dropdown in the 'View Items' tab
+    
+    Parameters: 
+        val (str): Selected Course
+    
+    Returns:
+        module_options (list): Module selection options 
+        def_value (str): Module default selection  
+    """  
+    
+    # Handling edge case
     if val is None:
         module_options = [{"label": "No Course selected", "value": 0}]
         return module_options
 
     # filter by the course selected
     subset_data = data.copy()
-
     selected_course = remove_special_characters(course_dict[val])
-
     subset_data = subset_data[subset_data.course_name == selected_course]
 
-    # Create dictionaries accordingly to selected_course
-    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
-    
     # Initialize dicts
     module_dict= (defaultdict(str))
 
@@ -534,11 +572,10 @@ def update_module_dropdown(val):
             {"label": module_name, "value": module_id}
             for module_id, module_name in module_dict.items()
         ]
-
-    # Commented out since All is not need for a single module dropdown selection
-    # module_options.insert(0, {"label": "All", "value": "All"})
-
-    return module_options, module_options[0]["value"]
+    
+    def_value = module_options[0]["value"]
+    
+    return module_options, def_value
 
 
 # Update student-dropdown options
@@ -547,21 +584,26 @@ def update_module_dropdown(val):
     Input("course-dropdown", "value"),
 )
 def update_student_dropdown1(val):
-    # Edge case, if no value selected in course-dropdown
+    """
+    Updates the student dropdown
+    
+    Parameters: 
+        val (str): Selected Course
+    
+    Returns:
+        student_options (list): Student selection options 
+    """     
+    
+    # Handling edge case
     if val is None:
         student_options = [{"label": "No Course selected", "value": 0}]
         return student_options
 
     # filter by the course selected
     subset_data = data.copy()
-
     selected_course = remove_special_characters(course_dict[val])
-
     subset_data = subset_data[subset_data.course_name == selected_course]
 
-    # Create dictionaries accordingly to selected_course
-    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
-    
     # Initialize dicts
     global student_dict
     student_dict= (defaultdict(str))
@@ -575,7 +617,7 @@ def update_student_dropdown1(val):
             for student_id, student_name in student_dict.items()
         ]
 
-    # Add 'All' in student_dict
+    # Add 'All' option in student_dict
     student_dict['All'] = 'All'
         
     # Add the 'All' option at beginning of the list
@@ -593,7 +635,18 @@ def update_student_dropdown1(val):
     ],
 )
 def update_student_filtered_data(selected_course, selected_students):
-    # Filter the DataFrame based on user selections
+    """
+    Returns a filtered dataset by selected course and selected students
+    
+    Parameters: 
+        selected_course (str): Selected Course
+        selected_students (str): Selected Students
+    
+    Returns:
+        filtered_data (json): filtered data for storage 
+    """
+    
+    # Filter the data based on user selections
     if (
         selected_students == "All"
     ):  # don't need to filter by students, all are considered
@@ -623,6 +676,19 @@ def update_student_filtered_data(selected_course, selected_students):
     ],
 )
 def update_course_filtered_data(selected_course, selected_students, selected_modules):
+    """
+    Returns a filtered dataset by selected course, selected students and selected modules
+    
+    Parameters: 
+        selected_course (str): Selected Course
+        selected_students (str): Selected Students
+        selected_students (list): Selected Modules
+    
+    Returns:
+        filtered_data (json): filtered data for storage 
+    """
+
+    
     # Filter the DataFrame based on user selections
     if (
         selected_students == "All"
@@ -644,9 +710,6 @@ def update_course_filtered_data(selected_course, selected_students, selected_mod
     return filtered_data
 
 
-
-
-
 # filter the data based on user selections
 @app.callback(
     Output("module-specific-data", "data"),
@@ -660,6 +723,19 @@ def update_course_filtered_data(selected_course, selected_students, selected_mod
 def update_module_filtered_data(
     selected_course, selected_module, selected_students, selected_items
 ):
+    """
+    Returns a filtered dataset by selected course, selected students, selected modules and selected items
+    
+    Parameters: 
+        selected_course (str): Selected Course
+        selected_students (str): Selected Students
+        selected_students (list): Selected Modules
+        selected_items (list): Selected Items
+    
+    Returns:
+        filtered_data (json): filtered data for storage 
+    """
+
     # Filter the DataFrame based on user selections
     if (
         selected_students == "All"
@@ -684,18 +760,6 @@ def update_module_filtered_data(
     return filtered_data
 
 
-# @app.callback(
-#     Output("output", "children"),
-#     Input("button", "n_clicks"),
-#     State("button", "children"),
-# )
-# def update_buttonclick(n_clicks, button_text):
-#     if n_clicks is None:
-#         return ""
-#     else:
-#         return f"Button clicked {n_clicks} times"
-
-
 # Plot 3
 @app.callback(
     Output("plot3", "figure"),
@@ -711,7 +775,20 @@ def update_module_filtered_data(
 )
 def update_timeline(filtered_data, start_date, end_date, course_selected, student_selected, n_clicks, active_tab):
     """
-    Returns a lineplot of trend of module completion
+    Returns a lineplot of module completion by percentage of students.
+    
+    Parameters: 
+        filtered_data (json): filtered data
+        start_date (str): Selected start date
+        end_date (str): Selected end date
+        course_selected (str): course_id
+        student_selected (str): student_id
+        n_clicks (int): button click none or 1
+        active_tab ('str'): tab_id
+        
+    
+    Returns:
+        fig_1_json (json): JSON serializable format of plot 
     """
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
@@ -919,10 +996,23 @@ def update_timeline(filtered_data, start_date, end_date, course_selected, studen
     State('tabs', 'value'),
     prevent_initial_call=True,
 )
-def update_barchart_duration(filtered_data, course_selected, student_selected, n_clicks, active_tab): #, date_selected):
+def update_barchart_duration(filtered_data, course_selected, student_selected, n_clicks, active_tab): 
     """
-    Returns a barchart of the mean completion duration of selected modules in the selected course
-    """
+    Returns a barchart of the aveerage days to completion of selected modules in the selected course
+    
+    Parameters: 
+        filtered_data (json): filtered data
+        course_selected (str): course_id
+        student_selected (str): student_id
+        n_clicks (int): button click none or 1
+        active_tab ('str'): tab_id
+        
+    
+    Returns:
+        fig_2_json (json): JSON serializable format of plot 
+    """    
+    
+    # Handling edge case
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
@@ -954,7 +1044,6 @@ def update_barchart_duration(filtered_data, course_selected, student_selected, n
         lambda x: module_num.get(str(x))
     )
     
-    # Plot
     # Calculate the mean duration for each module
     mean_duration_df = filtered_df.groupby('module')['duration'].mean().reset_index()
     
@@ -998,8 +1087,20 @@ def update_barchart_duration(filtered_data, course_selected, student_selected, n
 )
 def update_module_completion_barplot(filtered_data, value, course_selected, student_selected, n_clicks, active_tab):
     """
-    Plots a horizontal barplot of student percentage module completion per module
-    """
+    Returns a stacked horizontal barplot of percentage of student completion of selected modules
+    
+    Parameters: 
+        filtered_data (json): filtered data
+        value (str): Selected module status
+        course_selected (str): course_id
+        student_selected (str): student_id
+        n_clicks (int): button click none or 1
+        active_tab ('str'): tab_id
+        
+    
+    Returns:
+        fig_3_json (json): JSON serializable format of plot 
+    """ 
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
@@ -1015,9 +1116,6 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
 
     result = {}
     modules = list(filtered_df.module_id.unique().astype(str))
-
-    # Create dictionaries accordingly to selected_course
-    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     for module in modules:
         result[module_num.get(module)] = [
@@ -1042,9 +1140,6 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
         var_name="Status",
         value_name="Percentage Completion",
     )
-
-    # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
-    # melted_df = melted_df.dropna(subset=["Module"])
 
     # Define the color mapping
     color_mapping = {
@@ -1104,8 +1199,21 @@ def update_module_completion_barplot(filtered_data, value, course_selected, stud
 )
 def update_item_completion_barplot(filtered_data, course_selected, student_selected, module_selected, n_clicks, active_tab):
     """
-    Plots a barplot of items and the percentage of students the completed them
-    """
+    Returns a barplot of percentage of students who completed the items
+    
+    Parameters: 
+        filtered_data (json): filtered data
+        course_selected (str): course_id
+        student_selected (str): student_id
+        module_selected (str): module_id
+        n_clicks (int): button click none or 1
+        active_tab ('str'): tab_id
+        
+    
+    Returns:
+        fig_4_json (json): JSON serializable format of plot 
+    """ 
+    # Handling edge case
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
@@ -1113,16 +1221,11 @@ def update_item_completion_barplot(filtered_data, course_selected, student_selec
     result = {}
     items = list(filtered_df.items_id.unique().astype(str))
 
-    # Create dictionaries accordingly to selected_course and selected module
-    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
-
     # Initialize dicts
     items_pos = (defaultdict(str))
 
     for _, row in filtered_df.iterrows():
         items_pos[str(row["items_id"])] = f"Item {row['items_position']}:"   
-
-
     
     # drop the items where there is no item completion requirement
     items_todrop = []
@@ -1142,12 +1245,6 @@ def update_item_completion_barplot(filtered_data, course_selected, student_selec
 
     df_mod = pd.DataFrame(list(result.items()), columns=["Items", "Percentage"])
 
-
-    # Each row in the filtered_df for a given student is a unique item for that student
-    # In the case that all the students are selected in the dropdown,
-    # we have to provide the percentage completion of items for all students together
-    # there will be duplicate items id, since each item will appear under multiple students
-    # thus I am not doing filtering the dataframe with unique item ids.
 
     # Create the bar plot using Plotly
     fig_4 = go.Figure()
@@ -1179,15 +1276,20 @@ def update_item_completion_barplot(filtered_data, course_selected, student_selec
 
 
 
-# table callback
-# Plot 4
+# Table callback
 @app.callback(
     Output("table-1", "data"),
     Output("table-1", "columns"),
     [Input("student-specific-data", "data"),],
 )
 def update_student_table(filtered_data):
-
+    """
+    Returns a datatable with details of module, items, item types and item status
+    
+    Parameters: 
+        filtered_data (json): filtered data        
+    """ 
+    
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
