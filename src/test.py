@@ -5,6 +5,7 @@ import dash
 from dash import dash_table
 from dash.dependencies import Input, Output, State
 import re
+import os
 
 import pandas as pd
 import numpy as np
@@ -12,7 +13,10 @@ import plotly.express as px
 import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
+import kaleido
 from collections import defaultdict
 
 from datetime import *
@@ -105,8 +109,6 @@ def get_item_completion_percentage(df, item):
 
     total_item_students = df_item.student_id.unique().size
 
-    # Checking, why is the state showing up as float value??
-    # print(len(df_item[df_item["item_cp_req_completed"].astype(bool) == True]))
 
     percentage = (
         df_item[df_item.item_cp_req_completed == 1.0].student_id.unique().size
@@ -217,12 +219,13 @@ data["course_name"] = data["course_name"].apply(remove_special_characters)
 # All accessible vairables #
 ############################
 
-module_status = ["locked", "unlocked", "started", "completed"]
+module_status = ["completed", "started", "unlocked", "locked"]
 
 # Make the mapping of any id to the corresponding names
 global course_dict
 global module_dict
 global item_dict
+# global student_dict
 
 course_dict, module_dict, item_dict = (defaultdict(str) for _ in range(3))
 
@@ -230,7 +233,7 @@ for _, row in data.iterrows():
     course_dict[str(row["course_id"])] = row["course_name"]
     module_dict[str(row["module_id"])] = row["module_name"]
     item_dict[str(row["items_id"])] = row["items_title"]
-
+#    student_dict[str(row["student_id"])] = row["student_name"]
 
 # Create nested defaultdicts with sets
 nested_dict = defaultdict(lambda: defaultdict(dict))
@@ -406,7 +409,7 @@ def update_module_checklist(val):
     # Create dictionaries accordingly to selected_course
     global module_num
     module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
-
+    
     if val != None:
         module_options = [
             {
@@ -423,8 +426,7 @@ def update_module_checklist(val):
         for module_id, i in zip(module_num.keys(), np.arange(len(module_num.keys())))
     }
 
-    # Checking
-    # print(module_colors)
+
 
     # Add the 'All' option at the beginning (Reconsider later)
     # module_options.insert(0, {"label": "All", "value": "All"})
@@ -481,17 +483,13 @@ def update_item_checklist(selected_course, selected_module):
             }
             for item_id, item_name in items_id_name.items()
         ]
-    
-    # Checking
-    print(items_pos)
+
 
     # define a global color map for the modules
     global item_colors
     item_colors = {items_pos[item_id]: color_palette_3[i]
         for item_id, i in zip(items_pos.keys(), np.arange(len(items_pos.keys())))}
 
-    # Checking
-    # print(item_colors)
 
     # Add the 'All' option at the beginning (Reconsider later)
     # item_options.insert(0, {"label": "All", "value": "All"})
@@ -565,17 +563,21 @@ def update_student_dropdown1(val):
     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(subset_data)
     
     # Initialize dicts
+    global student_dict
     student_dict= (defaultdict(str))
 
     for _, row in subset_data.iterrows():
         student_dict[str(row["student_id"])] = row["student_name"]   
-
+    
     if val != None:
         student_options = [
             {"label": student_name, "value": student_id}
             for student_id, student_name in student_dict.items()
         ]
 
+    # Add 'All' in student_dict
+    student_dict['All'] = 'All'
+        
     # Add the 'All' option at beginning of the list
     student_options.insert(0, {"label": "All", "value": "All"})
 
@@ -675,8 +677,6 @@ def update_module_filtered_data(
             & (data["items_id"].astype(str).isin(selected_items))
         ]
 
-    # Checking
-    # print(len(filtered_df))
 
     # Convert the filtered DataFrame to JSON serializable format
     filtered_data = filtered_df.to_json(date_format="iso", orient="split")
@@ -703,9 +703,13 @@ def update_module_filtered_data(
         Input("course-specific-data", "data"),
         Input("date-slider", "start_date"),
         Input("date-slider", "end_date"),
-    ],
+        Input('course-dropdown', 'value'), 
+        Input('student-dropdown', 'value'),
+        Input("export-button", "n_clicks"),
+        State('tabs', 'value')],
+    prevent_initial_call=True,
 )
-def update_timeline(filtered_data, start_date, end_date):
+def update_timeline(filtered_data, start_date, end_date, course_selected, student_selected, n_clicks, active_tab):
     """
     Returns a lineplot of trend of module completion
     """
@@ -759,8 +763,6 @@ def update_timeline(filtered_data, start_date, end_date):
 
             result_time = pd.concat([result_time, new_df], ignore_index=True)
 
-    # Checking
-    # print(f"Checking \n {result_time}")
 
     # Plotting
     fig_1 = go.Figure()
@@ -792,7 +794,7 @@ def update_timeline(filtered_data, start_date, end_date):
             )
 
     fig_1.update_layout(
-        title="Percentage Completion by Module",
+        title=f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
         xaxis=dict(
             title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
         ),
@@ -818,99 +820,183 @@ def update_timeline(filtered_data, start_date, end_date):
     # Convert the figure to a JSON serializable format
     fig_1_json = fig_1.to_dict()
 
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_1, "".join([download_path, image_name]))
+
+
     return fig_1_json
 
 
-# Plot 2
+# Plot 2 Box plot - inactivated
+# @app.callback(
+#     Output("plot2", "figure"),
+#     [Input("course-specific-data", "data"), Input("date-picker", "date")],
+# )
+# def update_box_plot(filtered_data, date_selected):
+#     """
+#     Returns a box plot of the completion duration of selected modules in the selected course
+#     """
+#     if isinstance(date_selected, str):
+#         date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
+
+#     assert isinstance(date_selected, datetime.datetime)
+
+#     if filtered_data is not None:
+#         # Convert the filtered data back to DataFrame
+#         filtered_df = pd.read_json(filtered_data, orient="split")
+
+#     # Create dictionaries accordingly to selected_course
+#     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
+
+#     # filter the data by state = "completed"
+#     filtered_df = filtered_df[filtered_df.state == "completed"]
+
+#     # Improvement: accept course start data as input
+#     course_start_date = date_selected
+#     course_start_time = datetime.time(0, 30)
+#     course_combined_datetime = course_start_date.combine(
+#         course_start_date, course_start_time
+#     )
+
+#     # compute the duration
+#     # subset_data["duration"] = round(
+#     #     (subset_data["completed_at"] - course_combined_datetime)
+#     #     / np.timedelta64(1, "D"),
+#     #     0,
+#     # )
+    
+#     filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
+    
+#     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
+#     filtered_df = filtered_df[
+#         ["module_id", "module_name", "state", "duration", "student_id"]
+#     ].drop_duplicates()
+#     filtered_df["module"] = filtered_df["module_id"].apply(
+#         lambda x: module_num.get(str(x))
+#     )
+    
+
+#     # Plot
+#     # Create the box plot using Plotly Express
+#     fig_2 = px.box(
+#         filtered_df,
+#         y="module",
+#         x="duration",
+#         points="all",
+#         title="Boxplot of module completion duration (days)",
+#         hover_data=["duration"],
+#     )
+#     fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
+
+#     # Sort the y-axis in descending order
+#     fig_2.update_yaxes(categoryorder="category descending")
+
+#     # Customize the hover template
+#     hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
+
+#     fig_2.update_traces(
+#         hovertemplate=hover_template,
+#         boxpoints="all",  # Show all points when hovering
+#         #jitter=0.0,  # Adjust the jitter for better point visibility
+#     )
+    
+#     fig_2_json = fig_2.to_dict()
+
+#     return fig_2_json
+
+
+
+# Plot 2 Bar Chart
 @app.callback(
     Output("plot2", "figure"),
-    [Input("course-specific-data", "data"), Input("date-picker", "date")],
+    [Input("course-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_box_plot(filtered_data, date_selected):
+def update_barchart_duration(filtered_data, course_selected, student_selected, n_clicks, active_tab): #, date_selected):
     """
-    Returns a box plot of the completion duration of selected modules in the selected course
+    Returns a barchart of the mean completion duration of selected modules in the selected course
     """
-    if isinstance(date_selected, str):
-        date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
-
-    assert isinstance(date_selected, datetime.datetime)
-
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
         filtered_df = pd.read_json(filtered_data, orient="split")
 
-    # Create dictionaries accordingly to selected_course
-    # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
 
     # filter the data by state = "completed"
-    subset_data = filtered_df[filtered_df.state == "completed"]
+    filtered_df = filtered_df[filtered_df.state == "completed"]
 
-    # Improvement: accept course start data as input
-    course_start_date = date_selected
-    course_start_time = datetime.time(0, 30)
-    course_combined_datetime = course_start_date.combine(
-        course_start_date, course_start_time
-    )
+    # Ensure that the course has a unique start date
+    assert filtered_df['course_start_date'].unique().size == 1, 'More than one course start date found for this course'
+    
+    course_start_date = filtered_df['course_start_date'].unique()[0]
+    
+    if isinstance(course_start_date, str):
+        course_start_date = datetime.datetime.strptime(course_start_date, "%d-%m-%Y %H:%M")
 
-    # compute the duration
-    subset_data["duration"] = round(
-        (subset_data["completed_at"] - course_combined_datetime)
-        / np.timedelta64(1, "D"),
-        0,
-    )
-
+    assert isinstance(course_start_date, datetime.datetime)
+    
+    # Convert 'completed_at' column to datetime
+    filtered_df['completed_at'] = pd.to_datetime(filtered_df['completed_at'], format = 'mixed')
+    
+    filtered_df = filtered_df.assign(duration = (filtered_df["completed_at"] - course_start_date).map(lambda x: x.days))
+    
     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
-    subset_data = subset_data[
+    filtered_df = filtered_df[
         ["module_id", "module_name", "state", "duration", "student_id"]
     ].drop_duplicates()
-    subset_data["module"] = subset_data["module_id"].apply(
+    filtered_df["module"] = filtered_df["module_id"].apply(
         lambda x: module_num.get(str(x))
     )
-
-    # Checking
-    # print(subset_data.head())
-
+    
     # Plot
-    # Create the box plot using Plotly Express
-    fig_2 = px.box(
-        subset_data,
-        y="module",
-        x="duration",
-        points="all",
-        title="Boxplot of module completion duration (days)",
-        hover_data=["duration"],
-    )
-    fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
-
-    # Sort the y-axis in descending order
-    fig_2.update_yaxes(categoryorder="category descending")
+    # Calculate the mean duration for each module
+    mean_duration_df = filtered_df.groupby('module')['duration'].mean().reset_index()
+    
+    # sort the modules by the label
+    sorted_modules = sorted(mean_duration_df['module'])
+        
+    # Create the bar chart using Plotly Express
+    fig_2 = px.bar(mean_duration_df, x='duration', y='module', orientation='h', title=f'Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}',
+                 labels={'duration': 'Mean Duration (Days)', 'module': 'Module'}, category_orders={"module": sorted_modules})
 
     # Customize the hover template
-    hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
+    hover_template = "<b>%{y}</b><br>" + \
+                     "Mean Duration: %{x:.2f} days<br>" + \
+                     "<extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
 
-    # fig_2.update_traces(hovertemplate=hover_template)
-    # Customize the hover template to show only the mean value
-    # hover_template = (
-    #     "<b>%{y}</b><br>Mean: %{mean:.2f} days<br><extra></extra>"
-    #     + "Q1: %{q1:.2f} days<br>Q3: %{q3:.2f} days"
-    # )
-    fig_2.update_traces(
-        hovertemplate=hover_template,
-        boxpoints="all",  # Show all points when hovering
-        #jitter=0.0,  # Adjust the jitter for better point visibility
-    )
+    fig_2.update_traces(hovertemplate=hover_template)
     
     fig_2_json = fig_2.to_dict()
+
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f'Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png'
+        pio.write_image(fig_2, "".join([download_path, image_name]))
+
 
     return fig_2_json
 
 
-# Plot 1
+
+
+# Plot 1 and Caption
 @app.callback(
     Output("plot1", "figure"),
-    [Input("course-specific-data", "data"), Input("status-radio", "value")],
+    [Input("course-specific-data", "data"), Input("status-radio", "value"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_module_completion_barplot(filtered_data, value):
+def update_module_completion_barplot(filtered_data, value, course_selected, student_selected, n_clicks, active_tab):
     """
     Plots a horizontal barplot of student percentage module completion per module
     """
@@ -947,8 +1033,6 @@ def update_module_completion_barplot(filtered_data, value):
         .rename(columns={"index": "Module"})
     )
 
-    # Checking
-    print(df_mod)
 
     # Melt the DataFrame to convert columns to rows
     melted_df = pd.melt(
@@ -960,14 +1044,11 @@ def update_module_completion_barplot(filtered_data, value):
     )
 
     # CHECKing: Remove later is not necessary: Filter out any rows where "Module" is None
-    melted_df = melted_df.dropna(subset=["Module"])
-
-    # Checking
-    # print(melted_df)
+    # melted_df = melted_df.dropna(subset=["Module"])
 
     # Define the color mapping
     color_mapping = {
-        module_status[i]: color_palette_2[i] for i in range(len(module_status))
+        module_status[len(module_status)-(i+1)]: color_palette_2[i] for i in range(len(module_status))
     }
 
     # Create a horizontal bar chart using Plotly
@@ -978,7 +1059,7 @@ def update_module_completion_barplot(filtered_data, value):
         color="Status",
         orientation="h",
         labels={"Percentage Completion": "Percentage Completion (%)"},
-        title="Percentage of Students for Each Module",
+        title=f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         category_orders={"Module": sorted(melted_df["Module"].unique())},
         color_discrete_map=color_mapping,  # Set the color mapping
     )
@@ -986,7 +1067,7 @@ def update_module_completion_barplot(filtered_data, value):
     fig_3.update_layout(
         showlegend=True,  # Show the legend indicating the module status colors
         legend_title="Status",  # Customize the legend title,
-        # legend_traceorder="reversed",  # Reverse the order of the legend items
+        legend_traceorder="reversed",  # Reverse the order of the legend items
     )
 
     # Modify the plotly configuration to change the background color
@@ -996,9 +1077,20 @@ def update_module_completion_barplot(filtered_data, value):
         yaxis=dict(title_font=dict(size=axis_label_font_size)),
         xaxis_range=[0, 100],
     )
+    
 
     # Convert the figure to a JSON serializable format
     fig_3_json = fig_3.to_dict()
+
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)    
+    
+    if n_clicks and active_tab == 'view-modules':
+        image_name = f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_3, "".join([download_path, image_name]))
+
 
     return fig_3_json
 
@@ -1006,9 +1098,11 @@ def update_module_completion_barplot(filtered_data, value):
 # Plot 4
 @app.callback(
     Output("plot4", "figure"),
-    [Input("module-specific-data", "data")],
+    [Input("module-specific-data", "data"), Input('course-dropdown', 'value'), Input('student-dropdown', 'value'), Input('module-dropdown', 'value'), Input("export-button", "n_clicks")],
+    State('tabs', 'value'),
+    prevent_initial_call=True,
 )
-def update_item_completion_barplot(filtered_data):
+def update_item_completion_barplot(filtered_data, course_selected, student_selected, module_selected, n_clicks, active_tab):
     """
     Plots a barplot of items and the percentage of students the completed them
     """
@@ -1048,8 +1142,6 @@ def update_item_completion_barplot(filtered_data):
 
     df_mod = pd.DataFrame(list(result.items()), columns=["Items", "Percentage"])
 
-    # Checking
-    print(df_mod)
 
     # Each row in the filtered_df for a given student is a unique item for that student
     # In the case that all the students are selected in the dropdown,
@@ -1063,7 +1155,7 @@ def update_item_completion_barplot(filtered_data):
     fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
 
     fig_4.update_layout(
-        title="Item Completion percentage",
+        title=f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
         xaxis_title="Percentage Completion",
         yaxis_title="Item",
         xaxis_range=[0, 100],
@@ -1073,6 +1165,15 @@ def update_item_completion_barplot(filtered_data):
 
     # Convert the figure to a JSON serializable format
     fig_4_json = fig_4.to_dict()
+    
+    # Create the folder to save the image if not exists
+    download_path = '../results/'
+    if not os.path.exists(download_path):
+        os.makedirs(download_path)
+    
+    if n_clicks and active_tab == 'view-items':
+        image_name = f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)} for {student_dict.get(student_selected)}.png"
+        pio.write_image(fig_4, "".join([download_path, image_name]))
 
     return fig_4_json
 
@@ -1092,12 +1193,21 @@ def update_student_table(filtered_data):
         filtered_df = pd.read_json(filtered_data, orient="split")
     
     filtered_df = filtered_df[['module_name', 'items_title', 'items_type', 'item_cp_req_completed']]
+    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: '✅', 0: '❌', np.nan: '🔘'})
     
-    filtered_df['item_cp_req_completed'] = filtered_df['item_cp_req_completed'].map({1: 'Completed', 0: 'Pending', '': 'Not Required'}).astype('str')
-    column_name = [{'name': col, 'id': col} for col in filtered_df.columns]
+    # Define custom column headings
+    custom_column_names = {
+        'module_name': 'Module Name',
+        'items_title': 'Item Title',
+        'items_type': 'Item Type',
+        'item_cp_req_completed': 'Item Status'
+    }    
+    
+    column_name = [{'name': custom_column_names[col], 'id': col, 'selectable': True, 'deletable':False} for col in filtered_df.columns]
     
     return filtered_df.to_dict('records'), column_name
 
+    
 # -----------------------------------------------------------------
 # Layout
 app.layout = dbc.Container(
@@ -1116,7 +1226,7 @@ app.layout = dbc.Container(
             className="dashboard-filters-container",
             children=[
                 html.Label(
-                    "Overall filters ",
+                    "Dashboard filters ",
                     style=text_style,
                 )
             ],
@@ -1125,6 +1235,10 @@ app.layout = dbc.Container(
             [
                 html.Div(
                     [
+                        html.Label(
+                            "Select Course",
+                            style=text_style,
+                        ),
                         dcc.Dropdown(
                             id="course-dropdown",
                             options=course_options,  # list of dropdown, labels are show, value is conveyed
@@ -1136,6 +1250,10 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     [
+                        html.Label(
+                            "Select Students",
+                            style=text_style,
+                        ),
                         dcc.Dropdown(
                             id="student-dropdown",
                             options=[],
@@ -1153,15 +1271,20 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     [
+                        html.Label(
+                            "Save current plots",
+                            style=text_style,
+                        ),
+                        html.Br(),
                         dbc.Button(
-                            "Export Report",
-                            id="report-button",
+                            "Download",
+                            id="export-button",
                             color="primary",
                             className="mr-2",
                         ),
                     ],
                     style={"width": "30%", "display": "inline-block"},
-                ),
+                ), html.Div(id='save-message')
             ],
             className="mb-3",  # Add spacing between rows
         ),
@@ -1172,10 +1295,12 @@ app.layout = dbc.Container(
                 dcc.Store(id="student-specific-data"),
                 dcc.Tabs(
                     id="tabs",
-                    value="Pages",
+                    value="view-modules",
                     children=[
                         dcc.Tab(
+                            id="tab-1",
                             label="View Modules",
+                            value='view-modules',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
@@ -1183,24 +1308,24 @@ app.layout = dbc.Container(
                                     [
                                         dbc.Col(
                                             [
-                                                html.Br(),
-                                                html.Label(
-                                                    "Select Course Start Date",
-                                                    style=text_style,
-                                                ),
-                                                dcc.DatePickerSingle(
-                                                    id="date-picker",
-                                                    date="2023-01-01",  # Set the initial date to today's date
-                                                    max_date_allowed=max(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
-                                                    style={
-                                                        "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
-                                                    },
-                                                ),
+                                                # html.Br(),
+                                                # html.Label(
+                                                #     "Select Course Start Date",
+                                                #     style=text_style,
+                                                # ),
+                                                # dcc.DatePickerSingle(
+                                                #     id="date-picker",
+                                                #     date="2023-01-01",  # Set the initial date to today's date
+                                                #     max_date_allowed=max(
+                                                #         pd.to_datetime(
+                                                #             data["completed_at"]
+                                                #         )
+                                                #     ).date(),
+                                                #     display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
+                                                #     style={
+                                                #         "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
+                                                #     },
+                                                # ),
                                                 html.Br(),
                                                 html.Label(
                                                     "Select Modules ",
@@ -1326,7 +1451,9 @@ app.layout = dbc.Container(
                             ],
                         ),
                         dcc.Tab(
+                            id="tab-2",
                             label="View Items",
+                            value='view-items',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
@@ -1388,44 +1515,38 @@ app.layout = dbc.Container(
                                         ),
                                     ],
                                 ),
-                                # dbc.Row(
-                                #     [
-                                #         dbc.Col(
-                                #             [],
-                                #             width=3,
-                                #         ),
-                                #         dbc.Col(
-                                #             [
-                                #                 dcc.Graph(
-                                #                     id="plot6",
-                                #                     style={
-                                #                         "width": "100%",
-                                #                         "height": "300px",
-                                #                         "display": "inline-block",
-                                #                         "border": "2px solid #ccc",
-                                #                         "border-radius": "5px",
-                                #                         "padding": "10px",
-                                #                     },
-                                #                 )
-                                #             ],
-                                #             width=9,
-                                #         ),
-                                #     ]
-                                # ),
                             ],
                         ),
                         dcc.Tab(
-                            label="View Student Table",
+                            id="tab-3",
+                            label="View Students",
+                            value='view-students',
                             style=tab_style,
                             selected_style=selected_tab_style,
                             children=[
                                 html.Br(),
                                 html.Label(
-                                    "Student-wise Table",
+                                    "Student Details",
+                                    style=text_style,
+                                ),
+                                html.Label(
+                                    "✅: Completed, ❌: Incomplete, 🔘: Not Started",
                                     style=text_style,
                                 ),
                                 dash_table.DataTable(
                                     id='table-1',
+                                    editable=False,
+                                    filter_action="native",
+                                    sort_action="native",
+                                    sort_mode="multi",
+                                    #column_selectable="single",
+                                    #row_selectable="singe",
+                                    row_deletable=False,
+                                    selected_columns=[],
+                                    selected_rows=[],
+                                    page_action="native",
+                                    page_current=0,
+                                    page_size= 15,
                                     style_table={'height': '600px', 'overflowY': 'auto'},
                                     style_cell={'textAlign': 'center'},
                                     style_header={'backgroundColor': 'lightgrey', 'fontWeight': 'bold'},
