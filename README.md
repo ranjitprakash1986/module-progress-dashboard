@@ -1,23 +1,27 @@
 # Module Progress Dashboard
 >
-> Authors: Ranjit Sundaramurthi
+> Authors: Ranjit Sundaramurthi, UBC
+> Reviewers: Alison Myers, UBC
 
 ## About
 
-An open-source Dashboard to visualize the student progress on courses. The primary users are administrators who manage large non-academic courses. The stakeholders for the Dashboard are admins/instructors while the subjects are the students enrolled in courses. Each instructor might create multiple courses. Each course in turn has several modules which are in turn comprised of items. These items may be of the type Page, Discussion, Video or Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated requirements of items underneath it. Note that depending on the item type, the requirement may be different and often the item might be optional.
+An open-source Dashboard to visualize the student progress on courses. The intended stakeholders are administrators/instructors who are interested in tracking the status of students' progress on courses taught through the Canvas platform. 
+
+
+## Objective
+The Dashboard enables the users to draw immediate insights into the status at different granular levels. The data source is downloaded using (module-progress)[https://github.com/saud-learning-services/module-progress] scripts to interact with the (Canvas LMS REST API)[https://canvas.instructure.com/doc/api/index.html]. Each general structure of the data is as follows, Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often the item might be completely optional.
 
 The Dashboard provides the users the following insights:
 
-* The progress of the students at course level.
-* Each course is comprised of multiple modules. The Dashboard provides the user an understanding as to which module are the students currently working on. The progress of the students on the modules may also enable the instructors to decide whether the course should be designed in a sequential fashion or made flexible.
-* Completion percentage of a module amongst all students enrolled in the course.
-* Completion percentage of a student across different modules in the course.
-* Completion percentage of a student across different items in a module.
-* Completion percentage of an item amongst all students in a module.
+* Percentage of student completion of modules within a course.
+* Average completion time (days) for modules within a course.
+* Percentage completion progression over time based on user defined time period selection.
+* Percentage of student completion of required items within a module.
+* Student-wise review of module and items for a selected course.
 
 ## Layout
 
-The Dashboard is comprised of two tabs to segment into two distinct sections. The first tab provides the user with Course specific information at the module hierarchy level. The second tab provides the user with Course and Module specific information at the item hierarch level.
+The Dashboard is comprised of two tabs to segment into two distinct sections. The first tab provides the user with Course specific information at the module hierarchy level. The second tab provides the user with Course and Module specific information at the item hierarchy level.
 
 The top of the Dashboard has two overall filters: by Course and by Student. By default, the first Course (alphabetically) and All students are selected.
 
@@ -39,9 +43,9 @@ The bottom of the Dashboard contains attributions, source, assumptions and summa
 
 ## Data-Source
 
-Canvas API through module progress.
+The current data is sourced using the (module-progress)[https://github.com/saud-learning-services/module-progress] python scripts. It downloads the necessary fields required for the dashboard from the Canvas LMS API.
 (OR)
-Develop a javascript for Tampermonkey to extract data through the Canvas API.
+Alternatively, data could be downloaded using an equivalent javascript on Tampermonkey to enable extraction of the specific fields through the Canvas LMS API.
 
 ## Documentation
 
@@ -49,4 +53,42 @@ Capture learnings, detailed documentation on development cycle.
 
 ## Usage
 
-Setup instructions, running instrutions, data privacy measures, .gitignore rules
+### Setup and launch Dashboard
+* Clone (this)[https://github.com/ranjitprakash1986/module-progress-dashboard] Github repository
+```bash
+git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
+```
+
+* Navigate to the Github repository
+```bash
+cd module-progress-dashboard
+```
+
+* create the environment using the following command.
+```bash
+conda env create -f environment.yml
+```
+* Activate the environment
+```bash
+conda activate dash
+```
+
+* Paste the data you want to visualize in csv format into the `data` folder. 
+Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the (module-progress)[https://github.com/saud-learning-services/module-progress].
+
+* Launch the dashboard
+```bash
+python src/app.py
+```
+
+This will launch the dashboard in your default interent browser at the localhost virtual server. This will be displayed on your terminal and will be of the form `http://127.0.0.1.xxxx`. If your internet browser does not launch automatically, open it and copy/paste the displayed location on your terminal in the address bar and press enter.
+
+Now you can interact with the dashboard in the browser to draw insights from your data.
+
+### Saving images
+Use the filters on the dashboard to get the specific visualizations you are interested in. Then use the Export button to download the visualizations in the currently active tab to the `results` folder.
+
+## Data Privacy
+To adhere to the FIPPA regulations and protect privacy of data
+
+* Do not upload your data to github
