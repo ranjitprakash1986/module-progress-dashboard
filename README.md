@@ -9,7 +9,7 @@ An open-source Dashboard to visualize the student progress on courses. The inten
 
 
 ## Objective
-The Dashboard enables the users to draw immediate insights into the status at different granular levels. The data source is downloaded using (module-progress)[https://github.com/saud-learning-services/module-progress] scripts to interact with the (Canvas LMS REST API)[https://canvas.instructure.com/doc/api/index.html]. Each general structure of the data is as follows, Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often the item might be completely optional.
+The Dashboard enables the users to draw immediate insights into the status at different granular levels. The data source is downloaded using [module-progress](https://github.com/saud-learning-services/module-progress) scripts to interact with the [Canvas LMS REST API](https://canvas.instructure.com/doc/api/index.html). Each general structure of the data is as follows, Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often the item might be completely optional.
 
 The Dashboard provides the users the following insights:
 
@@ -43,7 +43,7 @@ The bottom of the Dashboard contains attributions, source, assumptions and summa
 
 ## Data-Source
 
-The current data is sourced using the (module-progress)[https://github.com/saud-learning-services/module-progress] python scripts. It downloads the necessary fields required for the dashboard from the Canvas LMS API.
+The current data is sourced using the [module-progress](https://github.com/saud-learning-services/module-progress) python scripts. It downloads the necessary fields required for the dashboard from the Canvas LMS API.
 (OR)
 Alternatively, data could be downloaded using an equivalent javascript on Tampermonkey to enable extraction of the specific fields through the Canvas LMS API.
 
@@ -54,7 +54,7 @@ Capture learnings, detailed documentation on development cycle.
 ## Usage
 
 ### Setup and launch Dashboard
-* Clone (this)[https://github.com/ranjitprakash1986/module-progress-dashboard] Github repository
+* Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) Github repository
 ```bash
 git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
 ```
@@ -74,7 +74,7 @@ conda activate dash
 ```
 
 * Paste the data you want to visualize in csv format into the `data` folder. 
-Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the (module-progress)[https://github.com/saud-learning-services/module-progress].
+Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the [module-progress](https://github.com/saud-learning-services/module-progress).
 
 * Launch the dashboard
 ```bash
