@@ -215,7 +215,7 @@ def get_completed_percentage_date(df, module, date):
 
 # ---------------------------------------------------
 # reading the data
-data = pd.read_csv("../data/module_data_augmented.csv")
+data = pd.read_csv("data/module_data_augmented.csv")
 
 # dtype conversion
 categorical_cols = [
@@ -301,17 +301,20 @@ nested_dict = dict(nested_dict)
 
 # Define the style for the tabs
 tab_style = {
-    "height": "30px",
+    "height": "50px",
     "padding": "8px",
     "textAlign": "center",
     "display": "flex",
     "alignItems": "center",
     "justifyContent": "center",
+    "border-radius": "10px",
+    "margin-right": "10px",
+    "margin-left": "10px",
 }
 
 # Define the style for the selected tab
 selected_tab_style = {
-    "height": "30px",
+    "height": "50px",
     "padding": "5px",
     "borderTop": "2px solid #13233e",
     "borderBottom": "2px solid #13233e",
@@ -321,6 +324,9 @@ selected_tab_style = {
     "display": "flex",
     "alignItems": "center",
     "justifyContent": "center",
+    "border-radius": "10px",
+    "margin-right": "10px",
+    "margin-left": "10px",
 }
 
 # Define header style
@@ -890,7 +896,7 @@ def update_timeline(
 
     fig_1.update_layout(
         title={
-            "text": f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
+            "text": f"Module completion timeline by {student_dict.get(student_selected)}",
             "font": {"size": title_font_size},
         },
         xaxis=dict(
@@ -921,93 +927,17 @@ def update_timeline(
     fig_1_json = fig_1.to_dict()
 
     # Create the folder to save the image if not exists
-    download_path = "../results/"
+    download_path = f"results/{course_dict.get(course_selected)}/"
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
     if n_clicks and active_tab == "view-modules":
-        image_name = f"Module completion timeline for {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png"
+        image_name = (
+            f"Module completion timeline by {student_dict.get(student_selected)}.png"
+        )
         pio.write_image(fig_1, "".join([download_path, image_name]))
 
     return fig_1_json
-
-
-# Plot 2 Box plot - inactivated
-# @app.callback(
-#     Output("plot2", "figure"),
-#     [Input("course-specific-data", "data"), Input("date-picker", "date")],
-# )
-# def update_box_plot(filtered_data, date_selected):
-#     """
-#     Returns a box plot of the completion duration of selected modules in the selected course
-#     """
-#     if isinstance(date_selected, str):
-#         date_selected = datetime.datetime.strptime(date_selected, "%Y-%m-%d")
-
-#     assert isinstance(date_selected, datetime.datetime)
-
-#     if filtered_data is not None:
-#         # Convert the filtered data back to DataFrame
-#         filtered_df = pd.read_json(filtered_data, orient="split")
-
-#     # Create dictionaries accordingly to selected_course
-#     # module_num, module_dict, item_num, item_dict, student_dict = get_dicts(filtered_df)
-
-#     # filter the data by state = "completed"
-#     filtered_df = filtered_df[filtered_df.state == "completed"]
-
-#     # Improvement: accept course start data as input
-#     course_start_date = date_selected
-#     course_start_time = datetime.time(0, 30)
-#     course_combined_datetime = course_start_date.combine(
-#         course_start_date, course_start_time
-#     )
-
-#     # compute the duration
-#     # subset_data["duration"] = round(
-#     #     (subset_data["completed_at"] - course_combined_datetime)
-#     #     / np.timedelta64(1, "D"),
-#     #     0,
-#     # )
-
-#     filtered_df = filtered_df.assign(duration = round((filtered_df["completed_at"] - course_combined_datetime)/ np.timedelta64(1, "D"),0,))
-
-#     # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
-#     filtered_df = filtered_df[
-#         ["module_id", "module_name", "state", "duration", "student_id"]
-#     ].drop_duplicates()
-#     filtered_df["module"] = filtered_df["module_id"].apply(
-#         lambda x: module_num.get(str(x))
-#     )
-
-
-#     # Plot
-#     # Create the box plot using Plotly Express
-#     fig_2 = px.box(
-#         filtered_df,
-#         y="module",
-#         x="duration",
-#         points="all",
-#         title="Boxplot of module completion duration (days)",
-#         hover_data=["duration"],
-#     )
-#     fig_2.update_traces(boxpoints="all", boxmean=True, hoveron="points")
-
-#     # Sort the y-axis in descending order
-#     fig_2.update_yaxes(categoryorder="category descending")
-
-#     # Customize the hover template
-#     hover_template = "<b>%{y}</b><br>Duration: %{x} days<br><extra></extra>"  # The <extra></extra> tag removes the "trace 0" label
-
-#     fig_2.update_traces(
-#         hovertemplate=hover_template,
-#         boxpoints="all",  # Show all points when hovering
-#         #jitter=0.0,  # Adjust the jitter for better point visibility
-#     )
-
-#     fig_2_json = fig_2.to_dict()
-
-#     return fig_2_json
 
 
 # Plot 2 Bar Chart
@@ -1097,7 +1027,7 @@ def update_barchart_duration(
 
     fig_2.update_layout(
         title={
-            "text": f"Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}",
+            "text": f"Days to complete module by {student_dict.get(student_selected)}",
             "font": {"size": title_font_size},
         },
         xaxis_title_font=dict(
@@ -1123,12 +1053,14 @@ def update_barchart_duration(
     fig_2_json = fig_2.to_dict()
 
     # Create the folder to save the image if not exists
-    download_path = "../results/"
+    download_path = f"results/{course_dict.get(course_selected)}/"
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
     if n_clicks and active_tab == "view-modules":
-        image_name = f"Days to complete module for course {course_dict.get(course_selected)} by {student_dict.get(student_selected)}.png"
+        image_name = (
+            f"Days to complete module by {student_dict.get(student_selected)}.png"
+        )
         pio.write_image(fig_2, "".join([download_path, image_name]))
 
     return fig_2_json
@@ -1231,7 +1163,7 @@ def update_module_completion_barplot(
     # Modify the plotly configuration to change the background color
     fig_3.update_layout(
         title={
-            "text": f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}",
+            "text": f"Percentage completion for {student_dict.get(student_selected)}",
             "font": {"size": title_font_size},
         },
         xaxis=dict(title_font=dict(size=axis_label_font_size)),
@@ -1248,12 +1180,14 @@ def update_module_completion_barplot(
     fig_3_json = fig_3.to_dict()
 
     # Create the folder to save the image if not exists
-    download_path = "../results/"
+    download_path = f"results/{course_dict.get(course_selected)}/"
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
     if n_clicks and active_tab == "view-modules":
-        image_name = f"Percentage of completion of {course_dict.get(course_selected)} for {student_dict.get(student_selected)}.png"
+        image_name = (
+            f"Percentage completion for {student_dict.get(student_selected)}.png"
+        )
         pio.write_image(fig_3, "".join([download_path, image_name]))
 
     return fig_3_json
@@ -1326,7 +1260,7 @@ def update_item_completion_barplot(
     fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
 
     fig_4.update_layout(
-        title=f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)}.png",
+        title=f"Percentage of completion of items in {module_dict.get(module_selected)}.png",
         xaxis_title="Percentage Completion",
         yaxis_title="Items",
         xaxis_range=[0, 100],
@@ -1338,12 +1272,12 @@ def update_item_completion_barplot(
     fig_4_json = fig_4.to_dict()
 
     # Create the folder to save the image if not exists
-    download_path = "../results/"
+    download_path = f"results/{course_dict.get(course_selected)}/"
     if not os.path.exists(download_path):
         os.makedirs(download_path)
 
     if n_clicks and active_tab == "view-items":
-        image_name = f"Percentage of completion of items in {module_dict.get(module_selected)} under {course_dict.get(course_selected)}.png"
+        image_name = f"Percentage of completion of items in {module_dict.get(module_selected)}.png"
         pio.write_image(fig_4, "".join([download_path, image_name]))
 
     return fig_4_json
@@ -1399,52 +1333,31 @@ def update_student_table(filtered_data):
 
 # -----------------------------------------------------------------
 # Layout
-app.layout = dbc.Container(
-    fluid=True,
-    children=[
-        html.Div(
-            children=[
-                html.H2(
-                    "Module Progress Dashboard",
-                    style=heading_style,
-                    className="bg-primary bg-opacity-75 text-white",
-                ),
-            ],
-            style={"padding": "5px"},
-        ),
-        html.Div(
-            className="border rounded-pill text-center",
-            children=[
-                html.Label(
-                    "Dashboard Filters ",
-                    style=sub_heading_style,
-                )
-            ],
+
+tools = dbc.Container(
+    [
+        dbc.Row(
+            [html.H3("Dashboard Tools", className="text-center")], justify="center"
         ),
         dbc.Row(
             [
-                html.Div(
+                dbc.Col(
                     [
-                        html.Label(
-                            "Select Course",
-                            style=text_style,
-                        ),
+                        html.H5("Select course"),
                         dcc.Dropdown(
                             id="course-dropdown",
+                            placeholder="Select Course",
+                            clearable=True,
                             options=course_options,  # list of dropdown, labels are show, value is conveyed
                             value=course_options[0]["value"],  # default value
-                            style={"width": "350px", "fontsize": "1px"},
+                            style={"width": "100%", "fontsize": "1px"},
                         ),
                     ],
-                    style={"width": "35%", "display": "inline-block"},
+                    width=4,
                 ),
-                html.Div(
+                dbc.Col(
                     [
-                        html.Label(
-                            "Save current plots",
-                            style=text_style,
-                        ),
-                        html.Br(),
+                        html.H5("Save Plots"),
                         dbc.Button(
                             "Download",
                             id="export-button",
@@ -1452,11 +1365,208 @@ app.layout = dbc.Container(
                             className="mr-2",
                         ),
                     ],
-                    style={"width": "30%", "display": "inline-block"},
+                    width=1,
                 ),
-                html.Div(id="save-message"),
             ],
-            className="m-3 border border-dark",  # Add spacing between rows
+            justify="center",
+            align="center",
+        ),
+    ],
+    className="bg-light bg-gradient",
+    style={
+        "backgroundColor": "#F4F4F4",
+        "padding": "10px 10px",
+        "border-radius": "16px",
+        "margin-bottom": "1rem",
+        "border": "1px solid lightgray",
+        "box-shadow": "1px 1px 5px 5px rgba(0, 0, 0.1, 0.5)",
+    },
+)
+
+module_sidebar = dbc.Container(
+    [
+        html.H6("Select Modules "),
+        dbc.Checklist(id="module-checkboxes"),
+        html.Br(),
+        html.Hr(),
+        html.Br(),
+        html.H6(
+            "Select Module State",
+        ),
+        dcc.RadioItems(
+            id="status-radio",
+            options=[
+                {
+                    "label": " " + "All",
+                    "value": "All",
+                },
+                *(
+                    {
+                        "label": " " + f"{module_status[i]}",
+                        "value": f"{module_status[i]}",
+                    }
+                    for i in range(len(module_status))
+                ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
+            ],
+            value="All",
+        ),
+        html.Br(),
+        html.Hr(),
+        html.Br(),
+        html.H6(
+            "Select Students",
+        ),
+        dcc.Dropdown(
+            id="student-dropdown-modules-tab",
+            placeholder="Select Students",
+            clearable=True,
+            options=[],
+            value="All",
+            style={
+                "width": "100%",
+            },
+        ),
+        html.Br(),
+        html.Hr(),
+        html.Br(),
+        html.H6(
+            "Select Timeline",
+        ),
+        dcc.DatePickerRange(
+            id="date-slider",
+            min_date_allowed=min(pd.to_datetime(data["completed_at"])).date(),
+            max_date_allowed=max(pd.to_datetime(data["completed_at"])).date(),
+            start_date=min(pd.to_datetime(data["completed_at"])).date(),
+            end_date=max(pd.to_datetime(data["completed_at"])).date(),
+            clearable=True,
+        ),
+    ],
+    style={
+        "backgroundColor": "#F4F4F4",
+        "padding": "10px 10px",
+        "border-radius": "16px",
+        "margin-bottom": "1rem",
+        "border": "5px solid lightgray",
+        "box-shadow": "0px 0px 0px 0px rgba(0, 0, 0.1, 0.5)",
+    },
+)
+
+items_sidebar = dbc.Container(
+    [
+        html.H6(
+            "Select One Module",
+        ),
+        dcc.Dropdown(
+            id="module-dropdown",
+            options=[],
+            value="",
+            style={
+                "width": "100%",
+                "fontsize": "1px",
+            },
+            clearable=True,
+            placeholder="Select One Module",
+        ),
+        html.Br(),
+        html.H6("Select Items "),
+        dbc.Checklist(
+            id="item-checkboxes",
+        ),
+    ],
+    style={
+        "backgroundColor": "#F4F4F4",
+        "padding": "10px 10px",
+        "border-radius": "16px",
+        "margin-bottom": "1rem",
+        "border": "5px solid lightgray",
+        "box-shadow": "0px 0px 0px 0px rgba(0, 0, 0.1, 0.5)",
+    },
+)
+
+student_sidebar = dbc.Container(
+    [
+        html.H6(
+            "Select Students",
+        ),
+        dcc.Dropdown(
+            id="student-dropdown-students-tab",
+            options=[],
+            value="All",
+            style={
+                "width": "100%",
+                "fontsize": "1px",
+            },
+            clearable=True,
+            placeholder="Select Students",
+        ),
+        html.Br(),
+        html.Hr(),
+        html.Br(),
+        html.H6(
+            "Item Status Legend",
+        ),
+        html.Label(
+            "✅: Completed",
+        ),
+        html.Br(),
+        html.Label(
+            "❌: Incomplete",
+        ),
+        html.Br(),
+        html.Label(
+            "🔘: Not Started",
+        ),
+    ],
+    style={
+        "backgroundColor": "#F4F4F4",
+        "padding": "10px 10px",
+        "border-radius": "16px",
+        "margin-bottom": "1rem",
+        "border": "5px solid lightgray",
+        "box-shadow": "0px 0px 0px 0px rgba(0, 0, 0.1, 0.5)",
+    },
+)
+
+pop = dbc.Popover(
+    [
+        dbc.PopoverHeader("Tip", style=text_style),
+        dbc.PopoverBody(
+            "If needed, you can filter the columns. Type in the respective column cell that says 'filter data...'",
+            style={"font-size": "16px"},
+        ),
+    ],
+    body=True,
+    target="table-1",
+    trigger="hover",
+    placement="auto",
+    style={
+        "width": "800px",
+        "height": "150px",
+        "border-radius": "10px",
+        "padding": "5px",
+        "overflow": "hidden",
+        "background-color": "lightblue",
+    },
+)
+
+app.layout = dbc.Container(
+    fluid=True,
+    children=[
+        html.Div(
+            children=[
+                html.H1(
+                    "Module Progress Dashboard",
+                    style=heading_style,
+                    className="bg-primary bg-opacity-75 text-white border rounded-pill text-center",
+                ),
+            ],
+            style={"padding": "5px"},
+        ),
+        dbc.Row(
+            [
+                tools,
+            ],
+            className="m-3",  # Add spacing between rows
         ),
         dbc.Row(
             [
@@ -1477,136 +1587,28 @@ app.layout = dbc.Container(
                                 dbc.Row(
                                     [
                                         dbc.Col(
+                                            [module_sidebar],
+                                            width=3,
+                                            className="m-3",
+                                        ),
+                                        dbc.Col(
                                             [
-                                                # html.Br(),
-                                                # html.Label(
-                                                #     "Select Course Start Date",
-                                                #     style=text_style,
-                                                # ),
-                                                # dcc.DatePickerSingle(
-                                                #     id="date-picker",
-                                                #     date="2023-01-01",  # Set the initial date to today's date
-                                                #     max_date_allowed=max(
-                                                #         pd.to_datetime(
-                                                #             data["completed_at"]
-                                                #         )
-                                                #     ).date(),
-                                                #     display_format="YYYY-MM-DD",  # Specify the format in which the date will be displayed
-                                                #     style={
-                                                #         "marginLeft": "20px"  # Add 20px space to the left of the DatePickerSingle box
-                                                #     },
-                                                # ),
-                                                html.Label(
-                                                    "Select Modules ",
-                                                    style=text_style,
-                                                ),
-                                                dbc.Checklist(
-                                                    id="module-checkboxes",
-                                                    #    options=[],  # default empty checklist
-                                                    #    value="", # default selected value
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "Select Module State",
-                                                    style=text_style,
-                                                ),
-                                                dcc.RadioItems(
-                                                    id="status-radio",
-                                                    options=[
-                                                        {
-                                                            "label": " " + "All",
-                                                            "value": "All",
-                                                        },
-                                                        *(
-                                                            {
-                                                                "label": " "
-                                                                + f"{module_status[i]}",
-                                                                "value": f"{module_status[i]}",
-                                                            }
-                                                            for i in range(
-                                                                len(module_status)
-                                                            )
-                                                        ),  # Adding extra items with list comprehension Ref: https://stackoverflow.com/questions/50504844/add-extra-items-in-list-comprehension
+                                                dbc.Row(
+                                                    [
+                                                        dcc.Graph(
+                                                            id="plot1",
+                                                            style={
+                                                                "width": "100%",
+                                                                "height": "300px",
+                                                                # "display": "inline-block",
+                                                                # "border": "2px solid #ccc",
+                                                                # "border-radius": "5px",
+                                                                # "padding": "10px",
+                                                            },
+                                                            className="shadow p-3 mb-5 bg-white rounded",
+                                                        ),
                                                     ],
-                                                    value="All",
                                                 ),
-                                                html.Label(
-                                                    "Select Students",
-                                                    style=text_style,
-                                                ),
-                                                dcc.Dropdown(
-                                                    id="student-dropdown-modules-tab",
-                                                    options=[],
-                                                    value="All",
-                                                    style={
-                                                        "width": "250px",
-                                                        "fontsize": "1px",
-                                                    },
-                                                ),
-                                            ],
-                                            width=3,
-                                            className="m-3 border rounded border-dark",
-                                        ),
-                                        dbc.Col(
-                                            [
-                                                dcc.Graph(
-                                                    id="plot1",
-                                                    style={
-                                                        "width": "100%",
-                                                        "height": "300px",
-                                                        # "display": "inline-block",
-                                                        # "border": "2px solid #ccc",
-                                                        # "border-radius": "5px",
-                                                        # "padding": "10px",
-                                                    },
-                                                    className="shadow-lg",
-                                                ),
-                                            ],
-                                            width=7,
-                                            className="m-3 border rounded border-light",
-                                        ),
-                                    ],
-                                ),
-                                dbc.Row(
-                                    [
-                                        dbc.Col(
-                                            [
-                                                html.Label(
-                                                    "Select Timeline",
-                                                    style=text_style,
-                                                ),
-                                                html.Br(),
-                                                dcc.DatePickerRange(
-                                                    id="date-slider",
-                                                    min_date_allowed=min(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    max_date_allowed=max(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    start_date=min(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    end_date=max(
-                                                        pd.to_datetime(
-                                                            data["completed_at"]
-                                                        )
-                                                    ).date(),
-                                                    clearable=True,
-                                                    style=text_style,
-                                                ),
-                                            ],
-                                            width=3,
-                                            className="m-3 border rounded border-dark",
-                                        ),
-                                        dbc.Col(
-                                            [
                                                 dbc.Row(
                                                     [
                                                         dcc.Graph(
@@ -1619,10 +1621,10 @@ app.layout = dbc.Container(
                                                                 # "border-radius": "5px",
                                                                 # "padding": "10px",
                                                             },
-                                                            className="shadow-lg",
+                                                            className="shadow p-3 mb-5 bg-white rounded",
                                                         ),
                                                     ],
-                                                    className="m-3 border rounded border-light",
+                                                    className="m-3",
                                                 ),
                                                 dbc.Row(
                                                     [
@@ -1636,16 +1638,16 @@ app.layout = dbc.Container(
                                                                 # "border-radius": "5px",
                                                                 # "padding": "10px",
                                                             },
-                                                            className="shadow-lg",
+                                                            className="shadow p-3 mb-5 bg-white rounded",
                                                         ),
                                                     ],
-                                                    className="m-3 border rounded border-light",
+                                                    className="m-3",
                                                 ),
                                             ],
                                             width=7,
-                                            className="m-3 border rounded border-light",
+                                            className="m-3 border rounded shadow p-3 mb-5 bg-white rounded",
                                         ),
-                                    ]
+                                    ],
                                 ),
                             ],
                         ),
@@ -1660,60 +1662,28 @@ app.layout = dbc.Container(
                                     [
                                         dbc.Col(
                                             [
-                                                html.Br(),
-                                                html.Label(
-                                                    "Select One Module",
-                                                    style=text_style,
-                                                ),
-                                                html.Br(),
-                                                html.Div(
-                                                    [
-                                                        dcc.Dropdown(
-                                                            id="module-dropdown",
-                                                            options=[],
-                                                            value="",
-                                                            style={
-                                                                "width": "250px",
-                                                                "fontsize": "1px",
-                                                            },
-                                                        ),
-                                                    ],
-                                                    style={
-                                                        "width": "35%",
-                                                        "display": "inline-block",
-                                                    },
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "Select Items ",
-                                                    style=text_style,
-                                                ),
-                                                dbc.Checklist(
-                                                    id="item-checkboxes",
-                                                    #    options=[],  # default empty checklist
-                                                    #    value="", # default selected value
-                                                ),
+                                                items_sidebar,
                                             ],
                                             width=3,
-                                            className="m-3 border rounded border-dark",
+                                            className="m-3",
                                         ),
                                         dbc.Col(
                                             [
                                                 dcc.Graph(
                                                     id="plot4",
                                                     style={
-                                                        "width": "80%",
-                                                        "height": "600px",
+                                                        "width": "100%",
+                                                        "height": "500px",
                                                         # "display": "inline-block",
                                                         # "border": "2px solid #ccc",
                                                         # "border-radius": "5px",
                                                         # "padding": "10px",
                                                     },
-                                                    className="shadow-lg",
+                                                    className="shadow p-3 mb-5 bg-white rounded",
                                                 ),
                                             ],
                                             width=7,
-                                            className="m-3 border rounded border-light",
+                                            className="m-3",
                                         ),
                                     ],
                                 ),
@@ -1730,39 +1700,7 @@ app.layout = dbc.Container(
                                     [
                                         dbc.Col(
                                             [
-                                                html.Label(
-                                                    "Select Students",
-                                                    style=text_style,
-                                                ),
-                                                dcc.Dropdown(
-                                                    id="student-dropdown-students-tab",
-                                                    options=[],
-                                                    value="All",
-                                                    style={
-                                                        "width": "250px",
-                                                        "fontsize": "1px",
-                                                    },
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "Status Legend",
-                                                    style=text_style,
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "✅: Completed",
-                                                    style=text_style,
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "❌: Incomplete",
-                                                    style=text_style,
-                                                ),
-                                                html.Br(),
-                                                html.Label(
-                                                    "🔘: Not Started",
-                                                    style=text_style,
-                                                ),
+                                                student_sidebar,
                                             ],
                                             width=3,
                                         ),
@@ -1785,8 +1723,13 @@ app.layout = dbc.Container(
                                                     style_table={
                                                         "height": "600px",
                                                         "overflowY": "auto",
+                                                        "border": "2px solid gray",
+                                                        "border-radius": "10px",
                                                     },
-                                                    style_cell={"textAlign": "center"},
+                                                    style_cell={
+                                                        "textAlign": "center",
+                                                        "border": "1px solid gray",
+                                                    },
                                                     style_header={
                                                         "backgroundColor": "lightgrey",
                                                         "fontWeight": "bold",
@@ -1798,10 +1741,11 @@ app.layout = dbc.Container(
                                                         }
                                                     ],
                                                 ),
+                                                pop,
                                             ],
                                         ),
                                     ],
-                                    className="m-3 bg-light border rounded border-light",
+                                    className="m-3",
                                 ),
                             ],
                         ),
