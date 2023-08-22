@@ -1,5 +1,6 @@
 # imports
 from dash import dash, html, dcc, Input, Output
+from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 import dash
 from dash import dash_table
@@ -13,10 +14,11 @@ import plotly.express as px
 import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 
-import kaleido
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.pagesizes import letter
+
+# import kaleido
 from collections import defaultdict
 
 from datetime import *
@@ -779,6 +781,7 @@ def update_module_filtered_data(selected_course, selected_module, selected_items
 # Plot 3
 @app.callback(
     Output("plot3", "figure"),
+    Output("export-button", "n_clicks", allow_duplicate=True),
     [
         Input("course-specific-data", "data"),
         Input("date-slider", "start_date"),
@@ -912,17 +915,7 @@ def update_timeline(
         paper_bgcolor="white",  # Set the background color of the entire plot
     )
 
-    # Set start and end dates with an offset of 1 days on either sides of the range for the display x-axis
-    # fig_1.update_xaxes(
-    #     range=[
-    #         (start_date - datetime.timedelta(days=1)),
-    #         (end_date + datetime.timedelta(days=1)),
-    #     ]
-    # )
-
     # Specify custom spacing between dates on the x-axis
-    # fig_1.update_xaxes(dtick=date_spacing)
-
     tick_dates = pd.date_range(start_date, end_date, freq="7D")
     tick_labels = [date.strftime("%Y-%m-%d") for date in tick_dates]
     fig_1.update_xaxes(tickvals=tick_dates, ticktext=tick_labels)
@@ -941,12 +934,13 @@ def update_timeline(
         )
         pio.write_image(fig_1, "".join([download_path, image_name]))
 
-    return fig_1_json
+    return fig_1_json, None
 
 
 # Plot 2 Bar Chart
 @app.callback(
     Output("plot2", "figure"),
+    Output("export-button", "n_clicks", allow_duplicate=True),
     [
         Input("course-specific-data", "data"),
         Input("course-dropdown", "value"),
@@ -1067,12 +1061,13 @@ def update_barchart_duration(
         )
         pio.write_image(fig_2, "".join([download_path, image_name]))
 
-    return fig_2_json
+    return fig_2_json, None
 
 
 # Plot 1 and Caption
 @app.callback(
     Output("plot1", "figure"),
+    Output("export-button", "n_clicks", allow_duplicate=True),
     [
         Input("course-specific-data", "data"),
         Input("status-radio", "value"),
@@ -1194,12 +1189,13 @@ def update_module_completion_barplot(
         )
         pio.write_image(fig_3, "".join([download_path, image_name]))
 
-    return fig_3_json
+    return fig_3_json, None
 
 
 # Plot 4
 @app.callback(
     Output("plot4", "figure"),
+    Output("export-button", "n_clicks", allow_duplicate=True),
     [
         Input("module-specific-data", "data"),
         Input("course-dropdown", "value"),
@@ -1208,6 +1204,7 @@ def update_module_completion_barplot(
     ],
     State("tabs", "value"),
     prevent_initial_call=True,
+    allow_duplicate=True,
 )
 def update_item_completion_barplot(
     filtered_data, course_selected, module_selected, n_clicks, active_tab
@@ -1284,7 +1281,7 @@ def update_item_completion_barplot(
         image_name = f"Percentage of completion of items in {module_dict.get(module_selected)}.png"
         pio.write_image(fig_4, "".join([download_path, image_name]))
 
-    return fig_4_json
+    return fig_4_json, None
 
 
 # Table callback
