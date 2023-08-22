@@ -15,10 +15,6 @@ import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# from reportlab.pdfgen import canvas
-# from reportlab.lib.pagesizes import letter
-
-# import kaleido
 from collections import defaultdict
 
 from datetime import *
@@ -246,14 +242,9 @@ for col in categorical_cols:
 # remove special characters from course_name
 data["course_name"] = data["course_name"].apply(remove_special_characters)
 
-# # Make the mapping of any id to the corresponding names
-# course_dict = defaultdict(str)
-# for _, row in data.iterrows():
-#     course_dict[str(row["course_id"])] = row["course_name"]
-
 
 ############################
-# Defining vairables       #
+#  Defining vairables      #
 ############################
 
 module_status = ["completed", "started", "unlocked", "locked"]
@@ -262,7 +253,6 @@ module_status = ["completed", "started", "unlocked", "locked"]
 global course_dict
 global module_dict
 global item_dict
-# global student_dict
 
 course_dict, module_dict, item_dict = (defaultdict(str) for _ in range(3))
 
@@ -270,29 +260,6 @@ for _, row in data.iterrows():
     course_dict[str(row["course_id"])] = row["course_name"]
     module_dict[str(row["module_id"])] = row["module_name"]
     item_dict[str(row["items_id"])] = row["items_title"]
-#    student_dict[str(row["student_id"])] = row["student_name"]
-
-# Create nested defaultdicts with sets
-nested_dict = defaultdict(lambda: defaultdict(dict))
-
-# Create a dictionary to store the order of modules for each course
-course_module_order = defaultdict(list)
-
-# Iterate through the DataFrame to populate the nested dictionary and module order
-for _, row in data.iterrows():
-    course_id = str(row["course_id"])
-    module_id = str(row["module_id"])
-    items_id = str(row["items_id"])
-    items_position = row["items_position"]
-
-    nested_dict[course_id][module_id][items_id] = items_position
-
-    # Store the order of modules for each course
-    if module_id not in course_module_order[course_id]:
-        course_module_order[course_id].append(module_id)
-
-# Convert the nested defaultdict to a regular dictionary (if needed)
-nested_dict = dict(nested_dict)
 
 
 ####################
@@ -360,7 +327,6 @@ text_style = {
 sidebar_text_style = {
     "font-size": "10px",
     "display": "inline-block",
-    # "font-weight": "bold",
     "color": "#13233e",
     "padding": "5px",
 }
@@ -373,7 +339,7 @@ div_style = {
     "align-items": "center",
 }
 
-# dropdpown options
+# Dropdpown options
 
 course_options = [
     {"label": course_name, "value": course_id}
@@ -381,7 +347,8 @@ course_options = [
 ]
 
 
-# Colorblind friendly colors Ref: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
+# Colorblind friendly colors
+# Ref: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
 color_palette_1 = [
     "#000000",
     "#004949",
@@ -424,8 +391,7 @@ color_palette_3 = [
     "#CC79A7",
 ]
 
-# Weekly spacing, adjust as per your requirement
-date_spacing = "D7"
+# Plots font style, adjust as per your requirement
 axis_label_font_size = 14
 title_font_size = 16
 
