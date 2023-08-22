@@ -5,10 +5,10 @@
 
 ## About
 
-An open-source Dashboard to visualize the student progress on courses. The intended stakeholders are administrators/instructors who are interested in tracking the status of students' progress on courses taught through the Canvas platform. 
-
+An open-source Dashboard to visualize the student progress on courses. The intended stakeholders are administrators/instructors who are interested in tracking the status of students' progress on courses taught through the Canvas platform.
 
 ## Objective
+
 The Dashboard enables the users to draw immediate insights into the status at different granular levels. The data source is downloaded using [module-progress](https://github.com/saud-learning-services/module-progress) scripts to interact with the [Canvas LMS REST API](https://canvas.instructure.com/doc/api/index.html). Each general structure of the data is as follows, Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often the item might be completely optional.
 
 The Dashboard provides the users the following insights:
@@ -54,29 +54,36 @@ Capture learnings, detailed documentation on development cycle.
 ## Usage
 
 ### Setup and launch Dashboard
+
 * Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) Github repository
+
 ```bash
 git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
 ```
 
 * Navigate to the Github repository
+
 ```bash
 cd module-progress-dashboard
 ```
 
 * create the environment using the following command.
+
 ```bash
-conda env create -f environment.yml
-```
-* Activate the environment
-```bash
-conda activate dash
+conda env create -f environment.yaml
 ```
 
-* Paste the data you want to visualize in csv format into the `data` folder. 
+* Activate the environment (by default the environment is named, dashboard)
+
+```bash
+conda activate dashboard
+```
+
+* Paste the data you want to visualize in csv format into the `data` folder.
 Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the [module-progress](https://github.com/saud-learning-services/module-progress).
 
 * Launch the dashboard
+
 ```bash
 python src/app.py
 ```
@@ -86,9 +93,11 @@ This will launch the dashboard in your default interent browser at the localhost
 Now you can interact with the dashboard in the browser to draw insights from your data.
 
 ### Saving images
+
 Use the filters on the dashboard to get the specific visualizations you are interested in. Then use the Export button to download the visualizations in the currently active tab to the `results` folder.
 
 ## Data Privacy
+
 To adhere to the FIPPA regulations and protect privacy of data
 
 * Do not upload your data to github

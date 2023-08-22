@@ -1691,37 +1691,28 @@ app.layout = dbc.Container(
                     [
                         dbc.Col(
                             [
-                                html.Label(
-                                    "Attributions: Ranjit Sundaramurthi",
+                                html.P(
+                                    "Attributions: Alison Myers, Ranjit Sundaramurthi",
                                     style={
-                                        "font-size": "12px",
+                                        "font-size": "16px",
                                         "font-weight": "normal",
-                                        "color": "#13233e",
                                         "padding": "5px",
                                     },
-                                ),
-                                html.Label(
-                                    "Licence: MIT",
-                                    style={
-                                        "font-size": "12px",
-                                        "font-weight": "normal",
-                                        "color": "#13233e",
-                                        "padding": "5px",
-                                    },
+                                    className="bg-secondary bg-gradient text-white text-center border rounded-pill",
                                 ),
                             ],
                             width=3,
                         ),
                         dbc.Col(
                             [
-                                html.Label(
-                                    "Placeholder",
+                                html.P(
+                                    "Learning Analytics: UBC Sauder School of Business",
                                     style={
-                                        "font-size": "12px",
+                                        "font-size": "16px",
                                         "font-weight": "normal",
-                                        "color": "#13233e",
                                         "padding": "5px",
                                     },
+                                    className="bg-secondary bg-gradient text-white text-center border rounded-pill",
                                 )
                             ],
                         ),
