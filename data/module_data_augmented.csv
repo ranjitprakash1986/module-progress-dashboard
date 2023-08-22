@@ -1,231 +1,231 @@
 completed_at,course_id,module_id,items_count,module_name,module_position,state,unlock_at,student_id,student_name,items_id,items_title,items_position,items_indent,items_type,items_module_id,item_cp_req_type,item_cp_req_completed,course_name,course_start_date
-10-05-2023 21:23,121654,787819,1,Get Started with the Canvas API,2,completed,,93997, LtsStudentFive,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5638646,Introduction,1,0,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,787819,1,Get Started with the Canvas API,2,completed,,93995, LtsStudentFour,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5638646,Introduction,1,0,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93994, LtsStudentThree,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640560,Careers in Data Science,4,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93991,LTS StudentOne,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93992,LTS StudentTwo,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640557,Data Science Techniques,1,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640558,Data Science Tools,2,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640560,Careers in Data Science,4,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644472,Basic Probability theory,1,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644474,Bayesian Inference,2,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644475,Distributions,3,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,TRUE,🤖 Learning Services Student API Sandbox,01-05-2023 23:59
-10-05-2023 21:23,999999,9787819,1, the Canvas API,2,completed,,993997,StudentFive,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2,01-04-2023 23:59
-10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2,01-04-2023 23:59
-10-05-2023 21:23,999999,9787806,4, be improved!) ,3,completed,,993997,StudentFive,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640546,Data Science Bu,4,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640547,Difference betw,5,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640548,Business Intell,6,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993997,StudentFive,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993997,StudentFive,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993997,StudentFive,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9787819,1, the Canvas API,2,completed,,993995,StudentFour,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9787806,4, be improved!) ,3,completed,,993995,StudentFour,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640546,Data Science Bu,4,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640547,Difference betw,5,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640548,Business Intell,6,1,Page,9790496,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,unlocked,,993995,StudentFour,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993995,StudentFour,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993995,StudentFour,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993994,StudentThree,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993994,StudentThree,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:46,999999,9790496,7,ce Introduction,4,completed,,993994,StudentThree,95640553,Data Science In,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,started,,993994,StudentThree,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993994,StudentThree,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993991,StudentOne,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993991,StudentOne,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-,999999,9790496,7,ce Introduction,4,started,,993991,StudentOne,95640553,Data Science In,7,1,Quiz,9790496,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640557,Data Science Te,1,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640558,Data Science To,2,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790743,6,nce Disciplines,5,locked,,993991,StudentOne,95640563,Data Science Di,6,1,Quiz,9790743,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644472,Basic Probabili,1,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644474,Bayesian Infere,2,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644475,Distributions,3,1,Page,9790744,must_view,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,FALSE,dummy_course_2,01-04-2023 23:59
-,999999,9790744,5, and Statistics,6,locked,,993991,StudentOne,95644481,Probability Qui,5,1,Quiz,9790744,min_score,FALSE,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787819,1, the Canvas API,2,completed,,993992,StudentTwo,95619042,CAPICO-API-usag,2,0,File,9787819,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618861,Procedures for ,1,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618862,Canvas Blueprin,2,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618863,How to Launch J,3,1,File,9787806,,,dummy_course_2,01-04-2023 23:59
-17-05-2023 17:41,999999,9787806,4, be improved!) ,3,completed,,993992,StudentTwo,95618864,GitHub,4,1,Page,9787806,,,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640326,Practical Examp,2,1,Page,9790496,,,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95638661,Preliminary Qui,3,1,Quiz,9790496,must_submit,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640546,Data Science Bu,4,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640547,Difference betw,5,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640548,Business Intell,6,1,Page,9790496,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:57,999999,9790496,7,ce Introduction,4,completed,,993992,StudentTwo,95640553,Data Science In,7,1,Quiz,9790496,min_score,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640557,Data Science Te,1,1,Page,9790743,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640558,Data Science To,2,1,Page,9790743,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640559,Ungraded Readin,3,1,Assignment,9790743,,,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640562,Data Science Tr,5,1,Discussion,9790743,must_contribute,TRUE,dummy_course_2,01-04-2023 23:59
-23-05-2023 18:58,999999,9790743,6,nce Disciplines,5,completed,,993992,StudentTwo,95640563,Data Science Di,6,1,Quiz,9790743,min_score,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644472,Basic Probabili,1,1,Page,9790744,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644474,Bayesian Infere,2,1,Page,9790744,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644475,Distributions,3,1,Page,9790744,must_view,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644480,Probability Gra,4,1,Assignment,9790744,must_mark_done,TRUE,dummy_course_2,01-04-2023 23:59
-24-05-2023 20:44,999999,9790744,5, and Statistics,6,completed,,993992,StudentTwo,95644481,Probability Qui,5,1,Quiz,9790744,min_score,TRUE,dummy_course_2,01-04-2023 23:59
+10-05-2023 21:23,121654,787819,1,Get Started with the Canvas API,2,completed,,93997, LtsStudentFive,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+10-05-2023 21:23,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93997, LtsStudentFive,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5638646,Introduction,1,0,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93997, LtsStudentFive,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93997, LtsStudentFive,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93997, LtsStudentFive,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,787819,1,Get Started with the Canvas API,2,completed,,93995, LtsStudentFour,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93995, LtsStudentFour,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5638646,Introduction,1,0,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,unlocked,,93995, LtsStudentFour,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93995, LtsStudentFour,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93995, LtsStudentFour,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93994, LtsStudentThree,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93994, LtsStudentThree,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:46,121654,790496,7,Data Science Introduction,4,completed,,93994, LtsStudentThree,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640560,Careers in Data Science,4,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,started,,93994, LtsStudentThree,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93994, LtsStudentThree,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93991,LTS StudentOne,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93991,LTS StudentOne,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790496,7,Data Science Introduction,4,started,,93991,LTS StudentOne,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640557,Data Science Techniques,1,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640558,Data Science Tools,2,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640560,Careers in Data Science,4,1,Page,790743,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790743,6,Data Science Disciplines,5,locked,,93991,LTS StudentOne,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644472,Basic Probability theory,1,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644474,Bayesian Inference,2,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644475,Distributions,3,1,Page,790744,must_view,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+,121654,790744,5,Probability and Statistics,6,locked,,93991,LTS StudentOne,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,FALSE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787819,1,Get Started with the Canvas API,2,completed,,93992,LTS StudentTwo,5619042,CAPICO-API-usage-guidelines-v1.1.pdf,2,0,File,787819,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618861,Procedures for Running Scripts,1,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618862,Canvas Blueprint Script ,2,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618863,How to Launch Jupyter Notebooks,3,1,File,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+17-05-2023 17:41,121654,787806,4,Scripting (current script instructions for LS Ops - to be improved!) ,3,completed,,93992,LTS StudentTwo,5618864,GitHub,4,1,Page,787806,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5638646,Introduction,1,0,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640326,Practical Example,2,1,Page,790496,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5638661,Preliminary Quiz,3,1,Quiz,790496,must_submit,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640546,Data Science Buzzwords,4,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640547,Difference between Analysis and Analytics,5,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640548,"Business Intelligence, ML and AI",6,1,Page,790496,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:57,121654,790496,7,Data Science Introduction,4,completed,,93992,LTS StudentTwo,5640553,Data Science Introduction Quiz,7,1,Quiz,790496,min_score,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640557,Data Science Techniques,1,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640558,Data Science Tools,2,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640559,Ungraded Reading Assignment,3,1,Assignment,790743,,,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640560,Careers in Data Science,4,1,Page,790743,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640562,Data Science Trends,5,1,Discussion,790743,must_contribute,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+23-05-2023 18:58,121654,790743,6,Data Science Disciplines,5,completed,,93992,LTS StudentTwo,5640563,Data Science Discipline Quiz,6,1,Quiz,790743,min_score,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644472,Basic Probability theory,1,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644474,Bayesian Inference,2,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644475,Distributions,3,1,Page,790744,must_view,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644480,Probability Graded Assignment,4,1,Assignment,790744,must_mark_done,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+24-05-2023 20:44,121654,790744,5,Probability and Statistics,6,completed,,93992,LTS StudentTwo,5644481,Probability Quiz ,5,1,Quiz,790744,min_score,TRUE,🤖 Learning Services Student API Sandbox,2023-05-02T07:00:00Z
+15-05-2023 21:23,999999,9787819,1,Canvas API,2,completed,,993997,StudentFive,95619042,Usage,2,0,File,9787819,,,Alternate_course,2023-05-05T07:00:00Z
+15-05-2023 21:23,999999,9787806,4,Scripting,3,completed,,993997,StudentFive,95618861,Procedures,1,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+15-05-2023 21:23,999999,9787806,4,Scripting,3,completed,,993997,StudentFive,95618862,Blueprint,2,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+15-05-2023 21:23,999999,9787806,4,Scripting,3,completed,,993997,StudentFive,95618863,Launch Jupyter,3,1,File,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+15-05-2023 21:23,999999,9787806,4,Scripting,3,completed,,993997,StudentFive,95618864,GitHub actions,4,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95640326,Examples,2,1,Page,9790496,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95640546,Terminologies,4,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95640547,Differences,5,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95640548,BI Tools,6,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993997,StudentFive,95640553,Insights,7,1,Quiz,9790496,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640557,Techniques,1,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640558,Tools,2,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640559,Ungraded Reading,3,1,Assignment,9790743,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640562,Trends,5,1,Discussion,9790743,must_contribute,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993997,StudentFive,95640563,Section Quiz,6,1,Quiz,9790743,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993997,StudentFive,95644472,Basics,1,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993997,StudentFive,95644474,Bayesian,2,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993997,StudentFive,95644475,Distribution types,3,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993997,StudentFive,95644480,Probability theory,4,1,Assignment,9790744,must_mark_done,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993997,StudentFive,95644481,Overall Quiz,5,1,Quiz,9790744,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 20:44,999999,9787819,1,Canvas API,2,completed,,993995,StudentFour,95619042,Usage,2,0,File,9787819,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 20:44,999999,9787806,4,Scripting,3,completed,,993995,StudentFour,95618861,Procedures,1,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 20:44,999999,9787806,4,Scripting,3,completed,,993995,StudentFour,95618862,Blueprint,2,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 20:44,999999,9787806,4,Scripting,3,completed,,993995,StudentFour,95618863,Launch Jupyter,3,1,File,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 20:44,999999,9787806,4,Scripting,3,completed,,993995,StudentFour,95618864,GitHub actions,4,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95638646,Introduction,1,0,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95640326,Examples,2,1,Page,9790496,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95640546,Terminologies,4,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95640547,Differences,5,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95640548,BI Tools,6,1,Page,9790496,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,unlocked,,993995,StudentFour,95640553,Insights,7,1,Quiz,9790496,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640557,Techniques,1,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640558,Tools,2,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640559,Ungraded Reading,3,1,Assignment,9790743,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640562,Trends,5,1,Discussion,9790743,must_contribute,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993995,StudentFour,95640563,Section Quiz,6,1,Quiz,9790743,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993995,StudentFour,95644472,Basics,1,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993995,StudentFour,95644474,Bayesian,2,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993995,StudentFour,95644475,Distribution types,3,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993995,StudentFour,95644480,Probability theory,4,1,Assignment,9790744,must_mark_done,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993995,StudentFour,95644481,Overall Quiz,5,1,Quiz,9790744,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+20-05-2023 17:41,999999,9787819,1,Canvas API,2,completed,,993994,StudentThree,95619042,Usage,2,0,File,9787819,,,Alternate_course,2023-05-05T07:00:00Z
+20-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993994,StudentThree,95618861,Procedures,1,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+20-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993994,StudentThree,95618862,Blueprint,2,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+20-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993994,StudentThree,95618863,Launch Jupyter,3,1,File,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+20-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993994,StudentThree,95618864,GitHub actions,4,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95640326,Examples,2,1,Page,9790496,,,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95640546,Terminologies,4,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95640547,Differences,5,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95640548,BI Tools,6,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+26-05-2023 20:46,999999,9790496,7,Introduction,4,completed,,993994,StudentThree,95640553,Insights,7,1,Quiz,9790496,min_score,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640557,Techniques,1,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640558,Tools,2,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640559,Ungraded Reading,3,1,Assignment,9790743,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640562,Trends,5,1,Discussion,9790743,must_contribute,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,started,,993994,StudentThree,95640563,Section Quiz,6,1,Quiz,9790743,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993994,StudentThree,95644472,Basics,1,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993994,StudentThree,95644474,Bayesian,2,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993994,StudentThree,95644475,Distribution types,3,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993994,StudentThree,95644480,Probability theory,4,1,Assignment,9790744,must_mark_done,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993994,StudentThree,95644481,Overall Quiz,5,1,Quiz,9790744,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+12-05-2023 17:41,999999,9787819,1,Canvas API,2,completed,,993991,StudentOne,95619042,Usage,2,0,File,9787819,,,Alternate_course,2023-05-05T07:00:00Z
+12-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993991,StudentOne,95618861,Procedures,1,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+12-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993991,StudentOne,95618862,Blueprint,2,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+12-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993991,StudentOne,95618863,Launch Jupyter,3,1,File,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+12-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993991,StudentOne,95618864,GitHub actions,4,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95640326,Examples,2,1,Page,9790496,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95640546,Terminologies,4,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95640547,Differences,5,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95640548,BI Tools,6,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790496,7,Introduction,4,started,,993991,StudentOne,95640553,Insights,7,1,Quiz,9790496,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640557,Techniques,1,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640558,Tools,2,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640559,Ungraded Reading,3,1,Assignment,9790743,,,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640560,Careers in Data,4,1,Page,9790743,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640562,Trends,5,1,Discussion,9790743,must_contribute,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790743,6,Disciplines,5,locked,,993991,StudentOne,95640563,Section Quiz,6,1,Quiz,9790743,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993991,StudentOne,95644472,Basics,1,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993991,StudentOne,95644474,Bayesian,2,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993991,StudentOne,95644475,Distribution types,3,1,Page,9790744,must_view,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993991,StudentOne,95644480,Probability theory,4,1,Assignment,9790744,must_mark_done,FALSE,Alternate_course,2023-05-05T07:00:00Z
+,999999,9790744,5,Statistics,6,locked,,993991,StudentOne,95644481,Overall Quiz,5,1,Quiz,9790744,min_score,FALSE,Alternate_course,2023-05-05T07:00:00Z
+11-05-2023 17:41,999999,9787819,1,Canvas API,2,completed,,993992,StudentTwo,95619042,Usage,2,0,File,9787819,,,Alternate_course,2023-05-05T07:00:00Z
+11-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993992,StudentTwo,95618861,Procedures,1,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+11-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993992,StudentTwo,95618862,Blueprint,2,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+11-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993992,StudentTwo,95618863,Launch Jupyter,3,1,File,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+11-05-2023 17:41,999999,9787806,4,Scripting,3,completed,,993992,StudentTwo,95618864,GitHub actions,4,1,Page,9787806,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95638646,Introduction,1,0,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95640326,Examples,2,1,Page,9790496,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95638661,Preliminary Quiz,3,1,Quiz,9790496,must_submit,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95640546,Terminologies,4,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95640547,Differences,5,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95640548,BI Tools,6,1,Page,9790496,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790496,7,Introduction,4,completed,,993992,StudentTwo,95640553,Insights,7,1,Quiz,9790496,min_score,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640557,Techniques,1,1,Page,9790743,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640558,Tools,2,1,Page,9790743,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640559,Ungraded Reading,3,1,Assignment,9790743,,,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640560,Careers in Data,4,1,Page,9790743,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640562,Trends,5,1,Discussion,9790743,must_contribute,TRUE,Alternate_course,2023-05-05T07:00:00Z
+28-05-2023 18:57,999999,9790743,6,Disciplines,5,completed,,993992,StudentTwo,95640563,Section Quiz,6,1,Quiz,9790743,min_score,TRUE,Alternate_course,2023-05-05T07:00:00Z
+30-05-2023 20:44,999999,9790744,5,Statistics,6,completed,,993992,StudentTwo,95644472,Basics,1,1,Page,9790744,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+30-05-2023 20:44,999999,9790744,5,Statistics,6,completed,,993992,StudentTwo,95644474,Bayesian,2,1,Page,9790744,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+30-05-2023 20:44,999999,9790744,5,Statistics,6,completed,,993992,StudentTwo,95644475,Distribution types,3,1,Page,9790744,must_view,TRUE,Alternate_course,2023-05-05T07:00:00Z
+30-05-2023 20:44,999999,9790744,5,Statistics,6,completed,,993992,StudentTwo,95644480,Probability theory,4,1,Assignment,9790744,must_mark_done,TRUE,Alternate_course,2023-05-05T07:00:00Z
+30-05-2023 20:44,999999,9790744,5,Statistics,6,completed,,993992,StudentTwo,95644481,Overall Quiz,5,1,Quiz,9790744,min_score,TRUE,Alternate_course,2023-05-05T07:00:00Z
