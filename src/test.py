@@ -900,7 +900,7 @@ def update_timeline(
             "font": {"size": title_font_size},
         },
         xaxis=dict(
-            title="Date", tickangle=-90, title_font=dict(size=axis_label_font_size)
+            title="Date", tickangle=0, title_font=dict(size=axis_label_font_size)
         ),
         yaxis=dict(
             title="Percentage Completion", title_font=dict(size=axis_label_font_size)
@@ -913,15 +913,19 @@ def update_timeline(
     )
 
     # Set start and end dates with an offset of 1 days on either sides of the range for the display x-axis
-    fig_1.update_xaxes(
-        range=[
-            (start_date - datetime.timedelta(days=1)),
-            (end_date + datetime.timedelta(days=1)),
-        ]
-    )
+    # fig_1.update_xaxes(
+    #     range=[
+    #         (start_date - datetime.timedelta(days=1)),
+    #         (end_date + datetime.timedelta(days=1)),
+    #     ]
+    # )
 
     # Specify custom spacing between dates on the x-axis
-    fig_1.update_xaxes(dtick=date_spacing)
+    # fig_1.update_xaxes(dtick=date_spacing)
+
+    tick_dates = pd.date_range(start_date, end_date, freq="7D")
+    tick_labels = [date.strftime("%Y-%m-%d") for date in tick_dates]
+    fig_1.update_xaxes(tickvals=tick_dates, ticktext=tick_labels)
 
     # Convert the figure to a JSON serializable format
     fig_1_json = fig_1.to_dict()
@@ -987,7 +991,7 @@ def update_barchart_duration(
 
     if isinstance(course_start_date, str):
         course_start_date = datetime.datetime.strptime(
-            course_start_date, "%d-%m-%Y %H:%M"
+            course_start_date, "%Y-%m-%dT%H:%M:%SZ"
         )
 
     assert isinstance(course_start_date, datetime.datetime)
