@@ -722,16 +722,6 @@ def update_module_filtered_data(selected_course, selected_module, selected_items
         filtered_data (json): filtered data for storage
     """
 
-    # Commented out the filtering by student selection dropdown as no longer needed
-    # if (
-    #     selected_students == "All"
-    # ):  # don't need to filter by students, all are considered
-    #     filtered_df = data[
-    #         (data["course_id"].astype(str) == selected_course)
-    #         & (data["module_id"].astype(str) == selected_module)
-    #         & (data["items_id"].astype(str).isin(selected_items))
-    #     ]
-    # else:
     filtered_df = data[
         (data["course_id"].astype(str) == selected_course)
         & (data["module_id"].astype(str) == selected_module)
@@ -795,9 +785,6 @@ def update_timeline(
 
     assert isinstance(start_date, datetime.date)
     assert isinstance(end_date, datetime.date)
-
-    # Create dictionaries accordingly to selected_course
-    # module_dict, item_num, item_dict, student_dict = get_sub_dicts(filtered_df)
 
     # Initialize dicts
     module_dict = defaultdict(str)
@@ -1567,10 +1554,6 @@ app.layout = dbc.Container(
                                                             style={
                                                                 "width": "100%",
                                                                 "height": "300px",
-                                                                # "display": "inline-block",
-                                                                # "border": "2px solid #ccc",
-                                                                # "border-radius": "5px",
-                                                                # "padding": "10px",
                                                             },
                                                             className="shadow p-3 mb-5 bg-white rounded",
                                                         ),
@@ -1583,10 +1566,6 @@ app.layout = dbc.Container(
                                                             style={
                                                                 "width": "100%",
                                                                 "height": "300px",
-                                                                # "display": "inline-block",
-                                                                # "border": "2px solid #ccc",
-                                                                # "border-radius": "5px",
-                                                                # "padding": "10px",
                                                             },
                                                             className="shadow p-3 mb-5 bg-white rounded",
                                                         ),
@@ -1600,10 +1579,6 @@ app.layout = dbc.Container(
                                                             style={
                                                                 "width": "100%",
                                                                 "height": "300px",
-                                                                # "display": "inline-block",
-                                                                # "border": "2px solid #ccc",
-                                                                # "border-radius": "5px",
-                                                                # "padding": "10px",
                                                             },
                                                             className="shadow p-3 mb-5 bg-white rounded",
                                                         ),
@@ -1641,10 +1616,6 @@ app.layout = dbc.Container(
                                                     style={
                                                         "width": "100%",
                                                         "height": "500px",
-                                                        # "display": "inline-block",
-                                                        # "border": "2px solid #ccc",
-                                                        # "border-radius": "5px",
-                                                        # "padding": "10px",
                                                     },
                                                     className="shadow p-3 mb-5 bg-white rounded",
                                                 ),
@@ -1679,14 +1650,12 @@ app.layout = dbc.Container(
                                                     filter_action="native",
                                                     sort_action="native",
                                                     sort_mode="multi",
-                                                    # column_selectable="single",
-                                                    # row_selectable="singe",
                                                     row_deletable=False,
                                                     selected_columns=[],
                                                     selected_rows=[],
                                                     # page_action="native",
                                                     # page_current=0,
-                                                    # page_size=15,
+                                                    # page_size=15, Optional to paginate the table
                                                     style_table={
                                                         "height": "600px",
                                                         "overflowY": "auto",
