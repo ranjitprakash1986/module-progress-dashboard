@@ -85,37 +85,6 @@ def get_dicts(df):
     return module_num, module_dict, item_num, item_dict, student_dict
 
 
-# def get_sub_dicts(df):
-#     """
-#     Creates and returns the dictionaries mapping ids to names,
-
-#     Parameters:
-#         df (dataframe): passed pandas dataframe
-
-#     Returns:
-#         module_dict, item_num, item_dict, student_dict (dict): Created dictionaries
-#     """
-#     # Initialize dicts
-
-#     module_dict, item_num, item_dict, student_dict = (
-#         defaultdict(str) for _ in range(4)
-#     )
-
-#     # Dictionary to map id to names
-#     for _, row in df.iterrows():
-#         module_dict[str(row["module_id"])] = re.sub(
-#             r"^Module\s+\d+:\s+", "", row["module_name"]
-#         )
-#         item_dict[str(row["items_id"])] = row["items_title"]
-#         student_dict[str(row["student_id"])] = row["student_name"]
-
-#     # Dictionary to map the item id to a item number used for labeling
-#     for i, k in enumerate(item_dict.keys()):
-#         item_num[k] = f"Item:{i+1}"
-
-#     return module_dict, item_num, item_dict, student_dict
-
-
 def get_item_completion_percentage(df, item):
     """
     Returns the percentage of students who completed 'item'
@@ -1212,7 +1181,7 @@ def update_item_completion_barplot(
     fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
 
     fig_4.update_layout(
-        title=f"Percentage of completion of items in {module_dict.get(module_selected)}.png",
+        title=f"Percentage of completion of items in {module_dict.get(module_selected)}",
         xaxis_title="Percentage Completion",
         yaxis_title="Items",
         xaxis_range=[0, 100],
