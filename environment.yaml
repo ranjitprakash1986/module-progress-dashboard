@@ -1,9 +1,11 @@
-name: dashboard
+name: module_progress_dashboard
 channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
-  - pandas
   - dash
-
+  - pandas
+  - python=3.9
+  - dash-bootstrap-components
+  - plotly
+  - python-kaleido

@@ -85,37 +85,6 @@ def get_dicts(df):
     return module_num, module_dict, item_num, item_dict, student_dict
 
 
-def get_sub_dicts(df):
-    """
-    Creates and returns the dictionaries mapping ids to names,
-
-    Parameters:
-        df (dataframe): passed pandas dataframe
-
-    Returns:
-        module_dict, item_num, item_dict, student_dict (dict): Created dictionaries
-    """
-    # Initialize dicts
-
-    module_dict, item_num, item_dict, student_dict = (
-        defaultdict(str) for _ in range(4)
-    )
-
-    # Dictionary to map id to names
-    for _, row in df.iterrows():
-        module_dict[str(row["module_id"])] = re.sub(
-            r"^Module\s+\d+:\s+", "", row["module_name"]
-        )
-        item_dict[str(row["items_id"])] = row["items_title"]
-        student_dict[str(row["student_id"])] = row["student_name"]
-
-    # Dictionary to map the item id to a item number used for labeling
-    for i, k in enumerate(item_dict.keys()):
-        item_num[k] = f"Item:{i+1}"
-
-    return module_dict, item_num, item_dict, student_dict
-
-
 def get_item_completion_percentage(df, item):
     """
     Returns the percentage of students who completed 'item'
@@ -213,7 +182,7 @@ def get_completed_percentage_date(df, module, date):
 
 # ---------------------------------------------------
 # reading the data
-data = pd.read_csv("data/module_data_augmented.csv")
+data = pd.read_csv("data/module_data.csv")
 
 # dtype conversion
 categorical_cols = [
@@ -591,7 +560,7 @@ def update_student_dropdown_modules(val):
     # Handling edge case
     if val is None:
         student_options = [{"label": "No Course selected", "value": 0}]
-        return student_options
+        return student_options, student_options
 
     # filter by the course selected
     subset_data = data.copy()
@@ -620,7 +589,7 @@ def update_student_dropdown_modules(val):
     return student_options, student_options
 
 
-# filter the data based on user selections
+# Filter the data based on user selections
 @app.callback(
     Output("student-specific-data", "data"),
     [
@@ -700,7 +669,7 @@ def update_course_filtered_data(selected_course, selected_students, selected_mod
     return filtered_data
 
 
-# filter the data based on user selections
+# Filter the data based on user selections
 @app.callback(
     Output("module-specific-data", "data"),
     [
@@ -734,7 +703,7 @@ def update_module_filtered_data(selected_course, selected_module, selected_items
     return filtered_data
 
 
-# Plot 3
+# Plot 3, Timeline plot
 @app.callback(
     Output("plot3", "figure"),
     Output("export-button", "n_clicks", allow_duplicate=True),
@@ -772,7 +741,7 @@ def update_timeline(
 
 
     Returns:
-        fig_1_json (json): JSON serializable format of plot
+        fig_3_json (json): JSON serializable format of plot
     """
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
@@ -822,25 +791,23 @@ def update_timeline(
             result_time = pd.concat([result_time, new_df], ignore_index=True)
 
     # Plotting
-    fig_1 = go.Figure()
+    fig_3 = go.Figure()
     for i, (module, group) in enumerate(result_time.groupby("Module")):
         sorted_group = group.sort_values("Date")
 
         if len(sorted_group) == 1:
-            fig_1.add_trace(
+            fig_3.add_trace(
                 go.Scatter(
                     x=sorted_group["Date"],
                     y=sorted_group["Percentage Completion"],
                     mode="markers",
                     name=module,
-                    marker=dict(
-                        color=module_colors[module]
-                    ),  # alt method: color_palette_1[i % len(color_palette_1)]
+                    marker=dict(color=module_colors[module]),
                 )
             )
 
         else:
-            fig_1.add_trace(
+            fig_3.add_trace(
                 go.Scatter(
                     x=sorted_group["Date"],
                     y=sorted_group["Percentage Completion"],
@@ -850,7 +817,7 @@ def update_timeline(
                 )
             )
 
-    fig_1.update_layout(
+    fig_3.update_layout(
         title={
             "text": f"Module completion timeline by {student_dict.get(student_selected)}",
             "font": {"size": title_font_size},
@@ -871,10 +838,10 @@ def update_timeline(
     # Specify custom spacing between dates on the x-axis
     tick_dates = pd.date_range(start_date, end_date, freq="7D")
     tick_labels = [date.strftime("%Y-%m-%d") for date in tick_dates]
-    fig_1.update_xaxes(tickvals=tick_dates, ticktext=tick_labels)
+    fig_3.update_xaxes(tickvals=tick_dates, ticktext=tick_labels)
 
     # Convert the figure to a JSON serializable format
-    fig_1_json = fig_1.to_dict()
+    fig_3_json = fig_3.to_dict()
 
     # Create the folder to save the image if not exists
     download_path = f"results/{course_dict.get(course_selected)}/"
@@ -885,12 +852,12 @@ def update_timeline(
         image_name = (
             f"Module completion timeline by {student_dict.get(student_selected)}.png"
         )
-        pio.write_image(fig_1, "".join([download_path, image_name]))
+        pio.write_image(fig_3, "".join([download_path, image_name]))
 
-    return fig_1_json, None
+    return fig_3_json, None
 
 
-# Plot 2 Bar Chart
+# Plot 2, Duration Bar Chart
 @app.callback(
     Output("plot2", "figure"),
     Output("export-button", "n_clicks", allow_duplicate=True),
@@ -952,7 +919,7 @@ def update_barchart_duration(
         duration=(filtered_df["completed_at"] - course_start_date).map(lambda x: x.days)
     )
 
-    # Next we want to keep only one unique row per student, thereby there are no repetition for the same student
+    # We want to keep only one unique row per student, thereby there are no repetition for the same student
     filtered_df = filtered_df[
         ["module_id", "module_name", "state", "duration", "student_id"]
     ].drop_duplicates()
@@ -963,7 +930,7 @@ def update_barchart_duration(
     # Calculate the mean duration for each module
     mean_duration_df = filtered_df.groupby("module")["duration"].mean().reset_index()
 
-    # sort the modules by the label
+    # Sort the modules by the label
     sorted_modules = sorted(mean_duration_df["module"])
 
     # Create the bar chart using Plotly Express
@@ -1017,7 +984,7 @@ def update_barchart_duration(
     return fig_2_json, None
 
 
-# Plot 1 and Caption
+# Plot 1, Modules Barplot
 @app.callback(
     Output("plot1", "figure"),
     Output("export-button", "n_clicks", allow_duplicate=True),
@@ -1047,7 +1014,7 @@ def update_module_completion_barplot(
 
 
     Returns:
-        fig_3_json (json): JSON serializable format of plot
+        fig_1_json (json): JSON serializable format of plot
     """
     if filtered_data is not None:
         # Convert the filtered data back to DataFrame
@@ -1095,7 +1062,7 @@ def update_module_completion_barplot(
     }
 
     # Create a horizontal bar chart using Plotly
-    fig_3 = px.bar(
+    fig_1 = px.bar(
         melted_df,
         y="Module",
         x="Percentage Completion",
@@ -1106,14 +1073,14 @@ def update_module_completion_barplot(
         color_discrete_map=color_mapping,  # Set the color mapping
     )
 
-    fig_3.update_layout(
+    fig_1.update_layout(
         showlegend=True,  # Show the legend indicating the module status colors
         legend_title="Status",  # Customize the legend title,
         legend_traceorder="reversed",  # Reverse the order of the legend items
     )
 
     # Modify the plotly configuration to change the background color
-    fig_3.update_layout(
+    fig_1.update_layout(
         title={
             "text": f"Percentage completion for {student_dict.get(student_selected)}",
             "font": {"size": title_font_size},
@@ -1129,7 +1096,7 @@ def update_module_completion_barplot(
     )
 
     # Convert the figure to a JSON serializable format
-    fig_3_json = fig_3.to_dict()
+    fig_1_json = fig_1.to_dict()
 
     # Create the folder to save the image if not exists
     download_path = f"results/{course_dict.get(course_selected)}/"
@@ -1140,12 +1107,12 @@ def update_module_completion_barplot(
         image_name = (
             f"Percentage completion for {student_dict.get(student_selected)}.png"
         )
-        pio.write_image(fig_3, "".join([download_path, image_name]))
+        pio.write_image(fig_1, "".join([download_path, image_name]))
 
-    return fig_3_json, None
+    return fig_1_json, None
 
 
-# Plot 4
+# Plot 4, Item Bar Chart
 @app.callback(
     Output("plot4", "figure"),
     Output("export-button", "n_clicks", allow_duplicate=True),
@@ -1190,7 +1157,7 @@ def update_item_completion_barplot(
     for _, row in filtered_df.iterrows():
         items_pos[str(row["items_id"])] = f"Item {row['items_position']}:"
 
-    # drop the items where there is no item completion requirement
+    # Drop the items where there is no item completion requirement
     items_todrop = []
     for item in items:
         temp_df = filtered_df[filtered_df.items_id.astype(str) == item]
@@ -1214,7 +1181,7 @@ def update_item_completion_barplot(
     fig_4.add_trace(go.Bar(y=df_mod["Items"], x=df_mod["Percentage"], orientation="h"))
 
     fig_4.update_layout(
-        title=f"Percentage of completion of items in {module_dict.get(module_selected)}.png",
+        title=f"Percentage of completion of items in {module_dict.get(module_selected)}",
         xaxis_title="Percentage Completion",
         yaxis_title="Items",
         xaxis_range=[0, 100],
@@ -1237,7 +1204,7 @@ def update_item_completion_barplot(
     return fig_4_json, None
 
 
-# Table callback
+# Table Callback
 @app.callback(
     Output("table-1", "data"),
     Output("table-1", "columns"),
@@ -1302,7 +1269,7 @@ tools = dbc.Container(
                             id="course-dropdown",
                             placeholder="Select Course",
                             clearable=True,
-                            options=course_options,  # list of dropdown, labels are show, value is conveyed
+                            options=course_options,  # list of dropdown
                             value=course_options[0]["value"],  # default value
                             style={"width": "100%", "fontsize": "1px"},
                         ),

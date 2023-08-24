@@ -1,15 +1,14 @@
 # Module Progress Dashboard
 >
-> Authors: Ranjit Sundaramurthi, UBC
-> Reviewers: Alison Myers, UBC
+> Author: Ranjit Sundaramurthi, Reviewer: Alison Myers, Senior Data Analyst
 
 ## About
 
-An open-source Dashboard to visualize the student progress on courses. The intended stakeholders are administrators/instructors who are interested in tracking the status of students' progress on courses taught through the Canvas platform.
+An open-source Dashboard to visualize the student progress on courses. The intended stakeholders are administrators/instructors who are interested in tracking the status of students' progress on courses taught through the Canvas platform. The Dashboard is designed to visualize the insights one course at a time.
 
 ## Objective
 
-The Dashboard enables the users to draw immediate insights into the status at different granular levels. The data source is downloaded using [module-progress](https://github.com/saud-learning-services/module-progress) scripts to interact with the [Canvas LMS REST API](https://canvas.instructure.com/doc/api/index.html). Each general structure of the data is as follows, Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often the item might be completely optional.
+The Dashboard enables the users to draw immediate insights into the course progression status at different granular levels. The data source is downloaded using [module-progress](https://github.com/saud-learning-services/module-progress) scripts to interact with the [Canvas LMS REST API](https://canvas.instructure.com/doc/api/index.html). The general structure of the data is as follows. Each instructor might teach multiple courses. Each course in comprised of several modules which in turn have several items. These items may be of different types - Page, Discussion, Video, Quiz etc. A module is said to be completed for a specific student when he/she has completed the designated required items underneath it. Note that depending on the item type, the requirement may be different and often an item might be completely optional.
 
 The Dashboard provides the users the following insights:
 
@@ -21,25 +20,27 @@ The Dashboard provides the users the following insights:
 
 ## Layout
 
-The Dashboard is comprised of two tabs to segment into two distinct sections. The first tab provides the user with Course specific information at the module hierarchy level. The second tab provides the user with Course and Module specific information at the item hierarchy level.
+The Dashboard has 'tools' at the top which are applicable to the entire application. One of the  tools is a dropdown to enable the user to select the specific course for which the visualizations is intended. The other tool is a button to download the currently displayed plots onto the users local results folder. More information on saving the plots can be seen a separate section below.  
 
-The top of the Dashboard has two overall filters: by Course and by Student. By default, the first Course (alphabetically) and All students are selected.
+Below the tools are three Tabs that provide the user flexibility to view the data at different hierarchy levels. The first tab displays the course specific information at the module hierarchy level. The second tab displays the course and module specific information at the item hierarchy level. The second tab displays the course and student specific information in a table.
 
-![Dashboard_tab1](/img/dashboard_pg1.PNG)
-The sidebar on the left enables the user to single, all or multiple modules that are present within the selected course.
+### View Modules Tab
+![Dashboard_tab1](/img/layout/view-modules-tab.jpg)
+The sidebar on the left enables the user to select single, all or multiple modules that are present within the selected course. The user can also filter the status of the module using the radio buttons provided below. The user can also select "all" or specific students from a dropdown. The default is set to "All" for these filters. Finally, a timeline selection enables the user to specify the time period for the lineplot visualization. This is set of the minimum and maximum completion dates for any module within the selected course. 
 
-For the selecte modules, the visualization are showcases a lineplot of the student percentage completion over time. It also shows a stacked barplot of the statuses: 'locked', 'unlocked', 'started' and 'completed'. The bottom half presents a datable with student counts. A box plot presenting the time to complete each module is planned to provide insights on modules that might be time consuming/challenging.
+For the selected filters, the visualization shows a stacked barplot of the statuses: 'locked', 'unlocked', 'started' and 'completed'. This plot conveys the percentage of students in each status of a module. Below that is a lineplot of the percentage of students completion of each module over time. The last plot shows the average duration of time (days) by the students to complete a module. Please note the duration is shown only for the 'completed' status of the modules.
 
-Note that when a specific Student is selected in the overall filter, the visualization are dynamically changes to a scatter plot (as student percentage completion is longer a reasonable computation). The box plot is planned to be retained to show completion time as a separate scatter plot as well.
+![Dashboard_tab2](/img/layout/view-items-tab.jpg)
+The second tab of the Dashboard contains a different sidebar. This sidebar allows the user to select a specific module within the already selected course. The selection of the module, activates and populates the items checklist. By default 'All' items are selected. The user is allowed to select 'All', single or multiple items.
 
-![Dashboard_tab2](/img/dashboard_pg2.PNG)
-The second tab of the Dashboard contains a different sidebar. This sidebar compels the user to select a specific module within the already selected combination of course and student filters. The selection of the module, activates and populates the items checklist. By default 'All' items are selected. The user is allowed to select 'All', single or multiple items.
+For the selected filters the visualization shows a horizontal barplot of the percentage of student who completed the mandatory requirements within the selected module. Please note that the percentage is computed only for the mandatory items. The optional items are eliminated from consideration. 
 
-The visualization area showcases a barplot of the count of types of items under the selected module. Specifically for items that are mandatory, the student percentage completion is depicted as a stacked barplot. he bottom half presents a datable with student counts. Since items completion are not tracked by a timestamp in the dataset, average completion time of items cannot be visualized.
+![Dashboard_tab2](/img/layout/view-students-tab.jpg)
+The third tab of the Dashboard contains a different sidebar. This sidebar allows the user to select a specific student within the already selected course.
 
-As before, when a specific Student is selected in the overall filter, the visualization dynamically changes to a scatter plot (as student percentage completion is longer a reasonable computation).
+The visualization area showcases a dashtable with the selected students' details. The table provide information at the Item level and displays the status of each item for the specific student. Underneath each column header, there is a cell wherein the user can filter and search for a specific module, item title and item type. Currently there is no filtering available for the item status.
 
-The bottom of the Dashboard contains attributions, source, assumptions and summary.
+The bottom of the Dashboard contains attributions.
 
 ## Data-Source
 
@@ -47,21 +48,25 @@ The current data is sourced using the [module-progress](https://github.com/saud-
 (OR)
 Alternatively, data could be downloaded using an equivalent javascript on Tampermonkey to enable extraction of the specific fields through the Canvas LMS API.
 
-## Documentation
+## Combining with [module-progress](https://github.com/saud-learning-services/module-progress)
 
-Capture learnings, detailed documentation on development cycle.
+This dashboard can be used independent of the [module-progress](https://github.com/saud-learning-services/module-progress) repository as mentioned in the Usage section below.
+
+An option going forward is to combine the two repositories into a singe repository. This can be done by transferring the `app.py` source code and updating the relative paths for the source data.
 
 ## Usage
 
 ### Setup and launch Dashboard
 
-* Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) Github repository
+First follow the Usage instructions in the [module-progress](https://github.com/saud-learning-services/module-progress) repository to get the `module_data.csv`. 
+
+* In your terminal, Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) repository
 
 ```bash
 git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
 ```
 
-* Navigate to the Github repository
+* In your terminal, Navigate to the cloned directory
 
 ```bash
 cd module-progress-dashboard
@@ -73,14 +78,16 @@ cd module-progress-dashboard
 conda env create -f environment.yaml
 ```
 
-* Activate the environment (by default the environment is named, dashboard)
+* Activate the environment (by default the environment is named, module_progress_dashboard)
 
 ```bash
-conda activate dashboard
+conda activate module_progress_dashboard
 ```
 
-* Paste the data you want to visualize in csv format into the `data` folder.
-Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the [module-progress](https://github.com/saud-learning-services/module-progress).
+* Data for visualization
+
+Paste the `module_data.csv` that you previously created into "\module-progress-dashboard\data". Alternatively, if you want to visualize the default sample dataset, rename the file found under the data folder from "SAMPLE_module_data.csv" to "module_data.csv". 
+
 
 * Launch the dashboard
 
@@ -94,7 +101,7 @@ Now you can interact with the dashboard in the browser to draw insights from you
 
 ### Saving images
 
-Use the filters on the dashboard to get the specific visualizations you are interested in. Then use the Export button to download the visualizations in the currently active tab to the `results` folder.
+Use the filters on the dashboard to get the specific visualizations you are interested in. Then use the Export button to download the visualizations in the currently active tab to the `results` folder. The results folder will automatically place the images into the respective course folder, depending on the course selected on the dashboard.
 
 ## Data Privacy
 
