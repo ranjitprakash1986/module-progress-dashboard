@@ -1,4 +1,4 @@
-name: dashboard
+name: module_progress_dashboard
 channels:
   - conda-forge
   - defaults
@@ -7,3 +7,5 @@ dependencies:
   - pandas
   - dash
 
+# to create environment, type the following on terminal
+# conda env create -f environment.yaml

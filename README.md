@@ -25,16 +25,17 @@ The Dashboard is comprised of two tabs to segment into two distinct sections. Th
 
 The top of the Dashboard has two overall filters: by Course and by Student. By default, the first Course (alphabetically) and All students are selected.
 
-![Dashboard_tab1](/img/dashboard_pg1.PNG)
+![Dashboard_tab1](/img/view-modules-tab.PNG)
 The sidebar on the left enables the user to single, all or multiple modules that are present within the selected course.
 
 For the selecte modules, the visualization are showcases a lineplot of the student percentage completion over time. It also shows a stacked barplot of the statuses: 'locked', 'unlocked', 'started' and 'completed'. The bottom half presents a datable with student counts. A box plot presenting the time to complete each module is planned to provide insights on modules that might be time consuming/challenging.
 
 Note that when a specific Student is selected in the overall filter, the visualization are dynamically changes to a scatter plot (as student percentage completion is longer a reasonable computation). The box plot is planned to be retained to show completion time as a separate scatter plot as well.
 
-![Dashboard_tab2](/img/dashboard_pg2.PNG)
+![Dashboard_tab2](/img/view-items-tab.PNG)
 The second tab of the Dashboard contains a different sidebar. This sidebar compels the user to select a specific module within the already selected combination of course and student filters. The selection of the module, activates and populates the items checklist. By default 'All' items are selected. The user is allowed to select 'All', single or multiple items.
 
+![Dashboard_tab2](/img/view-students-tab.PNG)
 The visualization area showcases a barplot of the count of types of items under the selected module. Specifically for items that are mandatory, the student percentage completion is depicted as a stacked barplot. he bottom half presents a datable with student counts. Since items completion are not tracked by a timestamp in the dataset, average completion time of items cannot be visualized.
 
 As before, when a specific Student is selected in the overall filter, the visualization dynamically changes to a scatter plot (as student percentage completion is longer a reasonable computation).
@@ -47,9 +48,11 @@ The current data is sourced using the [module-progress](https://github.com/saud-
 (OR)
 Alternatively, data could be downloaded using an equivalent javascript on Tampermonkey to enable extraction of the specific fields through the Canvas LMS API.
 
-## Documentation
+## Combining with [module-progress](https://github.com/saud-learning-services/module-progress)
 
-Capture learnings, detailed documentation on development cycle.
+This dashboard can be used independent of the [module-progress](https://github.com/saud-learning-services/module-progress) repository as mentioned in the Usage section below.
+
+An option going forward is to combine the two repositories into a singe repository. This can be done by making transferring the `app.py` source code and updating the relative paths for the source data.
 
 ## Usage
 
@@ -76,7 +79,7 @@ conda env create -f environment.yaml
 * Activate the environment (by default the environment is named, dashboard)
 
 ```bash
-conda activate dashboard
+conda activate module_progress_dashboard
 ```
 
 * Paste the data you want to visualize in csv format into the `data` folder.
