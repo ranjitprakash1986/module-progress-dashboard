@@ -53,19 +53,22 @@ Alternatively, data could be downloaded using an equivalent javascript on Tamper
 
 This dashboard can be used independent of the [module-progress](https://github.com/saud-learning-services/module-progress) repository as mentioned in the Usage section below.
 
-An option going forward is to combine the two repositories into a singe repository. This can be done by making transferring the `app.py` source code and updating the relative paths for the source data.
+An option going forward is to combine the two repositories into a singe repository. This can be done by transferring the `app.py` source code and updating the relative paths for the source data.
 
 ## Usage
 
 ### Setup and launch Dashboard
 
-* Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) Github repository
+First follow the Usage instructions in the [module-progress](https://github.com/saud-learning-services/module-progress) repository to get the `module_data.csv`. 
+
+* In your terminal, Clone [this](https://github.com/ranjitprakash1986/module-progress-dashboard) repository
 
 ```bash
 git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
 ```
 
-* Navigate to the Github repository
+* Paste the dataset
+
 
 ```bash
 cd module-progress-dashboard
@@ -77,14 +80,15 @@ cd module-progress-dashboard
 conda env create -f environment.yaml
 ```
 
-* Activate the environment (by default the environment is named, dashboard)
+* Activate the environment (by default the environment is named, module_progress_dashboard)
 
 ```bash
 conda activate module_progress_dashboard
 ```
 
-* Paste the data you want to visualize in csv format into the `data` folder.
-Note that by default, a sample data is present for the demonstration of the visualization. To view the data of your interest, please replace the sample data with the data downloaded by running the [module-progress](https://github.com/saud-learning-services/module-progress).
+* Data for visualization
+Paste the `module_data.csv` that you previously created into "\module-progress-dashboard\data". Alternatively, if you want to visualize the default sample dataset, rename the file found under the data folder from "SAMPLE_module_data.csv" to "module_data.csv". 
+
 
 * Launch the dashboard
 
