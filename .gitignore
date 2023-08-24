@@ -1,0 +1,5 @@
+# Ignore all CSV files
+*.csv
+
+# Except for SAMPLE_module_data.csv
+!SAMPLE_module_data.csv
