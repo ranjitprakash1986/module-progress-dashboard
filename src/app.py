@@ -182,7 +182,7 @@ def get_completed_percentage_date(df, module, date):
 
 # ---------------------------------------------------
 # reading the data
-data = pd.read_csv("data/module_data_augmented.csv")
+data = pd.read_csv("data/module_data.csv")
 
 # dtype conversion
 categorical_cols = [

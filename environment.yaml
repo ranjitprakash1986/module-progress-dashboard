@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
-  - pandas
   - dash
-
-# to create environment, type the following on terminal
-# conda env create -f environment.yaml
+  - pandas
+  - python=3.9
+  - dash-bootstrap-components
+  - plotly
+  - python-kaleido
