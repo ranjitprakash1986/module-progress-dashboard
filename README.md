@@ -67,8 +67,7 @@ First follow the Usage instructions in the [module-progress](https://github.com/
 git clone https://github.com/ranjitprakash1986/module-progress-dashboard.git
 ```
 
-* Paste the dataset
-
+* In your terminal, Navigate to the cloned directory
 
 ```bash
 cd module-progress-dashboard
@@ -87,6 +86,7 @@ conda activate module_progress_dashboard
 ```
 
 * Data for visualization
+
 Paste the `module_data.csv` that you previously created into "\module-progress-dashboard\data". Alternatively, if you want to visualize the default sample dataset, rename the file found under the data folder from "SAMPLE_module_data.csv" to "module_data.csv". 
 
 
