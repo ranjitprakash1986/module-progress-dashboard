@@ -1,7 +1,6 @@
 # Module Progress Dashboard
 >
-> Authors: Ranjit Sundaramurthi
-> Reviewer: Alison Myers, Senior Data Analyst
+> Author: Ranjit Sundaramurthi, Reviewer: Alison Myers, Senior Data Analyst
 
 ## About
 
