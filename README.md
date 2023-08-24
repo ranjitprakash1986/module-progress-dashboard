@@ -1,7 +1,7 @@
 # Module Progress Dashboard
 >
-> Authors: Ranjit Sundaramurthi, UBC
-> Reviewers: Alison Myers, UBC
+> Authors: Ranjit Sundaramurthi
+> Reviewer: Alison Myers, Senior Data Analyst
 
 ## About
 
